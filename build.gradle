@@ -1,6 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.5.0'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'org.asciidoctor.convert' version '1.5.8' //RestDoc
 	id 'java'
 }
 
@@ -10,6 +11,18 @@ sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
+}
+
+ext {
+	set('snippetsDir', file("build/generated-snippets")) //문서 조각인 스니펫이 생성되는 경로
+}
+
+bootJar {
+	dependsOn asciidoctor
+	copy { //build/asciidoc/html5에 있는 컨버팅 된 html을 jar로 복붙
+		from "build/asciidoc/html5"
+		into 'src/main/resources/static/docs/'
+	}
 }
 
 dependencies {
@@ -36,4 +49,21 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.security:spring-security-test'
 
+	/**
+	 * Query DSL
+	 */
+	implementation group: 'com.querydsl', name: 'querydsl-jpa'
+	implementation group: 'com.querydsl', name: 'querydsl-apt'
+
+	/**
+	 * RestDoc
+	 */
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc' //mockmvc 를 restdocs 에 사용하게 돕는 라이브러리
+	asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.1.RELEASE'
+}
+
+//RestDoc
+asciidoctor {
+	inputs.dir snippetsDir
+	dependsOn test
 }
