@@ -1,5 +1,9 @@
 package com.goomoong.room9backend.callback;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Encoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -12,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import javax.crypto.SecretKey;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +30,8 @@ public class OAuth2CallbackController {
     public Map<String, String> kakao(@RequestParam String code) {
         Map<String, String> res = new HashMap<>();
         res.put("code", code);
+
+        String myJwtKey = "awP5PFvxzQs7wBRycYddIuSLCwaSWyAMcCvE4LnvJVU=";
 
 
         MultiValueMap<String, String> tokenRequest = new LinkedMultiValueMap<>();
@@ -44,8 +52,21 @@ public class OAuth2CallbackController {
             RestTemplate getUserInfoRequest = new RestTemplate();
             ResponseEntity<String> userInfo = getUserInfoRequest.exchange("https://kapi.kakao.com/v2/user/me", HttpMethod.GET, entity, String.class);
             res.put("userInfo", userInfo.getBody());
-        } catch (Exception ex) {
 
+            // 1. DB에 사용자가 있는지 확인
+            // 2. 만약 없다면 데이터베이스에 삽입 (회원가입)
+            // 3. 만약 있다면 패스
+            // 4. 사용자 정보를 데이터베이스 가져옴
+
+
+            Date exp = new Date((new Date()).getTime() + 1000000000);
+            String token = Jwts.builder()
+                    .setSubject("1") // 데이터베이스의 사용자 키(번호)
+                    .setExpiration(exp)
+                    .signWith(Keys.hmacShaKeyFor(myJwtKey.getBytes()))
+                    .compact();
+            res.put("jwtToken", token);
+        } catch (Exception ex) {
         }
         return res;
     }
