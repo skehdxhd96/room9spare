@@ -1,9 +1,13 @@
 package com.goomoong.room9backend.callback;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.goomoong.room9backend.domain.user.Role;
+import com.goomoong.room9backend.domain.user.User;
+import com.goomoong.room9backend.domain.user.UserRepository;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,14 +20,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/oauth2/callback")
 public class OAuth2CallbackController {
+
+    private final UserRepository userRepository;
 
     // t0wX7Fu0e9opD47gnfACVQwZEZAbmGBiJwqTrcJyyE_lespYP76JNgLwFCNAdLZ1_xmdOQo9dJcAAAF6KI502A
     @GetMapping("/kakao")
@@ -57,14 +64,32 @@ public class OAuth2CallbackController {
             // 2. 만약 없다면 데이터베이스에 삽입 (회원가입)
             // 3. 만약 있다면 패스
             // 4. 사용자 정보를 데이터베이스 가져옴
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> jsonObject = objectMapper.readValue(userInfo.getBody(), new TypeReference<Map<String, Object>>() {
+            });
 
+            String accountId = jsonObject.get("id").toString();
+            Map<String, Object> kakao_account = (Map<String, Object>) jsonObject.get("kakao_account");
+            Map<String, Object> profile = (Map<String, Object>) kakao_account.get("profile");
+            String name = profile.get("nickname").toString();
+            System.out.println(name);
+            String thumbnail_url = profile.get("thumbnail_image_url").toString();
+
+            User verifyUser = userRepository.findByAccountId(accountId).orElse(userRepository.save(User.builder()
+                    .accountId(accountId)
+                    .role(Role.CUSTOMER)
+                    .name(name)
+                    .thumbnail_url(thumbnail_url)
+                    .build()
+            ));
 
             Date exp = new Date((new Date()).getTime() + 1000000000);
             String token = Jwts.builder()
-                    .setSubject("1") // 데이터베이스의 사용자 키(번호)
+                    .setSubject(accountId)
                     .setExpiration(exp)
                     .signWith(Keys.hmacShaKeyFor(myJwtKey.getBytes()))
                     .compact();
+            userRepository.save(verifyUser.saveJwtToken(token));
             res.put("jwtToken", token);
         } catch (Exception ex) {
         }
