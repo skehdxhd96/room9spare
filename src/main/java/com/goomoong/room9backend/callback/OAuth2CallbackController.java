@@ -72,13 +72,13 @@ public class OAuth2CallbackController {
             Map<String, Object> kakao_account = (Map<String, Object>) jsonObject.get("kakao_account");
             Map<String, Object> profile = (Map<String, Object>) kakao_account.get("profile");
             String name = profile.get("nickname").toString();
-            String thumbnail_url = profile.get("thumbnail_image_url").toString();
+            String thumbnailUrl = profile.get("thumbnail_image_url").toString();
 
             User verifyUser = userRepository.findByAccountId(accountId).orElseGet(() ->userRepository.save(User.builder()
                     .accountId(accountId)
                     .role(Role.CUSTOMER)
                     .name(name)
-                    .thumbnail_url(thumbnail_url)
+                    .thumbnailUrl(thumbnailUrl)
                     .build()
             ));
 

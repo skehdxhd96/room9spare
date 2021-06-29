@@ -28,7 +28,7 @@ public class User {
 
     //TODO: 이미지 테이블 조인
     @Column(nullable = false)
-    private String thumbnail_url;
+    private String thumbnailUrl;
 
     @Column
     private String birthday;
@@ -47,15 +47,15 @@ public class User {
     private String intro;
 
     @Builder
-    public User(String accountId, Role role, String name, String thumbnail_url) {
+    public User(String accountId, Role role, String name, String thumbnailUrl) {
         this.accountId = accountId;
         this.role = role;
         this.name = name;
-        this.thumbnail_url = thumbnail_url;
+        this.thumbnailUrl = thumbnailUrl;
     }
 
-    public User updateThumbnail(String thumbnail_url) {
-        this.thumbnail_url = thumbnail_url;
+    public User updateThumbnail(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
 
         return this;
     }
