@@ -72,10 +72,9 @@ public class OAuth2CallbackController {
             Map<String, Object> kakao_account = (Map<String, Object>) jsonObject.get("kakao_account");
             Map<String, Object> profile = (Map<String, Object>) kakao_account.get("profile");
             String name = profile.get("nickname").toString();
-            System.out.println(name);
             String thumbnail_url = profile.get("thumbnail_image_url").toString();
 
-            User verifyUser = userRepository.findByAccountId(accountId).orElse(userRepository.save(User.builder()
+            User verifyUser = userRepository.findByAccountId(accountId).orElseGet(() ->userRepository.save(User.builder()
                     .accountId(accountId)
                     .role(Role.CUSTOMER)
                     .name(name)
@@ -83,14 +82,13 @@ public class OAuth2CallbackController {
                     .build()
             ));
 
-            Date exp = new Date((new Date()).getTime() + 1000000000);
             String token = Jwts.builder()
-                    .setSubject(accountId)
-                    .setExpiration(exp)
+                    .setSubject(verifyUser.getId().toString())
+                    .setExpiration(new Date((new Date()).getTime() + 1000000000))
                     .signWith(Keys.hmacShaKeyFor(myJwtKey.getBytes()))
                     .compact();
-            userRepository.save(verifyUser.saveJwtToken(token));
             res.put("jwtToken", token);
+
         } catch (Exception ex) {
         }
         return res;

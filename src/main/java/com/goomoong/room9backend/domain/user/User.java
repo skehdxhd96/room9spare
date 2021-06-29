@@ -31,9 +31,6 @@ public class User {
     private String thumbnail_url;
 
     @Column
-    private String jwtToken;
-
-    @Column
     private String birthday;
 
     @Enumerated(EnumType.STRING)
@@ -55,12 +52,6 @@ public class User {
         this.role = role;
         this.name = name;
         this.thumbnail_url = thumbnail_url;
-    }
-
-    public User saveJwtToken(String jwtToken) {
-        this.jwtToken = jwtToken;
-
-        return this;
     }
 
     public User updateThumbnail(String thumbnail_url) {
