@@ -65,4 +65,13 @@ public class User {
 
         return this;
     }
+
+    public static User toEntity(String accountId, Role role, String name, String thumbnailUrl) {
+        return User.builder()
+                .accountId(accountId)
+                .role(role)
+                .name(name)
+                .thumbnailUrl(thumbnailUrl)
+                .build();
+    }
 }
