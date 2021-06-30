@@ -1,10 +1,11 @@
 package com.goomoong.room9backend.callback;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.domain.user.UserRepository;
+import com.goomoong.room9backend.domain.user.dto.KakaoOAuth2ResponseDto;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,20 +65,14 @@ public class OAuth2CallbackController {
             // 3. 만약 있다면 패스
             // 4. 사용자 정보를 데이터베이스 가져옴
             ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> jsonObject = objectMapper.readValue(userInfo.getBody(), new TypeReference<Map<String, Object>>() {
-            });
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            KakaoOAuth2ResponseDto responseDto = objectMapper.readValue(userInfo.getBody(), KakaoOAuth2ResponseDto.class);
 
-            String accountId = jsonObject.get("id").toString();
-            Map<String, Object> kakao_account = (Map<String, Object>) jsonObject.get("kakao_account");
-            Map<String, Object> profile = (Map<String, Object>) kakao_account.get("profile");
-            String name = profile.get("nickname").toString();
-            String thumbnailUrl = profile.get("thumbnail_image_url").toString();
-
-            User verifyUser = userRepository.findByAccountId(accountId).orElseGet(() ->userRepository.save(User.builder()
-                    .accountId(accountId)
+            User verifyUser = userRepository.findByAccountId(responseDto.getId()).orElseGet(() ->userRepository.save(User.builder()
+                    .accountId(responseDto.getId())
                     .role(Role.CUSTOMER)
-                    .name(name)
-                    .thumbnailUrl(thumbnailUrl)
+                    .name(responseDto.getKakaoAccount().getProfile().getNickname())
+                    .thumbnailUrl(responseDto.getKakaoAccount().getProfile().getThumbnailImageUrl())
                     .build()
             ));
 
