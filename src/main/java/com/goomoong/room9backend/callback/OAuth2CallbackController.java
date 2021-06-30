@@ -67,6 +67,7 @@ public class OAuth2CallbackController {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             KakaoOAuth2ResponseDto responseDto = objectMapper.readValue(userInfo.getBody(), KakaoOAuth2ResponseDto.class);
+            System.out.println(responseDto);
 
             User verifyUser = userRepository.findByAccountId(responseDto.getId()).orElseGet(() ->userRepository.save(User.builder()
                     .accountId(responseDto.getId())
