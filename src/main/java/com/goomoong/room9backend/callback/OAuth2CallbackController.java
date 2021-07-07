@@ -1,38 +1,43 @@
 package com.goomoong.room9backend.callback;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.goomoong.room9backend.domain.user.Role;
+import com.goomoong.room9backend.domain.user.User;
+import com.goomoong.room9backend.domain.user.UserRepository;
+import com.goomoong.room9backend.domain.user.dto.KakaoOAuth2ResponseDto;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
+@RequiredArgsConstructor
+@Controller
 @RequestMapping("/oauth2/callback")
 public class OAuth2CallbackController {
 
-    // t0wX7Fu0e9opD47gnfACVQwZEZAbmGBiJwqTrcJyyE_lespYP76JNgLwFCNAdLZ1_xmdOQo9dJcAAAF6KI502A
+    private final UserRepository userRepository;
+
     @GetMapping("/kakao")
-    public Map<String, String> kakao(@RequestParam String code) {
+    public String kakao(@RequestParam String code, @RequestParam String state) {
         Map<String, String> res = new HashMap<>();
         res.put("code", code);
-
+        res.put("state", state);
         String myJwtKey = "awP5PFvxzQs7wBRycYddIuSLCwaSWyAMcCvE4LnvJVU=";
-
 
         MultiValueMap<String, String> tokenRequest = new LinkedMultiValueMap<>();
         tokenRequest.add("grant_type", "authorization_code");
@@ -41,14 +46,14 @@ public class OAuth2CallbackController {
         tokenRequest.add("code", code);
 
         try {
-            RestTemplate restTemplate = new RestTemplate();
-            Map<String, String> response = restTemplate.postForObject("https://kauth.kakao.com/oauth/token", tokenRequest, Map.class);
-            res.put("access_token", response.get("access_token"));
+            RestTemplate getTokenRequest = new RestTemplate();
+            Map<String, String> tokenResponse = getTokenRequest.postForObject("https://kauth.kakao.com/oauth/token", tokenRequest, Map.class);
+            res.put("access_token", tokenResponse.get("access_token"));
 
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", "Bearer " + response.get("access_token"));
-            MultiValueMap<String, String> request2 = new LinkedMultiValueMap<>();
-            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity(request2, headers);
+            headers.add("Authorization", "Bearer " + tokenResponse.get("access_token"));
+            MultiValueMap<String, String> userInfoRequest = new LinkedMultiValueMap<>();
+            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity(userInfoRequest, headers);
             RestTemplate getUserInfoRequest = new RestTemplate();
             ResponseEntity<String> userInfo = getUserInfoRequest.exchange("https://kapi.kakao.com/v2/user/me", HttpMethod.GET, entity, String.class);
             res.put("userInfo", userInfo.getBody());
@@ -57,17 +62,30 @@ public class OAuth2CallbackController {
             // 2. 만약 없다면 데이터베이스에 삽입 (회원가입)
             // 3. 만약 있다면 패스
             // 4. 사용자 정보를 데이터베이스 가져옴
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            KakaoOAuth2ResponseDto responseDto = objectMapper.readValue(userInfo.getBody(), KakaoOAuth2ResponseDto.class);
 
+            User verifyUser = userRepository.findByAccountId(responseDto.getId()).orElseGet(() ->
+                    userRepository.save(User.toEntity(responseDto.getId(), Role.CUSTOMER, responseDto.getKakaoAccount().getProfile().getNickname(), responseDto.getKakaoAccount().getProfile().getThumbnailImageUrl()))
+            );
 
-            Date exp = new Date((new Date()).getTime() + 1000000000);
-            String token = Jwts.builder()
-                    .setSubject("1") // 데이터베이스의 사용자 키(번호)
-                    .setExpiration(exp)
+            Map<String, String> requestState = objectMapper.readValue(state, Map.class);
+            String redirectUri = requestState.get("redirectUri");
+            res.put("redirectUri", redirectUri);
+
+            String jwtToken = Jwts.builder()
+                    .setSubject(verifyUser.getId().toString())
+                    .setExpiration(new Date((new Date()).getTime() + 1000000000))
                     .signWith(Keys.hmacShaKeyFor(myJwtKey.getBytes()))
                     .compact();
-            res.put("jwtToken", token);
+            res.put("jwtToken", jwtToken);
+
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        return res;
+
+        return "redirect:" + res.get("redirectUri") + "?token=" + res.get("jwtToken");
     }
+
 }
