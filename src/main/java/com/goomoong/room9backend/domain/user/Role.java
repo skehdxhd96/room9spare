@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Role {
 
-    CUSTOMER("ROLE_CUSTOMER", "구매자"),
-    SELLER("ROLE_SELLER", "판매자");
+    GUEST("ROLE_GUEST", "게스트"),
+    HOST("ROLE_HOST", "호스트");
 
     private final String key;
     private final String value;

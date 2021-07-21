@@ -31,7 +31,7 @@ public class UserServiceTest {
 
     @BeforeEach
     public void setUp() {
-        user = User.builder().accountId("1").role(Role.CUSTOMER).name("name").thumbnailUrl("test.jpg").build();
+        user = User.builder().accountId("1").role(Role.GUEST).name("name").thumbnailUrl("test.jpg").build();
     }
 
     @Test
@@ -90,6 +90,6 @@ public class UserServiceTest {
         userService.changeRole(1L);
 
         //then
-        Assertions.assertEquals(user.getRole(), Role.SELLER);
+        Assertions.assertEquals(user.getRole(), Role.HOST);
     }
 }

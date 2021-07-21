@@ -41,7 +41,7 @@ public class UserApiControllerTest {
     @DisplayName("전체 회원 조회 api 테스트")
     public void findAllUsersApiTest() throws Exception {
         //given
-        User user = User.builder().accountId("1").role(Role.CUSTOMER).name("name").thumbnailUrl("test.jpg").build();
+        User user = User.builder().accountId("1").role(Role.GUEST).name("name").thumbnailUrl("test.jpg").build();
         List<User> userList = new ArrayList<>();
         userList.add(user);
 
@@ -54,7 +54,7 @@ public class UserApiControllerTest {
         result
                 .andDo(print())
                 .andExpect(jsonPath("$[0].accountId").value("1"))
-                .andExpect(jsonPath("$[0].role").value("CUSTOMER"))
+                .andExpect(jsonPath("$[0].role").value("GUEST"))
                 .andExpect(jsonPath("$[0].name").value("name"))
                 .andExpect(jsonPath("$[0].thumbnailUrl").value("test.jpg"));
 
@@ -82,7 +82,7 @@ public class UserApiControllerTest {
     @DisplayName("사용자 전환 테스트")
     public void changeRoleApiTest() throws Exception {
         //given
-        User user = User.builder().accountId("1").role(Role.CUSTOMER).name("name").thumbnailUrl("test.jpg").build();
+        User user = User.builder().accountId("1").role(Role.GUEST).name("name").thumbnailUrl("test.jpg").build();
 
         given(userService.findById(1L)).willReturn(user);
 
@@ -92,7 +92,7 @@ public class UserApiControllerTest {
         //then
         result
                 .andDo(print())
-                .andExpect(jsonPath("$.role").value("SELLER"));
+                .andExpect(jsonPath("$.role").value("HOST"));
     }
 
     @Test

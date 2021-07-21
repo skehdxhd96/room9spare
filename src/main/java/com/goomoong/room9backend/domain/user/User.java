@@ -62,7 +62,7 @@ public class User {
     }
 
     public void changeRole() {
-        this.role = (this.role == Role.CUSTOMER) ? Role.SELLER : Role.CUSTOMER;
+        this.role = (this.role == Role.GUEST) ? Role.HOST : Role.GUEST;
     }
 
     public static User toEntity(String accountId, Role role, String name, String thumbnailUrl) {

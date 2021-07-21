@@ -67,7 +67,7 @@ public class OAuth2CallbackController {
             KakaoOAuth2ResponseDto responseDto = objectMapper.readValue(userInfo.getBody(), KakaoOAuth2ResponseDto.class);
 
             User verifyUser = userRepository.findByAccountId(responseDto.getId()).orElseGet(() ->
-                    userRepository.save(User.toEntity(responseDto.getId(), Role.CUSTOMER, responseDto.getKakaoAccount().getProfile().getNickname(), responseDto.getKakaoAccount().getProfile().getThumbnailImageUrl()))
+                    userRepository.save(User.toEntity(responseDto.getId(), Role.GUEST, responseDto.getKakaoAccount().getProfile().getNickname(), responseDto.getKakaoAccount().getProfile().getThumbnailImageUrl()))
             );
 
             Map<String, String> requestState = objectMapper.readValue(state, Map.class);
