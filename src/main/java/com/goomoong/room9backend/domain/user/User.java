@@ -48,7 +48,8 @@ public class User {
     private String intro;
 
     @Builder
-    public User(String accountId, Role role, String name, String thumbnailUrl, String intro) {
+    public User(Long id, String accountId, Role role, String name, String thumbnailUrl, String intro) {
+        this.id = id;
         this.accountId = accountId;
         this.role = role;
         this.name = name;
