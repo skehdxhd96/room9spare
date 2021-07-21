@@ -48,23 +48,21 @@ public class User {
     private String intro;
 
     @Builder
-    public User(String accountId, Role role, String name, String thumbnailUrl) {
+    public User(String accountId, Role role, String name, String thumbnailUrl, String intro) {
         this.accountId = accountId;
         this.role = role;
         this.name = name;
         this.thumbnailUrl = thumbnailUrl;
-    }
-
-    public User updateThumbnail(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
-
-        return this;
-    }
-
-    public User updateIntro(String intro) {
         this.intro = intro;
+    }
 
-        return this;
+    public void update(String thumbnailUrl, String intro) {
+        this.thumbnailUrl = thumbnailUrl;
+        this.intro = intro;
+    }
+
+    public void changeRole() {
+        this.role = (this.role == Role.CUSTOMER) ? Role.SELLER : Role.CUSTOMER;
     }
 
     public static User toEntity(String accountId, Role role, String name, String thumbnailUrl) {
