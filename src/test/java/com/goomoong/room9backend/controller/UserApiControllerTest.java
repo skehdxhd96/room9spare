@@ -21,13 +21,13 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.goomoong.room9backend.ApiDocumentUtils.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -62,6 +62,8 @@ public class UserApiControllerTest {
         result
                 .andDo(print())
                 .andDo(document("user/getAll",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         responseFields(
                                 fieldWithPath("[].id").description("user id").type(Long.class),
                                 fieldWithPath("[].nickname").description("user nickname"),
@@ -95,6 +97,8 @@ public class UserApiControllerTest {
         result
                 .andDo(print())
                 .andDo(document("user/getById",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         pathParameters(
                                 parameterWithName("id").description("user id")
                         ),
@@ -131,6 +135,8 @@ public class UserApiControllerTest {
         result
                 .andDo(print())
                 .andDo(document("user/changeRole",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         pathParameters(
                                 parameterWithName("id").description("user id")
                         ),
@@ -166,6 +172,8 @@ public class UserApiControllerTest {
         result
                 .andDo(print())
                 .andDo(document("user/update",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         pathParameters(
                                 parameterWithName("id").description("user id")
                         ),
