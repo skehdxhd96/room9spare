@@ -2,10 +2,10 @@ package com.goomoong.room9backend.callback;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.goomoong.room9backend.callback.dto.KakaoOAuth2ResponseDto;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.domain.user.UserRepository;
-import com.goomoong.room9backend.domain.user.dto.KakaoOAuth2ResponseDto;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -67,12 +67,15 @@ public class OAuth2CallbackController {
             KakaoOAuth2ResponseDto responseDto = objectMapper.readValue(userInfo.getBody(), KakaoOAuth2ResponseDto.class);
 
             User verifyUser = userRepository.findByAccountId(responseDto.getId()).orElseGet(() ->
-                    userRepository.save(User.toEntity(responseDto.getId(), Role.GUEST, responseDto.getKakaoAccount().getProfile().getNickname(), responseDto.getKakaoAccount().getProfile().getThumbnailImageUrl()))
+                    userRepository.save(User.toEntity(responseDto.getId(), responseDto.getKakaoAccount().getProfile().getNickname(),
+                            responseDto.getKakaoAccount().getProfile().getNickname(), Role.GUEST, responseDto.getKakaoAccount().getProfile().getThumbnailImageUrl(),
+                            responseDto.getKakaoAccount().getEmail(), responseDto.getKakaoAccount().getBirthday(), responseDto.getKakaoAccount().getGender()))
             );
 
             Map<String, String> requestState = objectMapper.readValue(state, Map.class);
             String redirectUri = requestState.get("redirectUri");
             res.put("redirectUri", redirectUri);
+            System.out.println(res.get("redirectUri"));
 
             String jwtToken = Jwts.builder()
                     .setSubject(verifyUser.getId().toString())
@@ -80,6 +83,7 @@ public class OAuth2CallbackController {
                     .signWith(Keys.hmacShaKeyFor(myJwtKey.getBytes()))
                     .compact();
             res.put("jwtToken", jwtToken);
+            System.out.println(res.get("jwtToken"));
 
         } catch (Exception ex) {
             ex.printStackTrace();

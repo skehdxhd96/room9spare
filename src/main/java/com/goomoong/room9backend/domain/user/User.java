@@ -20,45 +20,56 @@ public class User {
     @Column
     private String accountId;
 
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String nickname;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
-    @Column(nullable = false)
-    private String name;
-
     //TODO: 이미지 테이블 조인
+    //Image: 110 * 110
     @Column(nullable = false)
-    private String thumbnailUrl;
-
-    @Column
-    private String birthday;
-
-    @Enumerated(EnumType.STRING)
-    @Column
-    private Gender gender;
-
-    @Column
-    private String phoneNumber;
+    private String thumbnailImgUrl;
 
     @Column
     private String email;
 
     @Column
+    private String birthday;
+
+    @Column
+    private String gender;
+
+    @Column
+    private String phoneNumber;
+
+    @Column
     private String intro;
 
     @Builder
-    public User(Long id, String accountId, Role role, String name, String thumbnailUrl, String intro) {
+    public User(Long id, String accountId, String name, String nickname, Role role, String thumbnailImgUrl, String email, String birthday, String gender) {
         this.id = id;
         this.accountId = accountId;
-        this.role = role;
         this.name = name;
-        this.thumbnailUrl = thumbnailUrl;
-        this.intro = intro;
+        this.nickname = nickname;
+        this.role = role;
+        this.thumbnailImgUrl = thumbnailImgUrl;
+        this.email = email;
+        this.birthday = birthday;
+        this.gender = gender;
     }
 
-    public void update(String thumbnailUrl, String intro) {
-        this.thumbnailUrl = thumbnailUrl;
+    public void update(String nickname, String thumbnailImgUrl, String email, String birthday, String gender, String phoneNumber, String intro) {
+        this.nickname = nickname;
+        this.thumbnailImgUrl = thumbnailImgUrl;
+        this.email = email;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
         this.intro = intro;
     }
 
@@ -66,12 +77,16 @@ public class User {
         this.role = (this.role == Role.GUEST) ? Role.HOST : Role.GUEST;
     }
 
-    public static User toEntity(String accountId, Role role, String name, String thumbnailUrl) {
+    public static User toEntity(String accountId, String name, String nickname, Role role, String thumbnailImgUrl, String email, String birthday, String gender) {
         return User.builder()
                 .accountId(accountId)
-                .role(role)
                 .name(name)
-                .thumbnailUrl(thumbnailUrl)
+                .nickname(nickname)
+                .role(role)
+                .thumbnailImgUrl(thumbnailImgUrl)
+                .email(email)
+                .birthday(birthday)
+                .gender(gender)
                 .build();
     }
 }
