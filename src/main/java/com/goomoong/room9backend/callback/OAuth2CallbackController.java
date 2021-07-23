@@ -75,7 +75,6 @@ public class OAuth2CallbackController {
             Map<String, String> requestState = objectMapper.readValue(state, Map.class);
             String redirectUri = requestState.get("redirectUri");
             res.put("redirectUri", redirectUri);
-            System.out.println(res.get("redirectUri"));
 
             String jwtToken = Jwts.builder()
                     .setSubject(verifyUser.getId().toString())
@@ -83,7 +82,6 @@ public class OAuth2CallbackController {
                     .signWith(Keys.hmacShaKeyFor(myJwtKey.getBytes()))
                     .compact();
             res.put("jwtToken", jwtToken);
-            System.out.println(res.get("jwtToken"));
 
         } catch (Exception ex) {
             ex.printStackTrace();
