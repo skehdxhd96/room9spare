@@ -1,15 +1,15 @@
 package com.goomoong.room9backend.controller;
 
-import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
+import com.goomoong.room9backend.domain.user.dto.RoleResponseDto;
+import com.goomoong.room9backend.domain.user.dto.UpdateRequestDto;
+import com.goomoong.room9backend.domain.user.dto.UserResponseDto;
 import com.goomoong.room9backend.service.UserService;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,8 +18,10 @@ public class UserApiController {
     private final UserService userService;
 
     @GetMapping("/api/v1/users")
-    public List<User> getAllUsers() {
-        List<User> allUsers = userService.findAllUsers();
+    public List<UserResponseDto> getAllUsers() {
+        List<UserResponseDto> allUsers =  userService.findAllUsers().stream().map(user ->
+            UserResponseDto.builder().id(user.getId()).nickname(user.getNickname()).thumbnailImgUrl(user.getThumbnailImgUrl()).email(user.getEmail()).birthday(user.getBirthday()).gender(user.getGender()).intro(user.getIntro()).build()
+                ).collect(Collectors.toList());
         return allUsers;
     }
 
@@ -60,43 +62,5 @@ public class UserApiController {
                 .gender(updateUser.getGender())
                 .intro(updateUser.getIntro())
                 .build();
-    }
-
-    @Getter
-    @AllArgsConstructor
-    @Builder
-    static class UpdateRequestDto {
-        private String nickname;
-        private String thumbnailImgUrl;
-        private String email;
-        private String birthday;
-        private String gender;
-        private String intro;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    @Builder
-    static class UserResponseDto {
-        private Long id;
-        private String nickname;
-        private String thumbnailImgUrl;
-        private String email;
-        private String birthday;
-        private String gender;
-        private String intro;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    @Builder
-    static class RoleResponseDto {
-        private Role role;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    static class AllUsersResponseDto<T> {
-        private T data;
     }
 }

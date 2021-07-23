@@ -3,11 +3,8 @@ package com.goomoong.room9backend.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
+import com.goomoong.room9backend.domain.user.dto.UpdateRequestDto;
 import com.goomoong.room9backend.service.UserService;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,15 +17,12 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
@@ -70,10 +64,7 @@ public class UserApiControllerTest {
                 .andDo(document("user/getAll",
                         responseFields(
                                 fieldWithPath("[].id").description("user id").type(Long.class),
-                                fieldWithPath("[].accountId").description("user account id"),
-                                fieldWithPath("[].name").description("user name"),
                                 fieldWithPath("[].nickname").description("user nickname"),
-                                fieldWithPath("[].role").description("user role"),
                                 fieldWithPath("[].thumbnailImgUrl").description("user thumbnail image url"),
                                 fieldWithPath("[].email").description("user email"),
                                 fieldWithPath("[].birthday").description("user birthday"),
@@ -82,10 +73,7 @@ public class UserApiControllerTest {
                         )
                 ))
                 .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].accountId").value("1"))
-                .andExpect(jsonPath("$[0].name").value("mock"))
                 .andExpect(jsonPath("$[0].nickname").value("mock"))
-                .andExpect(jsonPath("$[0].role").value("GUEST"))
                 .andExpect(jsonPath("$[0].thumbnailImgUrl").value("mock.jpg"))
                 .andExpect(jsonPath("$[0].email").value("mock@abc"))
                 .andExpect(jsonPath("$[0].birthday").value("0101"))
@@ -137,12 +125,15 @@ public class UserApiControllerTest {
         given(userService.findById(1L)).willReturn(user);
 
         //when
-        ResultActions result = mvc.perform(post("/api/v1/users/{id}/role", 1L));
+        ResultActions result = mvc.perform(RestDocumentationRequestBuilders.post("/api/v1/users/{id}/role", 1L));
 
         //then
         result
                 .andDo(print())
                 .andDo(document("user/changeRole",
+                        pathParameters(
+                                parameterWithName("id").description("user id")
+                        ),
                         responseFields(
                                 fieldWithPath("role").description("user role")
                         )
@@ -154,7 +145,7 @@ public class UserApiControllerTest {
     @DisplayName("사용자 정보 수정 테스트")
     public void updateApiTest() throws Exception {
         //given
-        UserApiController.UpdateRequestDto updateRequestDto = UserApiController.UpdateRequestDto.builder()
+        UpdateRequestDto updateRequestDto = UpdateRequestDto.builder()
                 .nickname("update").thumbnailImgUrl("update.jpg").email("update@abc").birthday("1231").gender("female").intro("update")
                 .build();
         User response = User.builder()
