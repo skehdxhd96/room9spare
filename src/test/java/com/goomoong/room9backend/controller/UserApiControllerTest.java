@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.service.UserService;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,7 +55,7 @@ public class UserApiControllerTest {
     @DisplayName("전체 회원 조회 api 테스트")
     public void findAllUsersApiTest() throws Exception {
         //given
-        User user = User.builder().accountId("1").role(Role.GUEST).name("name").thumbnailUrl("test.jpg").build();
+        User user = User.builder().id(1L).accountId("1").name("mock").nickname("mock").role(Role.GUEST).thumbnailImgUrl("mock.jpg").email("mock@abc").birthday("0101").gender("male").intro("test").build();
         List<User> userList = new ArrayList<>();
         userList.add(user);
 
@@ -68,28 +71,33 @@ public class UserApiControllerTest {
                         responseFields(
                                 fieldWithPath("[].id").description("user id").type(Long.class),
                                 fieldWithPath("[].accountId").description("user account id"),
-                                fieldWithPath("[].role").description("user role"),
                                 fieldWithPath("[].name").description("user name"),
-                                fieldWithPath("[].thumbnailUrl").description("user thumbnail url"),
+                                fieldWithPath("[].nickname").description("user nickname"),
+                                fieldWithPath("[].role").description("user role"),
+                                fieldWithPath("[].thumbnailImgUrl").description("user thumbnail image url"),
+                                fieldWithPath("[].email").description("user email"),
                                 fieldWithPath("[].birthday").description("user birthday"),
                                 fieldWithPath("[].gender").description("user gender"),
-                                fieldWithPath("[].phoneNumber").description("user phone number"),
-                                fieldWithPath("[].email").description("user email"),
                                 fieldWithPath("[].intro").description("user introduction")
                         )
                 ))
+                .andExpect(jsonPath("$[0].id").value(1L))
                 .andExpect(jsonPath("$[0].accountId").value("1"))
+                .andExpect(jsonPath("$[0].name").value("mock"))
+                .andExpect(jsonPath("$[0].nickname").value("mock"))
                 .andExpect(jsonPath("$[0].role").value("GUEST"))
-                .andExpect(jsonPath("$[0].name").value("name"))
-                .andExpect(jsonPath("$[0].thumbnailUrl").value("test.jpg"));
-
+                .andExpect(jsonPath("$[0].thumbnailImgUrl").value("mock.jpg"))
+                .andExpect(jsonPath("$[0].email").value("mock@abc"))
+                .andExpect(jsonPath("$[0].birthday").value("0101"))
+                .andExpect(jsonPath("$[0].gender").value("male"))
+                .andExpect(jsonPath("$[0].intro").value("test"));
     }
 
     @Test
     @DisplayName("Id로 회원 조회 api 테스트")
     public void findUserByIdApiTest() throws Exception {
         //given
-        User user = User.builder().id(1L).thumbnailUrl("test.jpg").name("name").intro("hello").build();
+        User user = User.builder().id(1L).nickname("mock").thumbnailImgUrl("mock.jpg").email("mock@abc").birthday("0101").gender("male").intro("test").build();
         given(userService.findById(1L)).willReturn(user);
 
         //when
@@ -104,23 +112,28 @@ public class UserApiControllerTest {
                         ),
                         responseFields(
                                 fieldWithPath("id").description("user id").type(Long.class),
-                                fieldWithPath("name").description("user name"),
-                                fieldWithPath("thumbnailUrl").description("user thumbnail url"),
+                                fieldWithPath("nickname").description("user nickname"),
+                                fieldWithPath("thumbnailImgUrl").description("user thumbnail image url"),
+                                fieldWithPath("email").description("user email"),
+                                fieldWithPath("birthday").description("user birthday"),
+                                fieldWithPath("gender").description("user gender"),
                                 fieldWithPath("intro").description("user introduction")
                         )
                 ))
-                .andExpect(jsonPath("$.id").value("1"))
-                .andExpect(jsonPath("$.thumbnailUrl").value("test.jpg"))
-                .andExpect(jsonPath("$.name").value("name"))
-                .andExpect(jsonPath("$.intro").value("hello"));
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.nickname").value("mock"))
+                .andExpect(jsonPath("$.thumbnailImgUrl").value("mock.jpg"))
+                .andExpect(jsonPath("$.email").value("mock@abc"))
+                .andExpect(jsonPath("$.birthday").value("0101"))
+                .andExpect(jsonPath("$.gender").value("male"))
+                .andExpect(jsonPath("$.intro").value("test"));
     }
 
     @Test
     @DisplayName("사용자 전환 테스트")
     public void changeRoleApiTest() throws Exception {
         //given
-        User user = User.builder().accountId("1").role(Role.GUEST).name("name").thumbnailUrl("test.jpg").build();
-
+        User user = User.builder().id(1L).role(Role.GUEST).build();
         given(userService.findById(1L)).willReturn(user);
 
         //when
@@ -141,10 +154,14 @@ public class UserApiControllerTest {
     @DisplayName("사용자 정보 수정 테스트")
     public void updateApiTest() throws Exception {
         //given
-        UserApiController.UpdateRequestDto updateRequestDto = UserApiController.UpdateRequestDto.builder().intro("update").thumbnailUrl("update.jpg").build();
-        User response = User.builder().id(1L).thumbnailUrl("update.jpg").name("name").intro("update").build();
+        UserApiController.UpdateRequestDto updateRequestDto = UserApiController.UpdateRequestDto.builder()
+                .nickname("update").thumbnailImgUrl("update.jpg").email("update@abc").birthday("1231").gender("female").intro("update")
+                .build();
+        User response = User.builder()
+                .id(1L).nickname("update").thumbnailImgUrl("update.jpg").email("update@abc").birthday("1231").gender("female").intro("update")
+                .build();
 
-        given(userService.update(1L, updateRequestDto.getThumbnailUrl(), updateRequestDto.getIntro())).willReturn(response);
+        given(userService.update(1L, updateRequestDto.getNickname(), updateRequestDto.getThumbnailImgUrl(), updateRequestDto.getEmail(), updateRequestDto.getBirthday(), updateRequestDto.getGender(), updateRequestDto.getIntro())).willReturn(response);
 
         //when
         ResultActions result = mvc.perform(RestDocumentationRequestBuilders.post("/api/v1/users/{id}", 1L)
@@ -162,19 +179,29 @@ public class UserApiControllerTest {
                                 parameterWithName("id").description("user id")
                         ),
                         requestFields(
-                                fieldWithPath("thumbnailUrl").description("user thumbnail url"),
+                                fieldWithPath("nickname").description("user nickname"),
+                                fieldWithPath("thumbnailImgUrl").description("user thumbnail image url"),
+                                fieldWithPath("email").description("user email"),
+                                fieldWithPath("birthday").description("user birthday"),
+                                fieldWithPath("gender").description("user gender"),
                                 fieldWithPath("intro").description("user introduction")
                         ),
                         responseFields(
-                                fieldWithPath("id").description("user id"),
-                                fieldWithPath("name").description("user name"),
-                                fieldWithPath("thumbnailUrl").description("user thumbnail url"),
+                                fieldWithPath("id").description("user id").type(Long.class),
+                                fieldWithPath("nickname").description("user nickname"),
+                                fieldWithPath("thumbnailImgUrl").description("user thumbnail image url"),
+                                fieldWithPath("email").description("user email"),
+                                fieldWithPath("birthday").description("user birthday"),
+                                fieldWithPath("gender").description("user gender"),
                                 fieldWithPath("intro").description("user introduction")
                         )
                 ))
-                .andExpect(jsonPath("$.id").value("1"))
-                .andExpect(jsonPath("$.name").value("name"))
-                .andExpect(jsonPath("$.thumbnailUrl").value("update.jpg"))
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.nickname").value("update"))
+                .andExpect(jsonPath("$.thumbnailImgUrl").value("update.jpg"))
+                .andExpect(jsonPath("$.email").value("update@abc"))
+                .andExpect(jsonPath("$.birthday").value("1231"))
+                .andExpect(jsonPath("$.gender").value("female"))
                 .andExpect(jsonPath("$.intro").value("update"));
     }
 }

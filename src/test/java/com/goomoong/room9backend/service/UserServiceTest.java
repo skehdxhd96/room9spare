@@ -31,7 +31,7 @@ public class UserServiceTest {
 
     @BeforeEach
     public void setUp() {
-        user = User.builder().accountId("1").role(Role.GUEST).name("name").thumbnailUrl("test.jpg").build();
+        user = User.builder().id(1L).nickname("mock").role(Role.GUEST).thumbnailImgUrl("mock.jpg").email("mock@abc").birthday("0101").gender("male").intro("test").build();
     }
 
     @Test
@@ -67,16 +67,18 @@ public class UserServiceTest {
     @DisplayName("정보 업데이트")
     public void updateTest() throws Exception {
         //given
-        String updateIntro = "hello world";
+        String updateNickname = "update";
         String updateThumbnailUrl = "update.jpg";
+        String updateIntro = "hello world";
 
         given(userRepository.findById(1L)).willReturn(Optional.of(user));
 
         //when
-        userService.update(1L, updateThumbnailUrl, updateIntro);
+        userService.update(1L, updateNickname, updateThumbnailUrl, null, null, null, updateIntro);
 
         //then
-        Assertions.assertEquals(user.getThumbnailUrl(), updateThumbnailUrl);
+        Assertions.assertEquals(user.getNickname(), updateNickname);
+        Assertions.assertEquals(user.getThumbnailImgUrl(), updateThumbnailUrl);
         Assertions.assertEquals(user.getIntro(), updateIntro);
     }
 

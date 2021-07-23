@@ -25,9 +25,9 @@ public class UserService {
     }
 
     @Transactional
-    public User update(Long id, String thumbnailUrl, String intro) {
+    public User update(Long id, String nickname, String thumbnailImgUrl, String email, String birthday, String gender, String intro) {
         User findUser = userRepository.findById(id).orElseThrow(() -> new NoSuchUserException("존재하지 않는 회원입니다."));
-        findUser.update(thumbnailUrl, intro);
+        findUser.update(nickname, thumbnailImgUrl, email, birthday, gender, intro);
         return findUser;
     }
 

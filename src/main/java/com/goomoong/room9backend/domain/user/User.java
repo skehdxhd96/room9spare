@@ -17,7 +17,7 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String accountId;
 
     @Column(nullable = false)
@@ -35,23 +35,13 @@ public class User {
     @Column(nullable = false)
     private String thumbnailImgUrl;
 
-    @Column
     private String email;
-
-    @Column
     private String birthday;
-
-    @Column
     private String gender;
-
-    @Column
-    private String phoneNumber;
-
-    @Column
     private String intro;
 
     @Builder
-    public User(Long id, String accountId, String name, String nickname, Role role, String thumbnailImgUrl, String email, String birthday, String gender) {
+    public User(Long id, String accountId, String name, String nickname, Role role, String thumbnailImgUrl, String email, String birthday, String gender, String intro) {
         this.id = id;
         this.accountId = accountId;
         this.name = name;
@@ -61,15 +51,15 @@ public class User {
         this.email = email;
         this.birthday = birthday;
         this.gender = gender;
+        this.intro = intro;
     }
 
-    public void update(String nickname, String thumbnailImgUrl, String email, String birthday, String gender, String phoneNumber, String intro) {
+    public void update(String nickname, String thumbnailImgUrl, String email, String birthday, String gender, String intro) {
         this.nickname = nickname;
         this.thumbnailImgUrl = thumbnailImgUrl;
         this.email = email;
         this.birthday = birthday;
         this.gender = gender;
-        this.phoneNumber = phoneNumber;
         this.intro = intro;
     }
 

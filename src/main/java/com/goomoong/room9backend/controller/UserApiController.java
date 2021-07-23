@@ -29,8 +29,11 @@ public class UserApiController {
 
         return UserResponseDto.builder()
                 .id(findUser.getId())
-                .thumbnailUrl(findUser.getThumbnailUrl())
-                .name(findUser.getName())
+                .nickname(findUser.getNickname())
+                .thumbnailImgUrl(findUser.getThumbnailImgUrl())
+                .email(findUser.getEmail())
+                .birthday(findUser.getBirthday())
+                .gender(findUser.getGender())
                 .intro(findUser.getIntro())
                 .build();
     }
@@ -45,12 +48,16 @@ public class UserApiController {
 
     @PostMapping("/api/v1/users/{id}")
     public UserResponseDto update(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto) {
-        User updateUser = userService.update(id, requestDto.getThumbnailUrl(), requestDto.getIntro());
+        User updateUser = userService.update(id, requestDto.getNickname(), requestDto.getThumbnailImgUrl(), requestDto.getEmail(),
+                requestDto.getBirthday(), requestDto.getGender(), requestDto.getIntro());
 
         return UserResponseDto.builder()
                 .id(updateUser.getId())
-                .thumbnailUrl(updateUser.getThumbnailUrl())
-                .name(updateUser.getName())
+                .nickname(updateUser.getNickname())
+                .thumbnailImgUrl(updateUser.getThumbnailImgUrl())
+                .email(updateUser.getEmail())
+                .birthday(updateUser.getBirthday())
+                .gender(updateUser.getGender())
                 .intro(updateUser.getIntro())
                 .build();
     }
@@ -59,7 +66,11 @@ public class UserApiController {
     @AllArgsConstructor
     @Builder
     static class UpdateRequestDto {
-        private String thumbnailUrl;
+        private String nickname;
+        private String thumbnailImgUrl;
+        private String email;
+        private String birthday;
+        private String gender;
         private String intro;
     }
 
@@ -68,8 +79,11 @@ public class UserApiController {
     @Builder
     static class UserResponseDto {
         private Long id;
-        private String thumbnailUrl;
-        private String name;
+        private String nickname;
+        private String thumbnailImgUrl;
+        private String email;
+        private String birthday;
+        private String gender;
         private String intro;
     }
 
