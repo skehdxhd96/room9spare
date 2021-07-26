@@ -38,23 +38,12 @@ public class RoomService {
         return room.getId();
     }
 
-    // pk로 방 하나만 조회
-//    public Room findRoomById(Long id) {
-//        return roomRepository.findOne(id);
-//    }
-//
-//    //방 수정
-//    @Transactional
-//    public void updateRoom(Long id, UpdateRequestRoomDto request) {
-//        Room room = roomRepository.findOne(id);
-//
-//        List<String> facilities = request.getFacilities();
-//
-//        room.update(request.getBedrooms(), request.getBeds(), request.getBathrooms(), request.getRooms(), request.getLimit()
-//                ,request.getPrice(), request.getTitle(), request.getContent(), request.getDetailLocation(),
-//                request.getRule(), request.getAddCharge(), facilities);
-//
-//    }
+    //pk로 방 하나만 조회
+    public Room findRoomById(Long id) {
+        return roomRepository.findOne(id);
+    }
+
+    //방 수정
 
     //방 삭제
 }

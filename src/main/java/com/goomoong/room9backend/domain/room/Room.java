@@ -74,21 +74,4 @@ public class Room {
 
         return room;
     }
-
-//    public void update(int bedrooms, int beds, int bathrooms, int rooms,
-//                                    int limited, int price, String title, String content,
-//                                    String detailLocation, String rule,
-//                                    int charge, List<String> facilities) {
-//
-//        this.configuration.update(bedrooms, beds, bathrooms, rooms);
-//        this.limited = limited;
-//        this.price = price;
-//        this.title = title;
-//        this.content = content;
-//        this.detailLocation = detailLocation;
-//        this.modifiedDate = LocalDateTime.now();
-//        this.rule = rule;
-//        this.charge = charge;
-//
-//    }
 }
