@@ -26,7 +26,7 @@ public class ReviewApiController {
     private final RoomService roomService;
 
     @GetMapping("/api/v1/reviews")
-    public Result ReviewsV1(@RequestBody @Validated ReviewRequest request){
+    public Result selectReviewsV1(@RequestBody @Validated ReviewRequest request){
         ReviewSearch reviewSearch = new ReviewSearch();
 
         if(request.getUser_id() != null)
