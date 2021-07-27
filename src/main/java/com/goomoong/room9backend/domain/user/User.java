@@ -33,6 +33,9 @@ public class User {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String nickname;
+
     //TODO: 이미지 테이블 조인
     @Column(nullable = false)
     private String thumbnailUrl;

@@ -7,7 +7,9 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -73,5 +75,20 @@ public class Room {
         }
 
         return room;
+    }
+
+    public void modify(List<confDto> confs, int limited, int price,
+                       String title, String content, String detailLocation, String rule,
+                       int charge, List<String> facilities) {
+        this.limited = limited;
+        this.price = price;
+        this.title = title;
+        this.content = content;
+        this.detailLocation = detailLocation;
+        this.modifiedDate = LocalDateTime.now();
+        this.rule = rule;
+        this.charge = charge;
+        this.RoomConfigurations = RoomConfiguration.modifyConf(confs);
+        this.amenities = Amenity.modifyAmenity(facilities);
     }
 }

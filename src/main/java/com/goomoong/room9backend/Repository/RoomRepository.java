@@ -19,9 +19,12 @@ public class RoomRepository {
     }
 
     //방 전체 조회
-    public List<Room> findAll() {
+    public List<Room> findAll(int offset, int limit) { // offset : 시작 limit : 몇개씩
         return em.createQuery(
-                "select r from Room r", Room.class)
+                "select r from Room r" +
+                        " join fetch r.users u", Room.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
                 .getResultList();
     }
 

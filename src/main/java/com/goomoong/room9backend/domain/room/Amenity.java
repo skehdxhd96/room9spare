@@ -1,12 +1,17 @@
 package com.goomoong.room9backend.domain.room;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.goomoong.room9backend.domain.room.dto.confDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -37,7 +42,14 @@ public class Amenity {
         return amenity;
     }
 
-    public void update(String facility) {
-        this.facility = facility;
+    public static List<Amenity> modifyAmenity(List<String> facilities) {
+
+        List<Amenity> modifyAmenities = new ArrayList<>();
+
+        for (String facility : facilities) {
+            modifyAmenities.add(Amenity.createAmenities(facility));
+        }
+
+        return modifyAmenities;
     }
 }

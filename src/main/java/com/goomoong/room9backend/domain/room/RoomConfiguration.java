@@ -1,9 +1,12 @@
 package com.goomoong.room9backend.domain.room;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.goomoong.room9backend.domain.room.dto.confDto;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Getter
@@ -34,5 +37,16 @@ public class RoomConfiguration {
         roomConfiguration.count = count;
 
         return roomConfiguration;
+    }
+
+    public static List<RoomConfiguration> modifyConf(List<confDto> confs) {
+
+        List<RoomConfiguration> modifyConfs = new ArrayList<>();
+
+        for (confDto conf : confs) {
+            modifyConfs.add(RoomConfiguration.createConfiguration(conf.getConfType(), conf.getCount()));
+        }
+
+        return modifyConfs;
     }
 }

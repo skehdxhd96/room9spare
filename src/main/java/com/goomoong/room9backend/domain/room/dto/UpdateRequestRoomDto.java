@@ -12,10 +12,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatedRequestRoomDto {
-
-    //pk
-    private Long userId;
+public class UpdateRequestRoomDto {
 
     //Configuration
     private List<confDto> conf;
@@ -31,4 +28,5 @@ public class CreatedRequestRoomDto {
     private String detailLocation; // 방 상세 위치
     private String rule; // 방 규칙
     private int addCharge; // 추가요금
+
 }
