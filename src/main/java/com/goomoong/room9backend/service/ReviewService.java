@@ -27,9 +27,7 @@ public class ReviewService {
     public void update(Long id,  String reviewContent, int reviewScore){
         Review review =  reviewRepository.findById(id).orElse(null);
 
-        review.setReviewContent(reviewContent);
-        review.setReviewScore(reviewScore);
-        review.setReviewCreated(LocalDateTime.now());
+        review.update(reviewContent, reviewScore);
     }
 
     @Transactional

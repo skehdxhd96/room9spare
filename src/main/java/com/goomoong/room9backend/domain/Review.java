@@ -28,4 +28,10 @@ public class Review {
 
     private int reviewScore;
 
+    public void update(String reviewContent, int reviewScore) {
+        this.reviewContent = reviewContent;
+        this.reviewScore = reviewScore;
+        this.reviewCreated = LocalDateTime.now();
+    }
+
 }
