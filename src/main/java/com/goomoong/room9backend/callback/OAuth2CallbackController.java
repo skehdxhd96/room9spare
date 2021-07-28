@@ -2,10 +2,10 @@ package com.goomoong.room9backend.callback;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.goomoong.room9backend.callback.dto.KakaoOAuth2ResponseDto;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.domain.user.UserRepository;
-import com.goomoong.room9backend.domain.user.dto.KakaoOAuth2ResponseDto;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -67,7 +67,9 @@ public class OAuth2CallbackController {
             KakaoOAuth2ResponseDto responseDto = objectMapper.readValue(userInfo.getBody(), KakaoOAuth2ResponseDto.class);
 
             User verifyUser = userRepository.findByAccountId(responseDto.getId()).orElseGet(() ->
-                    userRepository.save(User.toEntity(responseDto.getId(), Role.CUSTOMER, responseDto.getKakaoAccount().getProfile().getNickname(), responseDto.getKakaoAccount().getProfile().getThumbnailImageUrl()))
+                    userRepository.save(User.toEntity(responseDto.getId(), responseDto.getKakaoAccount().getProfile().getNickname(),
+                            responseDto.getKakaoAccount().getProfile().getNickname(), Role.GUEST, responseDto.getKakaoAccount().getProfile().getThumbnailImageUrl(),
+                            responseDto.getKakaoAccount().getEmail(), responseDto.getKakaoAccount().getBirthday(), responseDto.getKakaoAccount().getGender()))
             );
 
             Map<String, String> requestState = objectMapper.readValue(state, Map.class);

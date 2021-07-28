@@ -17,62 +17,66 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String accountId;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String nickname;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
-    @Column(nullable = false)
-    private String name;
-
     //TODO: 이미지 테이블 조인
+    //Image: 110 * 110
     @Column(nullable = false)
-    private String thumbnailUrl;
+    private String thumbnailImgUrl;
 
-    @Column
-    private String birthday;
-
-    @Enumerated(EnumType.STRING)
-    @Column
-    private Gender gender;
-
-    @Column
-    private String phoneNumber;
-
-    @Column
     private String email;
-
-    @Column
+    private String birthday;
+    private String gender;
     private String intro;
 
     @Builder
-    public User(String accountId, Role role, String name, String thumbnailUrl) {
+    public User(Long id, String accountId, String name, String nickname, Role role, String thumbnailImgUrl, String email, String birthday, String gender, String intro) {
+        this.id = id;
         this.accountId = accountId;
-        this.role = role;
         this.name = name;
-        this.thumbnailUrl = thumbnailUrl;
-    }
-
-    public User updateThumbnail(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
-
-        return this;
-    }
-
-    public User updateIntro(String intro) {
+        this.nickname = nickname;
+        this.role = role;
+        this.thumbnailImgUrl = thumbnailImgUrl;
+        this.email = email;
+        this.birthday = birthday;
+        this.gender = gender;
         this.intro = intro;
-
-        return this;
     }
 
-    public static User toEntity(String accountId, Role role, String name, String thumbnailUrl) {
+    public void update(String nickname, String thumbnailImgUrl, String email, String birthday, String gender, String intro) {
+        this.nickname = nickname;
+        this.thumbnailImgUrl = thumbnailImgUrl;
+        this.email = email;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.intro = intro;
+    }
+
+    public void changeRole() {
+        this.role = (this.role == Role.GUEST) ? Role.HOST : Role.GUEST;
+    }
+
+    public static User toEntity(String accountId, String name, String nickname, Role role, String thumbnailImgUrl, String email, String birthday, String gender) {
         return User.builder()
                 .accountId(accountId)
-                .role(role)
                 .name(name)
-                .thumbnailUrl(thumbnailUrl)
+                .nickname(nickname)
+                .role(role)
+                .thumbnailImgUrl(thumbnailImgUrl)
+                .email(email)
+                .birthday(birthday)
+                .gender(gender)
                 .build();
     }
 }
