@@ -1,10 +1,10 @@
 package com.goomoong.room9backend.repository;
 
-import com.goomoong.room9backend.domain.Review;
-import com.goomoong.room9backend.domain.ReviewSearch;
+import com.goomoong.room9backend.domain.review.Review;
+import com.goomoong.room9backend.domain.review.dto.ReviewSearchDto;
 
 import java.util.List;
 
 public interface ReviewRepositoryCustom {
-    List<Review> findByUserAndRoom(ReviewSearch reviewSearch);
+    List<Review> findByUserAndRoom(ReviewSearchDto reviewSearchDto);
 }

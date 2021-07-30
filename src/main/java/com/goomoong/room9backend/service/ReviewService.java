@@ -1,7 +1,7 @@
 package com.goomoong.room9backend.service;
 
-import com.goomoong.room9backend.domain.Review;
-import com.goomoong.room9backend.domain.ReviewSearch;
+import com.goomoong.room9backend.domain.review.Review;
+import com.goomoong.room9backend.domain.review.dto.ReviewSearchDto;
 import com.goomoong.room9backend.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,9 +17,9 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public Long save(Review review){
+    public Review save(Review review){
         reviewRepository.save(review);
-        return review.getId();
+        return review;
     }
 
     @Transactional
@@ -38,11 +38,8 @@ public class ReviewService {
         return reviewRepository.findById(id).orElse(null);
     }
 
-    public List<Review> findByUserAndRoom(ReviewSearch reviewSearch){ //queryDSL room_id, user_id 동적쿼리 생성 해야됨
-        return reviewRepository.findByUserAndRoom(reviewSearch);
+    public List<Review> findByUserAndRoom(ReviewSearchDto reviewSearchDto){
+        return reviewRepository.findByUserAndRoom(reviewSearchDto);
     }
 
-    public List<Review> findAll(){
-        return reviewRepository.findAll();
-    }
 }

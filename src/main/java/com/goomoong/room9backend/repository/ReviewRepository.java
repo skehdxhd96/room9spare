@@ -1,6 +1,6 @@
 package com.goomoong.room9backend.repository;
 
-import com.goomoong.room9backend.domain.Review;
+import com.goomoong.room9backend.domain.review.Review;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

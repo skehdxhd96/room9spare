@@ -1,5 +1,6 @@
 package com.goomoong.room9backend.domain;
 
+import com.goomoong.room9backend.domain.review.Review;
 import lombok.Getter;
 import lombok.Setter;
 
