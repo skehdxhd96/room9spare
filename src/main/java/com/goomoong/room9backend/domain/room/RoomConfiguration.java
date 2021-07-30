@@ -30,6 +30,12 @@ public class RoomConfiguration {
         room.getRoomConfigurations().add(this);
     }
 
+    // 연관관계 끊기 //
+    public void Cancel(Room room) {
+        this.room = null;
+        room.getRoomConfigurations().remove(this);
+    }
+
     //== 생성 메소드 ==//
     public static RoomConfiguration createConfiguration(String confType, int count) {
         RoomConfiguration roomConfiguration = new RoomConfiguration();
@@ -37,16 +43,5 @@ public class RoomConfiguration {
         roomConfiguration.count = count;
 
         return roomConfiguration;
-    }
-
-    public static List<RoomConfiguration> modifyConf(List<confDto> confs) {
-
-        List<RoomConfiguration> modifyConfs = new ArrayList<>();
-
-        for (confDto conf : confs) {
-            modifyConfs.add(RoomConfiguration.createConfiguration(conf.getConfType(), conf.getCount()));
-        }
-
-        return modifyConfs;
     }
 }

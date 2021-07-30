@@ -23,10 +23,10 @@ public class Room {
     @JoinColumn(name = "user_id")
     private User users;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "room", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Amenity> amenities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "room", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<RoomConfiguration> RoomConfigurations = new ArrayList<>();
 
     private LocalDateTime createdDate; // 올린 날짜
@@ -88,7 +88,7 @@ public class Room {
         this.modifiedDate = LocalDateTime.now();
         this.rule = rule;
         this.charge = charge;
-        this.RoomConfigurations = RoomConfiguration.modifyConf(confs);
-        this.amenities = Amenity.modifyAmenity(facilities);
+
+        // 리스트 개수가 다를때 ...?
     }
 }

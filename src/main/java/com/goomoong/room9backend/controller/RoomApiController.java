@@ -30,15 +30,15 @@ public class RoomApiController {
     }
 
     @GetMapping("/room")
-    public roomData getAllRoom(
-            @RequestParam(value = "offset", defaultValue = "0") int offset,
-            @RequestParam(value = "limit", defaultValue = "10") int limit
-    ) {
-        List<GetResponseRoomDto> rooms = roomRepository.findAll(offset, limit)
+    public roomData getAllRoom() {
+        List<GetResponseRoomDto> rooms = roomRepository.findAll()
                         .stream().map(r -> new GetResponseRoomDto(r)).collect(Collectors.toList());
 
         return new roomData(rooms.size(), rooms);
     }
 
-
+    @DeleteMapping("/room/delete/{roomId}")
+    public void DeleteRoom(@PathVariable("roomId") Long id) {
+        roomService.deleteRoom(id);
+    }
 }

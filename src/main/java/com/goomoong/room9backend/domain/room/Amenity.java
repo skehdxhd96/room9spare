@@ -33,6 +33,12 @@ public class Amenity {
         room.getAmenities().add(this);
     }
 
+    // 연관관계 끊기 //
+    public void Cancel(Room room) {
+        this.room = null;
+        room.getRoomConfigurations().remove(this);
+    }
+
     //== 생성 메소드 ==//
     public static Amenity createAmenities(String facility) {
 
@@ -40,16 +46,5 @@ public class Amenity {
         amenity.facility = facility;
 
         return amenity;
-    }
-
-    public static List<Amenity> modifyAmenity(List<String> facilities) {
-
-        List<Amenity> modifyAmenities = new ArrayList<>();
-
-        for (String facility : facilities) {
-            modifyAmenities.add(Amenity.createAmenities(facility));
-        }
-
-        return modifyAmenities;
     }
 }
