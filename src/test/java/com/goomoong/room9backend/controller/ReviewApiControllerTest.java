@@ -95,7 +95,7 @@ class ReviewApiControllerTest {
 
         //then
         result
-                .andDo(document("review-select",
+                .andDo(document("review/select",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestFields(
@@ -129,7 +129,7 @@ class ReviewApiControllerTest {
 
         //then
         result
-                .andDo(document("review-create",
+                .andDo(document("review/create",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestFields(
@@ -159,7 +159,7 @@ class ReviewApiControllerTest {
 
         //then
         result
-                .andDo(document("review-update",
+                .andDo(document("review/update",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
@@ -187,7 +187,7 @@ class ReviewApiControllerTest {
 
         //then
         result
-                .andDo(document("review-delete",
+                .andDo(document("review/delete",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
