@@ -1,6 +1,7 @@
 package com.goomoong.room9backend.domain.room.dto;
 
 import com.goomoong.room9backend.domain.room.Amenity;
+import com.goomoong.room9backend.domain.room.AmenityEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ public class amenityDto {
 
     private String facility;
 
-    public amenityDto(Amenity amenity) {
-        this.facility = amenity.getFacility();
+    public amenityDto(AmenityEntity amenityEntity) {
+        this.facility = amenityEntity.getAmenity().getFacility();
     }
 }
