@@ -2,49 +2,16 @@ package com.goomoong.room9backend.domain.room;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.goomoong.room9backend.domain.room.dto.confDto;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-@Entity
 @Getter
+@Embeddable
+@NoArgsConstructor
+@AllArgsConstructor
 public class Amenity {
 
-    @Id @GeneratedValue
-    private Long id;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Room_Id")
-    private Room room;
-
     private String facility; // 부대시설
-
-    // 양방향 연관관계 메서드 //
-    public void setRoom(Room room) {
-        this.room = room;
-        room.getAmenities().add(this);
-    }
-
-    // 연관관계 끊기 //
-    public void Cancel(Room room) {
-        this.room = null;
-        room.getRoomConfigurations().remove(this);
-    }
-
-    //== 생성 메소드 ==//
-    public static Amenity createAmenities(String facility) {
-
-        Amenity amenity = new Amenity();
-        amenity.facility = facility;
-
-        return amenity;
-    }
 }

@@ -36,20 +36,20 @@ public class GetResponseRoomDto {
     private List<confDto> room_configuration; // 구성
     private List<amenityDto> room_amenities; // 부대시설
 
-    public GetResponseRoomDto(Room room) {
-        this.roomId = room.getId();
-        this.username = room.getUsers().getNickname();
-        this.title = room.getTitle();
-        this.content = room.getContent();
-        this.rule = room.getRule();
-        this.Location = room.getDetailLocation();
-        this.price = room.getPrice();
-        this.excessCharge = room.getCharge();
-        this.limitPeople = room.getLimited();
-        this.like = room.getLiked();
-        this.createTime = room.getCreatedDate();
-        this.modifiedTime = room.getModifiedDate();
-        this.room_configuration = room.getRoomConfigurations().stream().map(c -> new confDto(c)).collect(Collectors.toList()); // 지연로딩
-        this.room_amenities = room.getAmenities().stream().map(a -> new amenityDto(a)).collect(Collectors.toList()); // 지연로딩
-    }
+//    public GetResponseRoomDto(Room room) {
+//        this.roomId = room.getId();
+//        this.username = room.getUsers().getNickname();
+//        this.title = room.getTitle();
+//        this.content = room.getContent();
+//        this.rule = room.getRule();
+//        this.Location = room.getDetailLocation();
+//        this.price = room.getPrice();
+//        this.excessCharge = room.getCharge();
+//        this.limitPeople = room.getLimited();
+//        this.like = room.getLiked();
+//        this.createTime = room.getCreatedDate();
+//        this.modifiedTime = room.getModifiedDate();
+//        this.room_configuration = room.getRoomConfigurations().stream().map(c -> new confDto(c)).collect(Collectors.toList()); // 지연로딩
+//        this.room_amenities = room.getAmenities().stream().map(a -> new amenityDto(a)).collect(Collectors.toList()); // 지연로딩
+//    }
 }
