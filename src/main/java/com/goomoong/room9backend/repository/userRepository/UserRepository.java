@@ -1,5 +1,6 @@
-package com.goomoong.room9backend.domain.user;
+package com.goomoong.room9backend.repository.userRepository;
 
+import com.goomoong.room9backend.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

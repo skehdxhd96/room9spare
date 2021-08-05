@@ -1,7 +1,7 @@
 package com.goomoong.room9backend.service;
 
 import com.goomoong.room9backend.domain.user.User;
-import com.goomoong.room9backend.domain.user.UserRepository;
+import com.goomoong.room9backend.repository.userRepository.UserRepository;
 import com.goomoong.room9backend.exception.NoSuchUserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

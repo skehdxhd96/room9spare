@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goomoong.room9backend.callback.dto.KakaoOAuth2ResponseDto;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
-import com.goomoong.room9backend.domain.user.UserRepository;
+import com.goomoong.room9backend.repository.userRepository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
