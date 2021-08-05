@@ -1,7 +1,7 @@
 package com.goomoong.room9backend.domain.review.dto;
 
 import com.goomoong.room9backend.domain.Room;
-import com.goomoong.room9backend.domain.User;
+import com.goomoong.room9backend.domain.user.User;
 import lombok.*;
 
 @NoArgsConstructor

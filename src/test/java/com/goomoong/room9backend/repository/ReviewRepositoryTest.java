@@ -4,7 +4,11 @@ package com.goomoong.room9backend.repository;
 import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.review.dto.ReviewSearchDto;
 import com.goomoong.room9backend.domain.Room;
-import com.goomoong.room9backend.domain.User;
+import com.goomoong.room9backend.domain.user.Role;
+import com.goomoong.room9backend.domain.user.User;
+import com.goomoong.room9backend.repository.reviewRepository.ReviewRepository;
+import com.goomoong.room9backend.repository.reviewRepository.RoomRepository;
+import com.goomoong.room9backend.repository.userRepository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,7 +49,7 @@ class ReviewRepositoryTest {
     @Test
     public void 리뷰_조회_by유저_by방(){
         //given
-        User user = new User();
+        User user = User.builder().id(1L).accountId("1").name("mock").nickname("mock").role(Role.GUEST).thumbnailImgUrl("mock.jpg").email("mock@abc").birthday("0101").gender("male").intro("test").build();
         Room room = new Room();
 
         User savedUser = userRepository.save(user);

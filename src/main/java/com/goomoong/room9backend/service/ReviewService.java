@@ -2,7 +2,7 @@ package com.goomoong.room9backend.service;
 
 import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.review.dto.ReviewSearchDto;
-import com.goomoong.room9backend.repository.ReviewRepository;
+import com.goomoong.room9backend.repository.reviewRepository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

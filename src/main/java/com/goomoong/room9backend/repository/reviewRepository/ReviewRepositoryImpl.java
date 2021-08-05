@@ -1,8 +1,9 @@
-package com.goomoong.room9backend.repository;
+package com.goomoong.room9backend.repository.reviewRepository;
 
 import com.goomoong.room9backend.domain.*;
 import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.review.dto.ReviewSearchDto;
+import com.goomoong.room9backend.domain.user.User;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 

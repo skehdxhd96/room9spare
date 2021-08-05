@@ -2,12 +2,13 @@ package com.goomoong.room9backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goomoong.room9backend.domain.Room;
-import com.goomoong.room9backend.domain.User;
 import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.review.dto.CreateReviewRequestDto;
 import com.goomoong.room9backend.domain.review.dto.ReviewSearchDto;
 import com.goomoong.room9backend.domain.review.dto.SelectReviewRequestDto;
 import com.goomoong.room9backend.domain.review.dto.UpdateReviewRequestDto;
+import com.goomoong.room9backend.domain.user.Role;
+import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.service.ReviewService;
 import com.goomoong.room9backend.service.RoomService;
 import com.goomoong.room9backend.service.UserService;
@@ -63,10 +64,9 @@ class ReviewApiControllerTest {
 
     @BeforeEach
     public void init(){
-        user = new User();
+        user = User.builder().id(1L).accountId("1").name("mock").nickname("mock").role(Role.GUEST).thumbnailImgUrl("mock.jpg").email("mock@abc").birthday("0101").gender("male").intro("test").build();;
         room = new Room();
 
-        user.setId(1L);
         room.setId(1L);
 
         review = Review.builder()
