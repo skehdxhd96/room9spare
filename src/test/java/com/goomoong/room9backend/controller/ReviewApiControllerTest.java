@@ -1,12 +1,12 @@
 package com.goomoong.room9backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.goomoong.room9backend.domain.Room;
 import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.review.dto.CreateReviewRequestDto;
 import com.goomoong.room9backend.domain.review.dto.ReviewSearchDto;
 import com.goomoong.room9backend.domain.review.dto.SelectReviewRequestDto;
 import com.goomoong.room9backend.domain.review.dto.UpdateReviewRequestDto;
+import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.service.ReviewService;
@@ -20,7 +20,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -40,7 +39,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureRestDocs
 @WebMvcTest(ReviewApiController.class)
-@TestPropertySource(locations = "classpath:/application.properties")
 class ReviewApiControllerTest {
 
     @Autowired

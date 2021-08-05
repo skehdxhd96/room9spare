@@ -1,8 +1,11 @@
 package com.goomoong.room9backend.domain.review.dto;
 
-import com.goomoong.room9backend.domain.Room;
+import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.user.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor

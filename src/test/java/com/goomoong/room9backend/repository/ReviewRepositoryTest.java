@@ -3,24 +3,22 @@ package com.goomoong.room9backend.repository;
 
 import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.review.dto.ReviewSearchDto;
-import com.goomoong.room9backend.domain.Room;
+import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.repository.reviewRepository.ReviewRepository;
-import com.goomoong.room9backend.repository.reviewRepository.RoomRepository;
+import com.goomoong.room9backend.repository.roomRepository.RoomRepository;
 import com.goomoong.room9backend.repository.userRepository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
-@TestPropertySource(locations = "classpath:/application.properties")
 @DataJpaTest
 class ReviewRepositoryTest {
 

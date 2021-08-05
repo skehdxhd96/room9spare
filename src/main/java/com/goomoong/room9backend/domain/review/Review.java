@@ -1,7 +1,7 @@
 package com.goomoong.room9backend.domain.review;
 
-import com.goomoong.room9backend.domain.Room;
-import com.goomoong.room9backend.domain.User;
+import com.goomoong.room9backend.domain.room.Room;
+import com.goomoong.room9backend.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,12 +10,13 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
 @Getter @Setter
 @NoArgsConstructor
+@Table(name = "reviews")
+@Entity
 public class Review {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
     private Long id;
 

@@ -2,7 +2,7 @@ package com.goomoong.room9backend.service;
 
 import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.review.dto.ReviewSearchDto;
-import com.goomoong.room9backend.domain.Room;
+import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.repository.reviewRepository.ReviewRepository;
@@ -12,7 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.TestPropertySource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-@TestPropertySource(locations = "classpath:/application.properties")
 class ReviewServiceTest {
 
     @Mock
