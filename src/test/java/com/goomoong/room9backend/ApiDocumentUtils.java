@@ -1,4 +1,3 @@
-
 package com.goomoong.room9backend;
 
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;

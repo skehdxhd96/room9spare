@@ -1,7 +1,7 @@
 package com.goomoong.room9backend.domain.review;
 
 import com.goomoong.room9backend.domain.Room;
-import com.goomoong.room9backend.domain.user.User;
+import com.goomoong.room9backend.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
