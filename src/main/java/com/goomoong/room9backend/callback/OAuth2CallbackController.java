@@ -6,8 +6,7 @@ import com.goomoong.room9backend.callback.dto.KakaoOAuth2ResponseDto;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.repository.userRepository.UserRepository;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+import com.goomoong.room9backend.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,13 +29,13 @@ import java.util.Map;
 public class OAuth2CallbackController {
 
     private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/kakao")
     public String kakao(@RequestParam String code, @RequestParam String state) {
         Map<String, String> res = new HashMap<>();
         res.put("code", code);
         res.put("state", state);
-        String myJwtKey = "awP5PFvxzQs7wBRycYddIuSLCwaSWyAMcCvE4LnvJVU=";
 
         MultiValueMap<String, String> tokenRequest = new LinkedMultiValueMap<>();
         tokenRequest.add("grant_type", "authorization_code");
@@ -76,11 +74,7 @@ public class OAuth2CallbackController {
             String redirectUri = requestState.get("redirectUri");
             res.put("redirectUri", redirectUri);
 
-            String jwtToken = Jwts.builder()
-                    .setSubject(verifyUser.getId().toString())
-                    .setExpiration(new Date((new Date()).getTime() + 1000000000))
-                    .signWith(Keys.hmacShaKeyFor(myJwtKey.getBytes()))
-                    .compact();
+            String jwtToken = jwtTokenProvider.createToken(verifyUser);
             res.put("jwtToken", jwtToken);
 
         } catch (Exception ex) {
