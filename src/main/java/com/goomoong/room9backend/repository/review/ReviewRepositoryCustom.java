@@ -1,4 +1,4 @@
-package com.goomoong.room9backend.repository.reviewRepository;
+package com.goomoong.room9backend.repository.review;
 
 import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.review.dto.ReviewSearchDto;

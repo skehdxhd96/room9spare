@@ -2,7 +2,7 @@ package com.goomoong.room9backend.security.userdetails;
 
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.exception.NoSuchUserException;
-import com.goomoong.room9backend.repository.userRepository.UserRepository;
+import com.goomoong.room9backend.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -2,7 +2,7 @@ package com.goomoong.room9backend.repository;
 
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
-import com.goomoong.room9backend.repository.userRepository.UserRepository;
+import com.goomoong.room9backend.repository.user.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
