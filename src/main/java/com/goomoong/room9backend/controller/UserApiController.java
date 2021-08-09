@@ -1,6 +1,7 @@
 package com.goomoong.room9backend.controller;
 
 import com.goomoong.room9backend.domain.user.User;
+import com.goomoong.room9backend.domain.user.dto.AllUsersResponseDto;
 import com.goomoong.room9backend.domain.user.dto.RoleResponseDto;
 import com.goomoong.room9backend.domain.user.dto.UpdateRequestDto;
 import com.goomoong.room9backend.domain.user.dto.UserResponseDto;
@@ -18,11 +19,11 @@ public class UserApiController {
     private final UserService userService;
 
     @GetMapping("/api/v1/users")
-    public List<UserResponseDto> getAllUsers() {
+    public AllUsersResponseDto getAllUsers() {
         List<UserResponseDto> allUsers =  userService.findAllUsers().stream().map(user ->
             UserResponseDto.builder().id(user.getId()).nickname(user.getNickname()).thumbnailImgUrl(user.getThumbnailImgUrl()).email(user.getEmail()).birthday(user.getBirthday()).gender(user.getGender()).intro(user.getIntro()).build()
                 ).collect(Collectors.toList());
-        return allUsers;
+        return new AllUsersResponseDto(allUsers);
     }
 
     @GetMapping("/api/v1/users/{id}")
