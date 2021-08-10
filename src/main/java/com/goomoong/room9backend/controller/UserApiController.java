@@ -1,10 +1,7 @@
 package com.goomoong.room9backend.controller;
 
 import com.goomoong.room9backend.domain.user.User;
-import com.goomoong.room9backend.domain.user.dto.AllUsersResponseDto;
-import com.goomoong.room9backend.domain.user.dto.RoleResponseDto;
-import com.goomoong.room9backend.domain.user.dto.UpdateRequestDto;
-import com.goomoong.room9backend.domain.user.dto.UserResponseDto;
+import com.goomoong.room9backend.domain.user.dto.*;
 import com.goomoong.room9backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -50,18 +47,10 @@ public class UserApiController {
     }
 
     @PostMapping("/api/v1/users/{id}")
-    public UserResponseDto update(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto) {
+    public IdResponseDto update(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto) {
         User updateUser = userService.update(id, requestDto.getNickname(), requestDto.getThumbnailImgUrl(), requestDto.getEmail(),
                 requestDto.getBirthday(), requestDto.getGender(), requestDto.getIntro());
 
-        return UserResponseDto.builder()
-                .id(updateUser.getId())
-                .nickname(updateUser.getNickname())
-                .thumbnailImgUrl(updateUser.getThumbnailImgUrl())
-                .email(updateUser.getEmail())
-                .birthday(updateUser.getBirthday())
-                .gender(updateUser.getGender())
-                .intro(updateUser.getIntro())
-                .build();
+        return IdResponseDto.builder().id(updateUser.getId()).build();
     }
 }
