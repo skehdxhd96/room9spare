@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
@@ -17,22 +18,22 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
     private String accountId;
 
-    @Column(nullable = false)
+    @NotNull
     private String name;
 
-    @Column(nullable = false)
+    @NotNull
     private String nickname;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @NotNull
     private Role role;
 
     //TODO: 이미지 테이블 조인
     //Image: 110 * 110
-    @Column(nullable = false)
+    @NotNull
     private String thumbnailImgUrl;
 
     private String email;
@@ -55,8 +56,12 @@ public class User {
     }
 
     public void update(String nickname, String thumbnailImgUrl, String email, String birthday, String gender, String intro) {
-        this.nickname = nickname;
-        this.thumbnailImgUrl = thumbnailImgUrl;
+        if (nickname != null) {
+            this.nickname = nickname;
+        }
+        if (thumbnailImgUrl != null) {
+            this.thumbnailImgUrl = thumbnailImgUrl;
+        }
         this.email = email;
         this.birthday = birthday;
         this.gender = gender;
