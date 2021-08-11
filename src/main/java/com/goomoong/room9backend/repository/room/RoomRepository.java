@@ -1,4 +1,4 @@
-package com.goomoong.room9backend.repository.roomRepository;
+package com.goomoong.room9backend.repository.room;
 
 import com.goomoong.room9backend.domain.room.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
