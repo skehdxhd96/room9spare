@@ -15,6 +15,7 @@ public class GetCommonRoom {
     private String username;
     private String title;
     private String Location;
+    private int limitPeople;
     private int price;
     private int like;
     private List<GetRoomfileDto> url;
@@ -24,6 +25,7 @@ public class GetCommonRoom {
         this.username = room.getUsers().getNickname();
         this.title = room.getTitle();
         this.Location = room.getDetailLocation();
+        this.limitPeople = room.getLimited();
         this.price = room.getPrice();
         this.like = room.getLiked();
         this.url = room.getRoomImg()

@@ -1,19 +1,18 @@
-package com.goomoong.room9backend.Service;
+package com.goomoong.room9backend.Service.room;
 
-import com.goomoong.room9backend.Repository.RoomImgRepository;
-import com.goomoong.room9backend.Repository.RoomRepository;
+import com.goomoong.room9backend.Service.file.FileService;
+import com.goomoong.room9backend.repository.room.RoomImgRepository;
+import com.goomoong.room9backend.repository.room.RoomRepository;
 import com.goomoong.room9backend.domain.file.File;
 import com.goomoong.room9backend.domain.file.RoomImg;
 import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.room.dto.CreatedRequestRoomDto;
-import com.goomoong.room9backend.domain.room.dto.confDto;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.domain.user.UserRepository;
 import com.goomoong.room9backend.exception.NoSuchRoomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,10 @@
 package com.goomoong.room9backend.controller;
 
-import com.goomoong.room9backend.Service.RoomService;
+import com.goomoong.room9backend.Service.room.RoomSearchService;
+import com.goomoong.room9backend.Service.room.RoomService;
 import com.goomoong.room9backend.domain.room.Room;
-import com.goomoong.room9backend.Repository.RoomRepository;
+import com.goomoong.room9backend.repository.room.RoomRepository;
 import com.goomoong.room9backend.domain.room.dto.*;
-import com.goomoong.room9backend.exception.NoSuchRoomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +18,7 @@ public class RoomApiController {
 
     private final RoomService roomService;
     private final RoomRepository roomRepository;
+    private final RoomSearchService roomSearchService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/room/create")
@@ -43,6 +44,22 @@ public class RoomApiController {
     @GetMapping("/room/like")
     public roomData getRoombyLike() { // 좋아요순서(메인화면)
         List<GetCommonRoom> rooms = roomRepository.findTop5ByOrderByLikedDesc()
+                .stream().map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
+
+        return new roomData(rooms.size(), rooms);
+    }
+
+    @GetMapping("/room/date")
+    public roomData getRoombydate() { // 최신순서(메인화면)
+        List<GetCommonRoom> rooms = roomRepository.findTop5ByOrderByCreatedDateDesc()
+                .stream().map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
+
+        return new roomData(rooms.size(), rooms);
+    }
+
+    @GetMapping("/room/search")
+    public roomData getRoomWithFilter(searchDto search) {
+        List<GetCommonRoom> rooms = roomSearchService.search(search)
                 .stream().map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
 
         return new roomData(rooms.size(), rooms);

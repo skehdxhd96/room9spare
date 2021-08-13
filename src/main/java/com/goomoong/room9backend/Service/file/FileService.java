@@ -1,6 +1,6 @@
-package com.goomoong.room9backend.Service;
+package com.goomoong.room9backend.Service.file;
 
-import com.goomoong.room9backend.Repository.FileRepository;
+import com.goomoong.room9backend.repository.file.FileRepository;
 import com.goomoong.room9backend.domain.file.File;
 import com.goomoong.room9backend.domain.file.dto.fileDto;
 import lombok.RequiredArgsConstructor;

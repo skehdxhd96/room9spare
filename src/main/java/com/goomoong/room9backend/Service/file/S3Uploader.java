@@ -1,4 +1,4 @@
-package com.goomoong.room9backend.Service;
+package com.goomoong.room9backend.Service.file;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;

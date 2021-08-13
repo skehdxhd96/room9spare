@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 public class GetDetailRoom extends GetCommonRoom {
 
     private String content;
-    private int limitPeople;
     private String rule;
     private int charge; // 추가요금
 
@@ -26,7 +25,6 @@ public class GetDetailRoom extends GetCommonRoom {
     public GetDetailRoom(Room room) {
         super(room);
         this.content = room.getContent();
-        this.limitPeople = room.getLimited();
         this.rule = room.getRule();
         this.charge = room.getCharge();
         this.room_configuration = room.getRoomConfigures()
