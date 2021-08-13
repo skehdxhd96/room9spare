@@ -1,14 +1,13 @@
 package com.goomoong.room9backend.domain.room.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,6 +21,9 @@ public class CreatedRequestRoomDto {
 
     //Amenity
     private List<String> facilities;
+
+    //images
+    private List<MultipartFile> images;
 
     //room
     private int limit; // 제한인원
