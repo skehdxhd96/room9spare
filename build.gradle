@@ -84,6 +84,11 @@ dependencies {
 	 */
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
 
+	/**
+	 * s3 folder
+	 */
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
 }
 
 //querydsl 추가

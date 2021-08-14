@@ -20,10 +20,10 @@ public class FileService {
     private final FileRepository fileRepository;
     private final S3Uploader s3Uploader;
 
-    public List<File> uploadFiles(List<MultipartFile> files) {
+    public List<File> uploadFiles(String dirName, List<MultipartFile> files) {
         List<fileDto> savedFiles = new ArrayList<>();
         if (files != null) {
-            savedFiles = s3Uploader.uploadFileList(files);
+            savedFiles = s3Uploader.uploadFileList(dirName, files);
         }
 
         return fileRepository.saveAll(savedFiles.stream().map(File::create).collect(Collectors.toList()));

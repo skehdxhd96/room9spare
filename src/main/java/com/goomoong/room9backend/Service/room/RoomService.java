@@ -1,6 +1,7 @@
 package com.goomoong.room9backend.Service.room;
 
 import com.goomoong.room9backend.Service.file.FileService;
+import com.goomoong.room9backend.config.FolderConfig;
 import com.goomoong.room9backend.repository.room.RoomImgRepository;
 import com.goomoong.room9backend.repository.room.RoomRepository;
 import com.goomoong.room9backend.domain.file.File;
@@ -26,13 +27,14 @@ public class RoomService {
     private final RoomImgRepository roomImgRepository;
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
+    private final FolderConfig folderConfig;
 
     //방 생성
     @Transactional
     public Long addRoom(CreatedRequestRoomDto request) {
 
         User user = userRepository.findById(request.getUserId()).get();
-        List<File> files = fileService.uploadFiles(request.getImages());
+        List<File> files = fileService.uploadFiles(folderConfig.getRoom(), request.getImages());
         Room room = Room.createRoom(user, request);
         List<RoomImg> roomImgs = new ArrayList<>();
 
