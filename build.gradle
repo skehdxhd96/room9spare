@@ -8,13 +8,23 @@ buildscript {
 plugins {
 	id 'org.springframework.boot' version '2.5.0'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'org.asciidoctor.convert' version '1.5.8' //RestDoc
+	id 'org.asciidoctor.jvm.convert' version '3.3.2'
 	id 'java'
 }
 
 group = 'com.goomoong'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	testCompileOnly {
+		extendsFrom annotationProcessor
+	}
+	asciidoctorExtensions
+}
 
 apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
@@ -77,7 +87,7 @@ dependencies {
 	 * RestDoc
 	 */
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc' //mockmvc 를 restdocs 에 사용하게 돕는 라이브러리
-	asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.1.RELEASE'
+	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.1.RELEASE'
 
 	/**
 	 * AWS
@@ -89,6 +99,7 @@ dependencies {
 	 */
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
+	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
 
 //querydsl 추가
@@ -118,6 +129,15 @@ configurations {
 
 //RestDoc
 asciidoctor {
+	configurations 'asciidoctorExtensions'
 	inputs.dir snippetsDir
 	dependsOn test
+}
+
+bootJar {
+	dependsOn asciidoctor
+	copy {
+		from "${asciidoctor.outputDir}"
+		into 'src/main/resources/static/docs'
+	}
 }

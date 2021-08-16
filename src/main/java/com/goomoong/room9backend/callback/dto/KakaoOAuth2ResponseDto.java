@@ -1,4 +1,4 @@
-package com.goomoong.room9backend.domain.user.dto;
+package com.goomoong.room9backend.callback.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -20,6 +20,9 @@ public class KakaoOAuth2ResponseDto {
     public static class KakaoAccount {
 
         private Profile profile;
+        private String email;
+        private String birthday;
+        private String gender;
 
         @ToString
         @Getter

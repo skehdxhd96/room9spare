@@ -7,13 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface RoomRepository extends JpaRepository<Room, Long>, RoomRepositoryCustom{
+public interface RoomRepository extends JpaRepository<Room, Long>, RoomRepositoryCustom {
 
-    @Override @EntityGraph(attributePaths = {"users"})
+    @Override
+    @EntityGraph(attributePaths = {"users"})
     List<Room> findAll();
 
-    @Override @EntityGraph(attributePaths = {"users"})
-    Optional<Room> findById(Long aLong);
+    @Override
+    @EntityGraph(attributePaths = {"users"})
+    Optional<Room> findById(Long id);
 
     List<Room> findTop5ByOrderByLikedDesc();
 

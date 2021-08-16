@@ -1,6 +1,19 @@
 version: '3'
 
 services:
+  room9_backend:
+    build:
+      context: .
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://room9_db:3306/room9?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    ports:
+      - 8080:8080
+    depends_on:
+      - room9_db
+    container_name: room9_backend
+
   room9_db:
     image: mysql:5.7
     environment:
@@ -12,4 +25,5 @@ services:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
-      - ./db_volume:/var/lib/mysql
+      - ./db_volume/:/var/lib/mysql
+    container_name: room9_db

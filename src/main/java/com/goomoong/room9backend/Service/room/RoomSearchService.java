@@ -1,10 +1,7 @@
 package com.goomoong.room9backend.Service.room;
 
-import com.goomoong.room9backend.Service.file.FileService;
 import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.room.dto.searchDto;
-import com.goomoong.room9backend.domain.user.UserRepository;
-import com.goomoong.room9backend.repository.room.RoomImgRepository;
 import com.goomoong.room9backend.repository.room.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
