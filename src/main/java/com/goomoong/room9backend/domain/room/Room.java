@@ -2,6 +2,7 @@ package com.goomoong.room9backend.domain.room;
 
 import com.goomoong.room9backend.domain.base.BaseEntity;
 import com.goomoong.room9backend.domain.file.RoomImg;
+import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.room.dto.CreatedRequestRoomDto;
 import com.goomoong.room9backend.domain.room.dto.UpdateRequestRoomDto;
 import com.goomoong.room9backend.domain.room.dto.confDto;
@@ -28,6 +29,9 @@ public class Room extends BaseEntity {
 
     @OneToMany(mappedBy = "room")
     private List<RoomImg> roomImg = new ArrayList<>();
+
+    @OneToMany(mappedBy = "room")
+    private List<Review> reviews = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "Room_Amenity",

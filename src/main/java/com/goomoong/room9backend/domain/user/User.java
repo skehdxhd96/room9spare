@@ -20,29 +20,15 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-<<<<<<< HEAD
     @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private List<Room> rooms = new ArrayList<>();
 
-    @Column
-    private String accountId;
-
-    @Enumerated(EnumType.STRING)
-=======
->>>>>>> ea840393e004cdc405f4f7bd8de0f1a6a821d23d
     @Column(nullable = false)
     private String accountId;
 
     @Column(nullable = false)
     private String name;
 
-<<<<<<< HEAD
-    @Column(nullable = false)
-    private String nickname;
-
-    //TODO: 이미지 테이블 조인
-=======
->>>>>>> ea840393e004cdc405f4f7bd8de0f1a6a821d23d
     @Column(nullable = false)
     private String nickname;
 
