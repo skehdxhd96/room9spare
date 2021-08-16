@@ -1,5 +1,6 @@
 package com.goomoong.room9backend.Service.file;
 
+import com.goomoong.room9backend.exception.NumberOfImageException;
 import com.goomoong.room9backend.repository.file.FileRepository;
 import com.goomoong.room9backend.domain.file.File;
 import com.goomoong.room9backend.domain.file.dto.fileDto;
@@ -24,6 +25,8 @@ public class FileService {
         List<fileDto> savedFiles = new ArrayList<>();
         if (files != null) {
             savedFiles = s3Uploader.uploadFileList(dirName, files);
+        } else {
+            throw new NumberOfImageException("하나 이상의 사진을 등록해야 합니다.");
         }
 
         return fileRepository.saveAll(savedFiles.stream().map(File::create).collect(Collectors.toList()));

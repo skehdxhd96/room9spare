@@ -5,6 +5,8 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.goomoong.room9backend.config.FolderConfig;
 import com.goomoong.room9backend.domain.file.dto.fileDto;
+import com.goomoong.room9backend.exception.ImageTypeException;
+import com.goomoong.room9backend.exception.S3FileUploadException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -37,18 +39,17 @@ public class S3Uploader {
 
         String fileName = dirName + "/" + UUID.randomUUID() + originalName;
 
-        boolean isImage = this.isImage(extension);
-
-        //s3업로드
-        try {
-            if(isImage) {
+        if(this.isImage(extension)) {
+            try {
                 amazonS3Client.putObject(
                         new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
                                 .withCannedAcl(CannedAccessControlList.PublicRead));
-            }
 
-        } catch(Exception e) {
-            e.printStackTrace(); // 예외클래스
+            } catch(Exception e) {
+                throw new S3FileUploadException("S3 파일 업로드 중 오류가 발생하였습니다.");
+            }
+        } else {
+            throw new ImageTypeException("이미지 파일 형식은 png/jpeg/jpg/bmp/gif/svg 중 하나여야 합니다.");
         }
 
         //Dto형식으로 반환
