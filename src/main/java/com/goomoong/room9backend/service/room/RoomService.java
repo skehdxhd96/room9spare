@@ -1,6 +1,6 @@
-package com.goomoong.room9backend.Service.room;
+package com.goomoong.room9backend.service.room;
 
-import com.goomoong.room9backend.Service.file.FileService;
+import com.goomoong.room9backend.service.file.FileService;
 import com.goomoong.room9backend.config.FolderConfig;
 import com.goomoong.room9backend.repository.room.RoomImgRepository;
 import com.goomoong.room9backend.repository.room.RoomRepository;

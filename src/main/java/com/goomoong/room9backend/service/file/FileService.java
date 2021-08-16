@@ -1,4 +1,4 @@
-package com.goomoong.room9backend.Service.file;
+package com.goomoong.room9backend.service.file;
 
 import com.goomoong.room9backend.exception.NumberOfImageException;
 import com.goomoong.room9backend.repository.file.FileRepository;

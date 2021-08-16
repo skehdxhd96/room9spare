@@ -1,4 +1,4 @@
-package com.goomoong.room9backend.Service.room;
+package com.goomoong.room9backend.service.room;
 
 import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.room.dto.searchDto;

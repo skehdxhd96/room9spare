@@ -1,9 +1,8 @@
-package com.goomoong.room9backend.Service.file;
+package com.goomoong.room9backend.service.file;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.goomoong.room9backend.config.FolderConfig;
 import com.goomoong.room9backend.domain.file.dto.fileDto;
 import com.goomoong.room9backend.exception.ImageTypeException;
 import com.goomoong.room9backend.exception.S3FileUploadException;

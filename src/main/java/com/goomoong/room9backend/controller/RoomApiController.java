@@ -1,8 +1,7 @@
 package com.goomoong.room9backend.controller;
 
-import com.goomoong.room9backend.Service.room.RoomSearchService;
-import com.goomoong.room9backend.Service.room.RoomService;
-import com.goomoong.room9backend.domain.room.Room;
+import com.goomoong.room9backend.service.room.RoomSearchService;
+import com.goomoong.room9backend.service.room.RoomService;
 import com.goomoong.room9backend.repository.room.RoomRepository;
 import com.goomoong.room9backend.domain.room.dto.*;
 import lombok.RequiredArgsConstructor;
