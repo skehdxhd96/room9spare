@@ -25,7 +25,7 @@ import java.util.Set;
 @Builder
 public class Room extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "Room_Id")
     private Long id;
 
@@ -76,11 +76,8 @@ public class Room extends BaseEntity {
         room.rule = request.getRule();
         room.charge = request.getAddCharge();
         room.liked = 0;
-
-        for (confDto conf : request.getConf()) { room.getRoomConfigures()
-                .add(new RoomConfiguration(conf.getConfType(), conf.getCount())); }
-
-        for (String facility : request.getFacilities()) { room.getAmenities().add(facility); }
+        RoomConfiguration.createRoomConfig(room, request.getConf());
+        Amenity.createRoomFacility(room, request.getFacilities());
 
         return room;
     }

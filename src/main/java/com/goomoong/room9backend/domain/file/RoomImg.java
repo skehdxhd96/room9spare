@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 public class RoomImg {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "RoomImgId")
     private Long id;
 

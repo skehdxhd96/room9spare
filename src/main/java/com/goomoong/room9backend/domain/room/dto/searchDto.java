@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class searchDto {
 
-    private String detailLocation;
     private String title;
-    private Integer limitPeople;
     private Integer limitPrice;
+    private String detailLocation;
+    private Integer limitPeople;
 }

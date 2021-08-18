@@ -1,6 +1,7 @@
 package com.goomoong.room9backend.domain.room.dto;
 
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 public class File extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "File_Id")
     private Long id;
 

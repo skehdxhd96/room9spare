@@ -1,7 +1,6 @@
 package com.goomoong.room9backend.domain.room.dto;
 
 import com.goomoong.room9backend.domain.room.Room;
-import com.goomoong.room9backend.domain.room.RoomConfiguration;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

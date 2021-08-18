@@ -105,6 +105,10 @@ dependencies {
 //querydsl 추가
 def querydslDir = "$buildDir/generated/querydsl"
 
+test {
+	useJUnitPlatform()
+}
+
 querydsl {
 	library = "com.querydsl:querydsl-apt"
 	jpa = true

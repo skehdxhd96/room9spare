@@ -88,7 +88,7 @@ class ReviewServiceTest {
         User user = User.builder().id(1L).accountId("1").name("mock").nickname("mock").role(Role.GUEST).thumbnailImgUrl("mock.jpg").email("mock@abc").birthday("0101").gender("male").intro("test").build();
         Room room = new Room();
 
-        room.setId(1L);
+//        room.setId(1L);
 
         review.setUser(user);
         review.setRoom(room);

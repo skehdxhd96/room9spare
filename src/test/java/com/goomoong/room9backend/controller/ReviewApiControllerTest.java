@@ -84,7 +84,7 @@ class ReviewApiControllerTest {
         reviews.add(review);
 
         given(userService.findById(1L)).willReturn(user);
-        given(roomRepository.findById(1L)).willReturn(room);
+//        given(roomRepository.findById(1L)).willReturn(room);
         given(reviewService.findByUserAndRoom(any(ReviewSearchDto.class))).willReturn(reviews);
 
         //when

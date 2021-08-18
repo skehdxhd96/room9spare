@@ -1,7 +1,9 @@
 package com.goomoong.room9backend.domain.room.dto;
 
 import com.goomoong.room9backend.domain.room.RoomConfiguration;
+import com.goomoong.room9backend.exception.RoomConfException;
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 @Setter
@@ -11,7 +13,7 @@ import lombok.*;
 public class confDto {
 
     private String confType;
-    private int count;
+    private Integer count;
 
     public confDto(RoomConfiguration roomConfiguration) {
         this.confType = roomConfiguration.getConfType();
