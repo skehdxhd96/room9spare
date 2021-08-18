@@ -9,8 +9,10 @@ import com.goomoong.room9backend.domain.review.dto.UpdateReviewRequestDto;
 import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
+import com.goomoong.room9backend.repository.room.RoomRepository;
 import com.goomoong.room9backend.service.ReviewService;
 import com.goomoong.room9backend.service.UserService;
+import com.goomoong.room9backend.service.room.RoomService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +55,7 @@ class ReviewApiControllerTest {
     private UserService userService;
 
     @MockBean
-    private RoomService roomService;
+    private RoomRepository roomRepository;
 
     private Review review;
     private User user;
@@ -64,7 +66,7 @@ class ReviewApiControllerTest {
         user = User.builder().id(1L).accountId("1").name("mock").nickname("mock").role(Role.GUEST).thumbnailImgUrl("mock.jpg").email("mock@abc").birthday("0101").gender("male").intro("test").build();;
         room = new Room();
 
-        room.setId(1L);
+        room = Room.builder().id(1L).build();
 
         review = Review.builder()
                 .id(1L)
@@ -82,7 +84,7 @@ class ReviewApiControllerTest {
         reviews.add(review);
 
         given(userService.findById(1L)).willReturn(user);
-        given(roomService.findById(1L)).willReturn(room);
+        given(roomRepository.findById(1L)).willReturn(room);
         given(reviewService.findByUserAndRoom(any(ReviewSearchDto.class))).willReturn(reviews);
 
         //when

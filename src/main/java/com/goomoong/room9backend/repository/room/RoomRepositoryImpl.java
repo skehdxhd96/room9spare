@@ -11,13 +11,10 @@ import java.util.List;
 
 import static com.goomoong.room9backend.domain.room.QRoom.room;
 
+@RequiredArgsConstructor
 public class RoomRepositoryImpl implements RoomRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
-
-    public RoomRepositoryImpl(EntityManager em){
-        this.queryFactory = new JPAQueryFactory(em);
-    }
 
     @Override
     public List<Room> findRoomWithFilter(searchDto search) {

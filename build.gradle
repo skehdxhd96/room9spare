@@ -128,11 +128,11 @@ configurations {
 }
 
 //RestDoc
-asciidoctor {
-	configurations 'asciidoctorExtensions'
-	inputs.dir snippetsDir
-	dependsOn test
-}
+//asciidoctor {
+//	configurations 'asciidoctorExtensions'
+//	inputs.dir snippetsDir
+//	dependsOn test
+//}
 
 bootJar {
 	dependsOn asciidoctor

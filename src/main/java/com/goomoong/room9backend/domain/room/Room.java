@@ -7,7 +7,10 @@ import com.goomoong.room9backend.domain.room.dto.CreatedRequestRoomDto;
 import com.goomoong.room9backend.domain.room.dto.UpdateRequestRoomDto;
 import com.goomoong.room9backend.domain.room.dto.confDto;
 import com.goomoong.room9backend.domain.user.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,6 +20,9 @@ import java.util.Set;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Room extends BaseEntity {
 
     @Id @GeneratedValue

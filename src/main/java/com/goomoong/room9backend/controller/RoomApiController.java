@@ -6,6 +6,7 @@ import com.goomoong.room9backend.repository.room.RoomRepository;
 import com.goomoong.room9backend.domain.room.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class RoomApiController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/room/create")
-    public CreatedResponseRoomDto createdRoom(@ModelAttribute CreatedRequestRoomDto request) {
+    public CreatedResponseRoomDto createdRoom(@ModelAttribute @Validated CreatedRequestRoomDto request) {
         return new CreatedResponseRoomDto(roomService.addRoom(request));
     }
 
@@ -57,7 +58,7 @@ public class RoomApiController {
     }
 
     @GetMapping("/room/search")
-    public roomData getRoomWithFilter(searchDto search) {
+    public roomData getRoomWithFilter(@Validated searchDto search) {
         List<GetCommonRoom> rooms = roomSearchService.search(search)
                 .stream().map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
 
