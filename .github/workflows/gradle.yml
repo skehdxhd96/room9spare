@@ -19,13 +19,13 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-#     - name: Build Docker Image
-#       env:
-#         BUILD_NUMBER: ${{ github.run_number }}
-#       run: |
-#         IMAGE_NAME=labyu/room9-frontend:$BUILD_NUMBER
-#         docker build -t $IMAGE_NAME ./
-#         docker push $IMAGE_NAME
+    - name: Build Docker Image
+      env:
+        BUILD_NUMBER: ${{ github.run_number }}
+      run: |
+        IMAGE_NAME=hsju0202/room9-backend:$BUILD_NUMBER
+        docker build -t $IMAGE_NAME ./
+        docker push $IMAGE_NAME
 #     - uses: AutoModality/action-clean@v1
 #     - name: Checkout Infra Repo
 #       env:
