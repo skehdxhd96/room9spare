@@ -40,20 +40,20 @@ jobs:
         IMAGE_NAME=hsju0202/room9-backend:$BUILD_NUMBER
         docker build -t $IMAGE_NAME ./
         docker push $IMAGE_NAME
-#     - uses: AutoModality/action-clean@v1
-#     - name: Checkout Infra Repo
-#       env:
-#         INFRA_KEY: ${{ secrets.ROOM9_INFRA_KEY }}
-#       run: |
-#         rm * -rf
-#         rm -rf .git
-#         rm -rf .dockerignore
-#         rm -rf .eslintignore
-#         rm -rf .github
-#         rm -rf .gitignore
-#         ls -al
-#         eval `ssh-agent -s`
-#         ssh-add - <<< "${INFRA_KEY}"; git clone git@github.com:Hanium-Cloud/room9-infra.git .
+    - uses: AutoModality/action-clean@v1
+    - name: Checkout Infra Repo
+      env:
+        INFRA_KEY: ${{ secrets.ROOM9_INFRA_KEY }}
+      run: |
+        rm * -rf
+        rm -rf .git
+        rm -rf .dockerignore
+        rm -rf .eslintignore
+        rm -rf .github
+        rm -rf .gitignore
+        ls -al
+        eval `ssh-agent -s`
+        ssh-add - <<< "${INFRA_KEY}"; git clone git@github.com:Hanium-Cloud/room9-infra.git .
 #     - name: Change Deploy Spec
 #       env:
 #         BUILD_NUMBER: ${{ github.run_number }}
