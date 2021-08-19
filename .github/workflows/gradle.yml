@@ -51,6 +51,7 @@ jobs:
         rm -rf .eslintignore
         rm -rf .github
         rm -rf .gitignore
+        rm -rf .gradle
         ls -al
         eval `ssh-agent -s`
         ssh-add - <<< "${INFRA_KEY}"; git clone git@github.com:Hanium-Cloud/room9-infra.git .
