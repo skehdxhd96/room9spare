@@ -1,41 +1,62 @@
-name: ci
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Room9 FrontEnd CI
 
 on:
   push:
-    branches:
-      - 'develop'
+    branches: [ develop ]
 
 jobs:
-  docker:
+  build:
+
     runs-on: ubuntu-latest
+    
     steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      -
-        name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
-      - 
-        name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@8b842e721d38d18bea23b57f4c040e53331f4ca2
-        with:
-          images: hsju0202/room9-backend
-      -
-        name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+    - uses: actions/checkout@v2
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_TOKEN }}
+#     - name: Build Docker Image
+#       env:
+#         BUILD_NUMBER: ${{ github.run_number }}
+#       run: |
+#         IMAGE_NAME=labyu/room9-frontend:$BUILD_NUMBER
+#         docker build -t $IMAGE_NAME ./
+#         docker push $IMAGE_NAME
+#     - uses: AutoModality/action-clean@v1
+#     - name: Checkout Infra Repo
+#       env:
+#         INFRA_KEY: ${{ secrets.ROOM9_INFRA_KEY }}
+#       run: |
+#         rm * -rf
+#         rm -rf .git
+#         rm -rf .dockerignore
+#         rm -rf .eslintignore
+#         rm -rf .github
+#         rm -rf .gitignore
+#         ls -al
+#         eval `ssh-agent -s`
+#         ssh-add - <<< "${INFRA_KEY}"; git clone git@github.com:Hanium-Cloud/room9-infra.git .
+#     - name: Change Deploy Spec
+#       env:
+#         BUILD_NUMBER: ${{ github.run_number }}
+#         INFRA_KEY: ${{ secrets.ROOM9_INFRA_KEY }}
+#       run: |
+#         IMAGE_NAME=labyu/room9-frontend
+#         cd frontend
+#         BEFORE=$(cat room9-frontend.yaml | grep 'image: labyu/room9-frontend:' | sed -e 's/^ *//g' -e 's/ *$//g')
+#         sed -i "s@$BEFORE@image: labyu/room9-frontend:$BUILD_NUMBER@g" room9-frontend.yaml
+#         git config user.name labyu
+#         git config user.email labyu2020@gmail.com
+#         git add .
+#         git commit -m "Action Change Deployment Spec To image: labyu/room9-frontend:$BUILD_NUMBER"
+#     - name: Push
+#       env:
+#         BUILD_NUMBER: ${{ github.run_number }}
+#         INFRA_KEY: ${{ secrets.ROOM9_INFRA_KEY }}
+#       run: |
+#         eval `ssh-agent -s`
+#         ssh-add - <<< "${INFRA_KEY}"; git push origin main
