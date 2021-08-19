@@ -55,23 +55,23 @@ jobs:
         ls -al
         eval `ssh-agent -s`
         ssh-add - <<< "${INFRA_KEY}"; git clone git@github.com:Hanium-Cloud/room9-infra.git .
-#     - name: Change Deploy Spec
-#       env:
-#         BUILD_NUMBER: ${{ github.run_number }}
-#         INFRA_KEY: ${{ secrets.ROOM9_INFRA_KEY }}
-#       run: |
-#         IMAGE_NAME=labyu/room9-frontend
-#         cd frontend
-#         BEFORE=$(cat room9-frontend.yaml | grep 'image: labyu/room9-frontend:' | sed -e 's/^ *//g' -e 's/ *$//g')
-#         sed -i "s@$BEFORE@image: labyu/room9-frontend:$BUILD_NUMBER@g" room9-frontend.yaml
-#         git config user.name labyu
-#         git config user.email labyu2020@gmail.com
-#         git add .
-#         git commit -m "Action Change Deployment Spec To image: labyu/room9-frontend:$BUILD_NUMBER"
-#     - name: Push
-#       env:
-#         BUILD_NUMBER: ${{ github.run_number }}
-#         INFRA_KEY: ${{ secrets.ROOM9_INFRA_KEY }}
-#       run: |
-#         eval `ssh-agent -s`
-#         ssh-add - <<< "${INFRA_KEY}"; git push origin main
+    - name: Change Deploy Spec
+      env:
+        BUILD_NUMBER: ${{ github.run_number }}
+        INFRA_KEY: ${{ secrets.ROOM9_INFRA_KEY }}
+      run: |
+        IMAGE_NAME=hsju0202/room9-backend
+        cd backend
+        BEFORE=$(cat room9-backend.yaml | grep 'image: hsju0202/room9-backend:' | sed -e 's/^ *//g' -e 's/ *$//g')
+        sed -i "s@$BEFORE@image: hsju0202/room9-backend:$BUILD_NUMBER@g" room9-backend.yaml
+        git config user.name hsju0202
+        git config user.email hsju0202@gmail.com
+        git add .
+        git commit -m "Action Change Deployment Spec To image: hsju0202/room9-backend:$BUILD_NUMBER"
+    - name: Push
+      env:
+        BUILD_NUMBER: ${{ github.run_number }}
+        INFRA_KEY: ${{ secrets.ROOM9_INFRA_KEY }}
+      run: |
+        eval `ssh-agent -s`
+        ssh-add - <<< "${INFRA_KEY}"; git push origin main
