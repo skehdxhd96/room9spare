@@ -115,12 +115,12 @@ configurations {
 	querydsl.extendsFrom compileClasspath
 }
 
-//RestDoc
-asciidoctor {
-	configurations 'asciidoctorExtensions'
-	inputs.dir snippetsDir
-	dependsOn test
-}
+////RestDoc
+//asciidoctor {
+//	configurations 'asciidoctorExtensions'
+//	inputs.dir snippetsDir
+//	dependsOn test
+//}
 
 bootJar {
 	dependsOn asciidoctor
