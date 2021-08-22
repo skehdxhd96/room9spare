@@ -1,9 +1,7 @@
 package com.goomoong.room9backend.controller;
 
 import com.goomoong.room9backend.domain.user.User;
-import com.goomoong.room9backend.domain.user.dto.RoleResponseDto;
-import com.goomoong.room9backend.domain.user.dto.UpdateRequestDto;
-import com.goomoong.room9backend.domain.user.dto.UserResponseDto;
+import com.goomoong.room9backend.domain.user.dto.*;
 import com.goomoong.room9backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +16,11 @@ public class UserApiController {
     private final UserService userService;
 
     @GetMapping("/api/v1/users")
-    public List<UserResponseDto> getAllUsers() {
+    public AllUsersResponseDto getAllUsers() {
         List<UserResponseDto> allUsers =  userService.findAllUsers().stream().map(user ->
             UserResponseDto.builder().id(user.getId()).nickname(user.getNickname()).thumbnailImgUrl(user.getThumbnailImgUrl()).email(user.getEmail()).birthday(user.getBirthday()).gender(user.getGender()).intro(user.getIntro()).build()
                 ).collect(Collectors.toList());
-        return allUsers;
+        return new AllUsersResponseDto(allUsers);
     }
 
     @GetMapping("/api/v1/users/{id}")
@@ -49,18 +47,10 @@ public class UserApiController {
     }
 
     @PostMapping("/api/v1/users/{id}")
-    public UserResponseDto update(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto) {
+    public IdResponseDto update(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto) {
         User updateUser = userService.update(id, requestDto.getNickname(), requestDto.getThumbnailImgUrl(), requestDto.getEmail(),
                 requestDto.getBirthday(), requestDto.getGender(), requestDto.getIntro());
 
-        return UserResponseDto.builder()
-                .id(updateUser.getId())
-                .nickname(updateUser.getNickname())
-                .thumbnailImgUrl(updateUser.getThumbnailImgUrl())
-                .email(updateUser.getEmail())
-                .birthday(updateUser.getBirthday())
-                .gender(updateUser.getGender())
-                .intro(updateUser.getIntro())
-                .build();
+        return IdResponseDto.builder().id(updateUser.getId()).build();
     }
 }
