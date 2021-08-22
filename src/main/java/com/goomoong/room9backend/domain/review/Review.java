@@ -1,5 +1,6 @@
 package com.goomoong.room9backend.domain.review;
 
+import com.goomoong.room9backend.domain.base.BaseEntity;
 import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.user.User;
 import lombok.Builder;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name = "reviews")
 @Entity
-public class Review {
+public class Review{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
@@ -25,7 +26,7 @@ public class Review {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
+    @JoinColumn(name = "Room_Id")
     private Room room;
 
     private String reviewContent;

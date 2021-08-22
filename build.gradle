@@ -87,11 +87,29 @@ dependencies {
 	 * RestDoc
 	 */
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc' //mockmvc 를 restdocs 에 사용하게 돕는 라이브러리
+	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.1.RELEASE'
+
+	/**
+	 * AWS
+	 */
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
+	implementation platform('software.amazon.awssdk:bom:2.13.33')
+	implementation 'software.amazon.awssdk:s3'
+
+	/**
+	 * s3 folder
+	 */
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
 	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
 
 //querydsl 추가
 def querydslDir = "$buildDir/generated/querydsl"
+
+test {
+	useJUnitPlatform()
+}
 
 querydsl {
 	library = "com.querydsl:querydsl-apt"

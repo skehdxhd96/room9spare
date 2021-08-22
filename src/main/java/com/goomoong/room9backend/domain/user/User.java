@@ -1,10 +1,14 @@
 package com.goomoong.room9backend.domain.user;
 
+import com.goomoong.room9backend.domain.reservation.roomReservation;
+import com.goomoong.room9backend.domain.room.Room;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -16,6 +20,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
+
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    private List<Room> rooms = new ArrayList<>();
+
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    private List<roomReservation> roomReservations = new ArrayList<>();
 
     @Column(nullable = false)
     private String accountId;
