@@ -133,7 +133,6 @@ configurations {
 	querydsl.extendsFrom compileClasspath
 }
 
-//RestDoc
 ////RestDoc
 //asciidoctor {
 //	configurations 'asciidoctorExtensions'
