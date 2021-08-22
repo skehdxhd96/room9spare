@@ -2,6 +2,7 @@ package com.goomoong.room9backend.domain.room;
 
 import com.goomoong.room9backend.domain.base.BaseEntity;
 import com.goomoong.room9backend.domain.file.RoomImg;
+import com.goomoong.room9backend.domain.reservation.roomReservation;
 import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.room.dto.CreatedRequestRoomDto;
 import com.goomoong.room9backend.domain.room.dto.UpdateRequestRoomDto;
@@ -32,6 +33,9 @@ public class Room extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User users;
+
+    @OneToMany(mappedBy = "room")
+    private List<roomReservation> roomReservations = new ArrayList<>();
 
     @OneToMany(mappedBy = "room")
     private List<RoomImg> roomImg = new ArrayList<>();

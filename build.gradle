@@ -93,6 +93,8 @@ dependencies {
 	 * AWS
 	 */
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
+	implementation platform('software.amazon.awssdk:bom:2.13.33')
+	implementation 'software.amazon.awssdk:s3'
 
 	/**
 	 * s3 folder

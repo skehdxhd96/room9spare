@@ -38,3 +38,6 @@ out/
 
 ### Docker Volume ###
 db_volume
+
+###AWS
+aws.yml
