@@ -1,5 +1,6 @@
 package com.goomoong.room9backend.service.room;
 
+import com.goomoong.room9backend.domain.room.dto.GetCommonRoom;
 import com.goomoong.room9backend.service.UserService;
 import com.goomoong.room9backend.service.file.FileService;
 import com.goomoong.room9backend.config.FolderConfig;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,5 +52,20 @@ public class RoomService {
 
     public Room getRoomDetail(Long id) {
         return roomRepository.findById(id).orElseThrow(() -> new NoSuchRoomException("존재하지 않는 방입니다."));
+    }
+
+    public List<GetCommonRoom> findAll() {
+        return roomRepository.findAll()
+                .stream().map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
+    }
+
+    public List<GetCommonRoom> findTop5CreatedDate() {
+        return roomRepository.findTop5ByOrderByCreatedDateDesc()
+                .stream().map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
+    }
+
+    public List<GetCommonRoom> findTop5Liked() {
+        return roomRepository.findTop5ByOrderByLikedDesc()
+                .stream().map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
     }
 }

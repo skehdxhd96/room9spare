@@ -132,6 +132,7 @@ configurations {
 }
 
 //RestDoc
+////RestDoc
 //asciidoctor {
 //	configurations 'asciidoctorExtensions'
 //	inputs.dir snippetsDir
