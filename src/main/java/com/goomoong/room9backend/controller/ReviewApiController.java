@@ -5,8 +5,8 @@ import com.goomoong.room9backend.domain.review.dto.ReviewSearchDto;
 import com.goomoong.room9backend.domain.review.dto.*;
 import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.user.User;
+import com.goomoong.room9backend.repository.room.RoomRepository;
 import com.goomoong.room9backend.service.ReviewService;
-import com.goomoong.room9backend.service.RoomService;
 import com.goomoong.room9backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +21,7 @@ public class ReviewApiController {
 
     private final ReviewService reviewService;
     private final UserService userService;
-    private final RoomService roomService;
+    private final RoomRepository roomRepository;
 
     @GetMapping("/api/v1/reviews")
     public SelectResultDto selectReviewsV1(@RequestBody @Validated SelectReviewRequestDto request){
@@ -33,7 +33,7 @@ public class ReviewApiController {
             reviewSearchDto.setUser(null);
 
         if(request.getRoom_id() != null)
-            reviewSearchDto.setRoom(roomService.findById(request.getRoom_id()));
+            reviewSearchDto.setRoom(roomRepository.findById(request.getRoom_id()).orElse(null));
         else
             reviewSearchDto.setRoom(null);
 
@@ -49,7 +49,7 @@ public class ReviewApiController {
     @PostMapping("/api/v1/reviews")
     public CreateReviewResponseDto saveReviewV1(@RequestBody @Validated CreateReviewRequestDto request) {
         User user = userService.findById(request.getUser_id());
-        Room room = roomService.findById(request.getRoom_id());
+        Room room = roomRepository.findById(request.getRoom_id()).orElse(null);
 
         Review review = Review.builder()
                                 .user(user)
