@@ -1,22 +1,30 @@
 package com.goomoong.room9backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.goomoong.room9backend.config.MockSecurityFilter;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.domain.user.dto.UpdateRequestDto;
 import com.goomoong.room9backend.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,26 +32,41 @@ import java.util.List;
 import static com.goomoong.room9backend.ApiDocumentUtils.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureRestDocs
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(UserApiController.class)
+@AutoConfigureMockMvc
+@ExtendWith({SpringExtension.class, RestDocumentationExtension.class})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class UserApiControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @Autowired
+    private WebApplicationContext context;
 
     @MockBean
     private UserService userService;
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @BeforeEach
+    public void setup(RestDocumentationContextProvider restDocumentation) {
+        mvc = MockMvcBuilders.webAppContextSetup(context)
+                .apply(documentationConfiguration(restDocumentation))
+                .apply(springSecurity(new MockSecurityFilter()))
+                .build();
+    }
 
     @Test
     @DisplayName("전체 회원 조회 api 테스트")
@@ -65,22 +88,22 @@ public class UserApiControllerTest {
                         getDocumentRequest(),
                         getDocumentResponse(),
                         responseFields(
-                                fieldWithPath("[].id").description("user id").type(Long.class),
-                                fieldWithPath("[].nickname").description("user nickname"),
-                                fieldWithPath("[].thumbnailImgUrl").description("user thumbnail image url"),
-                                fieldWithPath("[].email").description("user email"),
-                                fieldWithPath("[].birthday").description("user birthday"),
-                                fieldWithPath("[].gender").description("user gender"),
-                                fieldWithPath("[].intro").description("user introduction")
+                                fieldWithPath("users.[].id").description("user id").type(Long.class),
+                                fieldWithPath("users.[].nickname").description("user nickname"),
+                                fieldWithPath("users.[].thumbnailImgUrl").description("user thumbnail image url"),
+                                fieldWithPath("users.[].email").description("user email"),
+                                fieldWithPath("users.[].birthday").description("user birthday"),
+                                fieldWithPath("users.[].gender").description("user gender"),
+                                fieldWithPath("users.[].intro").description("user introduction")
                         )
                 ))
-                .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].nickname").value("mock"))
-                .andExpect(jsonPath("$[0].thumbnailImgUrl").value("mock.jpg"))
-                .andExpect(jsonPath("$[0].email").value("mock@abc"))
-                .andExpect(jsonPath("$[0].birthday").value("0101"))
-                .andExpect(jsonPath("$[0].gender").value("male"))
-                .andExpect(jsonPath("$[0].intro").value("test"));
+                .andExpect(jsonPath("$.users[0].id").value(1L))
+                .andExpect(jsonPath("$.users[0].nickname").value("mock"))
+                .andExpect(jsonPath("$.users[0].thumbnailImgUrl").value("mock.jpg"))
+                .andExpect(jsonPath("$.users[0].email").value("mock@abc"))
+                .andExpect(jsonPath("$.users[0].birthday").value("0101"))
+                .andExpect(jsonPath("$.users[0].gender").value("male"))
+                .andExpect(jsonPath("$.users[0].intro").value("test"));
     }
 
     @Test
@@ -186,21 +209,10 @@ public class UserApiControllerTest {
                                 fieldWithPath("intro").description("user introduction")
                         ),
                         responseFields(
-                                fieldWithPath("id").description("user id").type(Long.class),
-                                fieldWithPath("nickname").description("user nickname"),
-                                fieldWithPath("thumbnailImgUrl").description("user thumbnail image url"),
-                                fieldWithPath("email").description("user email"),
-                                fieldWithPath("birthday").description("user birthday"),
-                                fieldWithPath("gender").description("user gender"),
-                                fieldWithPath("intro").description("user introduction")
+                                fieldWithPath("id").description("user id").type(Long.class)
                         )
                 ))
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.nickname").value("update"))
-                .andExpect(jsonPath("$.thumbnailImgUrl").value("update.jpg"))
-                .andExpect(jsonPath("$.email").value("update@abc"))
-                .andExpect(jsonPath("$.birthday").value("1231"))
-                .andExpect(jsonPath("$.gender").value("female"))
-                .andExpect(jsonPath("$.intro").value("update"));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L));
     }
 }

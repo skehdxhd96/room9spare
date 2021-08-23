@@ -2,6 +2,7 @@ package com.goomoong.room9backend.service;
 
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.repository.user.UserRepository;
+import com.goomoong.room9backend.exception.DuplicateNicknameException;
 import com.goomoong.room9backend.exception.NoSuchUserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class UserService {
     @Transactional
     public User update(Long id, String nickname, String thumbnailImgUrl, String email, String birthday, String gender, String intro) {
         User findUser = userRepository.findById(id).orElseThrow(() -> new NoSuchUserException("존재하지 않는 회원입니다."));
+        if (userRepository.findByNickname(nickname).isPresent()) {
+            throw new DuplicateNicknameException("중복된 닉네임입니다.");
+        }
         findUser.update(nickname, thumbnailImgUrl, email, birthday, gender, intro);
         return findUser;
     }

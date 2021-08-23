@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Controller
@@ -66,8 +67,10 @@ public class OAuth2CallbackController {
 
             User verifyUser = userRepository.findByAccountId(responseDto.getId()).orElseGet(() ->
                     userRepository.save(User.toEntity(responseDto.getId(), responseDto.getKakaoAccount().getProfile().getNickname(),
-                            responseDto.getKakaoAccount().getProfile().getNickname(), Role.GUEST, responseDto.getKakaoAccount().getProfile().getThumbnailImageUrl(),
-                            responseDto.getKakaoAccount().getEmail(), responseDto.getKakaoAccount().getBirthday(), responseDto.getKakaoAccount().getGender()))
+                            responseDto.getKakaoAccount().getProfile().getNickname()+ UUID.randomUUID().toString().substring(25),
+                            Role.GUEST, responseDto.getKakaoAccount().getProfile().getThumbnailImageUrl(),
+                            responseDto.getKakaoAccount().getEmail(), responseDto.getKakaoAccount().getBirthday(),
+                            responseDto.getKakaoAccount().getGender()))
             );
 
             Map<String, String> requestState = objectMapper.readValue(state, Map.class);
