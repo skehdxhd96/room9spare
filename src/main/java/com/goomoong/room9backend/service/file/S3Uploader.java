@@ -45,7 +45,8 @@ public class S3Uploader {
                                 .withCannedAcl(CannedAccessControlList.PublicRead));
 
             } catch(Exception e) {
-                throw new S3FileUploadException("S3 파일 업로드 중 오류가 발생하였습니다.");
+//                throw new S3FileUploadException("S3 파일 업로드 중 오류가 발생하였습니다.");
+                e.printStackTrace();
             }
         } else {
             throw new ImageTypeException("이미지 파일 형식은 png/jpeg/jpg/bmp/gif/svg 중 하나여야 합니다.");
