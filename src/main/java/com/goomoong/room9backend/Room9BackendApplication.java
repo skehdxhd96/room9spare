@@ -12,7 +12,7 @@ public class Room9BackendApplication {
 
 //	public static final String APPLICATION_LOCATIONS = "spring.config.location="
 //			+ "classpath:application.properties,"
-////			+ "classpath:aws.yml";
+//			+ "classpath:aws.yml";
 
 	public static void main(String[] args) {
 		SpringApplication.run(Room9BackendApplication.class, args);
