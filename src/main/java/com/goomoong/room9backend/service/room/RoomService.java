@@ -1,6 +1,8 @@
 package com.goomoong.room9backend.service.room;
 
 import com.goomoong.room9backend.domain.room.dto.GetCommonRoom;
+import com.goomoong.room9backend.domain.user.Role;
+import com.goomoong.room9backend.exception.RoomNotAddException;
 import com.goomoong.room9backend.service.UserService;
 import com.goomoong.room9backend.service.file.FileService;
 import com.goomoong.room9backend.config.FolderConfig;
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,9 +37,14 @@ public class RoomService {
 
     //방 생성
     @Transactional
-    public Long addRoom(CreatedRequestRoomDto request) {
+    public Long addRoom(CreatedRequestRoomDto request) throws IOException {
 
         User user = userService.findById(request.getUserId());
+
+        if(user.getRole() != Role.HOST) {
+            throw new RoomNotAddException();
+        }
+
         List<File> files = fileService.uploadFiles(folderConfig.getRoom(), request.getImages());
         Room room = Room.createRoom(user, request);
         List<RoomImg> roomImgs = new ArrayList<>();
