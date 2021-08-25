@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +22,7 @@ public class FileService {
     private final FileRepository fileRepository;
     private final S3Uploader s3Uploader;
 
-    public List<File> uploadFiles(String dirName, List<MultipartFile> files) {
+    public List<File> uploadFiles(String dirName, List<MultipartFile> files){
         List<fileDto> savedFiles = new ArrayList<>();
         if (files != null) {
             savedFiles = s3Uploader.uploadFileList(dirName, files);

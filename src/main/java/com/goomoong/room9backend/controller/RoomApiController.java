@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 public class RoomApiController {
@@ -17,7 +19,7 @@ public class RoomApiController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/room/create")
-    public CreatedResponseRoomDto createdRoom(@ModelAttribute @Validated CreatedRequestRoomDto request) {
+    public CreatedResponseRoomDto createdRoom(@ModelAttribute @Validated CreatedRequestRoomDto request) throws IOException{
         return new CreatedResponseRoomDto(roomService.addRoom(request));
     }
 
