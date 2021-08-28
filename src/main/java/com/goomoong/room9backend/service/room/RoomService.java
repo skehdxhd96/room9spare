@@ -1,6 +1,7 @@
 package com.goomoong.room9backend.service.room;
 
 import com.goomoong.room9backend.domain.room.dto.GetCommonRoom;
+import com.goomoong.room9backend.domain.room.dto.priceDto;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.exception.RoomNotAddException;
 import com.goomoong.room9backend.service.UserService;
@@ -14,15 +15,18 @@ import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.room.dto.CreatedRequestRoomDto;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.exception.NoSuchRoomException;
-import com.goomoong.room9backend.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.goomoong.room9backend.util.AboutDate.compareDay;
+import static com.goomoong.room9backend.util.AboutDate.getLocalDateTimeFromString;
 
 @Service
 @RequiredArgsConstructor
@@ -75,5 +79,17 @@ public class RoomService {
     public List<GetCommonRoom> findTop5Liked() {
         return roomRepository.findTop5ByOrderByLikedDesc()
                 .stream().map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
+    }
+
+    public long getTotalPrice(Long id, priceDto priceDto) {
+
+        Room room = getRoomDetail(id);
+        long days = compareDay(priceDto.getStartDate(), priceDto.getFinalDate());
+
+        if(room.getLimited() < priceDto.getPersonnel()) {
+            int addCharge = room.getCharge() * (priceDto.getPersonnel() - room.getLimited());
+            return addCharge + room.getPrice() * days;
+        }
+        return room.getPrice() * days;
     }
 }

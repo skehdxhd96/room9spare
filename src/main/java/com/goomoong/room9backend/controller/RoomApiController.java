@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,8 +26,8 @@ public class RoomApiController {
     }
 
     @GetMapping("/room")
-    public roomData getAllRooms() {
-        return new roomData(roomService.findAll().size(), roomService.findAll());
+    public roomData.GET<List<GetCommonRoom>> getAllRooms() {
+        return new roomData.GET<>(roomService.findAll().size(), roomService.findAll());
     }
 
     @GetMapping("/room/{roomId}")
@@ -34,17 +36,22 @@ public class RoomApiController {
     }
 
     @GetMapping("/room/like")
-    public roomData getRoombyLike() { // 좋아요순서(메인화면)
-        return new roomData(roomService.findTop5Liked().size(), roomService.findTop5Liked());
+    public roomData.GET<List<GetCommonRoom>> getRoombyLike() { // 좋아요순서(메인화면)
+        return new roomData.GET<>(roomService.findTop5Liked().size(), roomService.findTop5Liked());
     }
 
     @GetMapping("/room/date")
-    public roomData getRoombydate() { // 최신순서(메인화면)
-        return new roomData(roomService.findTop5CreatedDate().size(), roomService.findTop5CreatedDate());
+    public roomData.GET<List<GetCommonRoom>> getRoombydate() { // 최신순서(메인화면)
+        return new roomData.GET<>(roomService.findTop5CreatedDate().size(), roomService.findTop5CreatedDate());
     }
 
     @GetMapping("/room/search")
-    public roomData getRoomWithFilter(@Validated searchDto search) {
-        return new roomData(roomSearchService.search(search).size(), roomSearchService.search(search));
+    public roomData.GET<List<GetCommonRoom>> getRoomWithFilter(@Valid searchDto search) {
+        return new roomData.GET<>(roomSearchService.search(search).size(), roomSearchService.search(search));
+    }
+
+    @PostMapping("/room/price/{roomId}")
+    public roomData.price getRoomPrice(@PathVariable("roomId") Long id, @RequestBody @Valid priceDto priceDto) {
+        return new roomData.price(roomService.getTotalPrice(id, priceDto));
     }
 }
