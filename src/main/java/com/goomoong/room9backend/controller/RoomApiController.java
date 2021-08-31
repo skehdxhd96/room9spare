@@ -35,16 +35,6 @@ public class RoomApiController {
         return new GetDetailRoom(roomService.getRoomDetail(id));
     }
 
-    @GetMapping("/room/like")
-    public roomData.GET<List<GetCommonRoom>> getRoombyLike() { // 좋아요순서(메인화면)
-        return new roomData.GET<>(roomService.findTop5Liked().size(), roomService.findTop5Liked());
-    }
-
-    @GetMapping("/room/date")
-    public roomData.GET<List<GetCommonRoom>> getRoombydate() { // 최신순서(메인화면)
-        return new roomData.GET<>(roomService.findTop5CreatedDate().size(), roomService.findTop5CreatedDate());
-    }
-
     @GetMapping("/room/search")
     public roomData.GET<List<GetCommonRoom>> getRoomWithFilter(@Valid searchDto search) {
         return new roomData.GET<>(roomSearchService.search(search).size(), roomSearchService.search(search));

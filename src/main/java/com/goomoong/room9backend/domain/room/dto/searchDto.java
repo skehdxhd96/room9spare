@@ -17,4 +17,5 @@ public class searchDto {
     private String detailLocation;
     @Positive
     private Integer limitPeople;
+    private OrderDto orderStandard;
 }

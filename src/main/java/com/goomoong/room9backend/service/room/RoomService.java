@@ -71,16 +71,6 @@ public class RoomService {
                 .stream().map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
     }
 
-    public List<GetCommonRoom> findTop5CreatedDate() {
-        return roomRepository.findTop5ByOrderByCreatedDateDesc()
-                .stream().map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
-    }
-
-    public List<GetCommonRoom> findTop5Liked() {
-        return roomRepository.findTop5ByOrderByLikedDesc()
-                .stream().map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
-    }
-
     public long getTotalPrice(Long id, priceDto priceDto) {
 
         Room room = getRoomDetail(id);
