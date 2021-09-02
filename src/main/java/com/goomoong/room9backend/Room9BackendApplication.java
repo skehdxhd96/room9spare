@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class Room9BackendApplication {
 
 //	public static final String APPLICATION_LOCATIONS = "spring.config.location="
-//			+ "classpath:application.properties,"
+//			+ "classpath:application.yml,"
 //			+ "classpath:aws.yml";
 
 	public static void main(String[] args) {
