@@ -24,26 +24,33 @@ public class ReviewApiController {
     private final RoomRepository roomRepository;
 
     @GetMapping("/api/v1/reviews")
-    public SelectResultDto selectReviewsV1(@RequestBody @Validated SelectReviewRequestDto request){
+    public SelectReviewResultDto selectReviewsV1(@RequestBody @Validated SelectReviewRequestDto request){
         ReviewSearchDto reviewSearchDto = new ReviewSearchDto();
 
-        if(request.getUser_id() != null)
-            reviewSearchDto.setUser(userService.findById(request.getUser_id()));
+        if(request.getUserId() != null)
+            reviewSearchDto.setUser(userService.findById(request.getUserId()));
         else
             reviewSearchDto.setUser(null);
 
-        if(request.getRoom_id() != null)
-            reviewSearchDto.setRoom(roomRepository.findById(request.getRoom_id()).orElse(null));
+        if(request.getRoomId() != null)
+            reviewSearchDto.setRoom(roomRepository.findById(request.getRoomId()).orElse(null));
         else
             reviewSearchDto.setRoom(null);
 
         List<Review> findReviews = reviewService.findByUserAndRoom(reviewSearchDto);
 
         List<ReviewDto> collect = findReviews.stream()
-                .map(r -> new ReviewDto(r.getId(), r.getReviewContent(), r.getReviewCreated(), r.getReviewScore()))
+                .map(r -> ReviewDto.builder()
+                        .id(r.getId())
+                        .reviewContent(r.getReviewContent())
+                        .reviewScore(r.getReviewScore())
+                        .reviewCreated(r.getCreatedDate())
+                        .reviewUpdated(r.getUpdatedDate())
+                        .build()
+                )
                 .collect(Collectors.toList());
 
-        return new SelectResultDto(collect);
+        return new SelectReviewResultDto(collect);
     }
 
     @PostMapping("/api/v1/reviews")

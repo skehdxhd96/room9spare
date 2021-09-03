@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SelectResultDto<T>{
+public class SelectReviewResultDto<T>{
 
     private T data;
 }

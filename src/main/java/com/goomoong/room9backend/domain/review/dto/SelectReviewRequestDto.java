@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SelectReviewRequestDto {
 
-    private Long user_id;
-    private Long room_id;
+    private Long userId;
+    private Long roomId;
 }
