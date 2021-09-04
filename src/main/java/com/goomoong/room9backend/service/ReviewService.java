@@ -2,6 +2,7 @@ package com.goomoong.room9backend.service;
 
 import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.review.dto.ReviewSearchDto;
+import com.goomoong.room9backend.exception.NoSuchReviewException;
 import com.goomoong.room9backend.repository.review.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class ReviewService {
 
     @Transactional
     public void update(Long id,  String reviewContent, int reviewScore){
-        Review review =  reviewRepository.findById(id).orElse(null);
+        Review review =  reviewRepository.findById(id).orElseThrow(() -> new NoSuchReviewException("존재하지 않는 리뷰입니다."));
 
         review.update(reviewContent, reviewScore);
     }
@@ -35,7 +36,7 @@ public class ReviewService {
     }
 
     public Review findById(Long id){
-        return reviewRepository.findById(id).orElse(null);
+        return reviewRepository.findById(id).orElseThrow(() -> new NoSuchReviewException("존재하지 않는 리뷰입니다."));
     }
 
     public List<Review> findByUserAndRoom(ReviewSearchDto reviewSearchDto){

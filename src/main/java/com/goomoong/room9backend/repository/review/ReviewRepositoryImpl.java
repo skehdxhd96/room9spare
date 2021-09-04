@@ -6,20 +6,17 @@ import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.user.User;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.goomoong.room9backend.domain.review.QReview.review;
 
-
+@RequiredArgsConstructor
 public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
-
-    public ReviewRepositoryImpl(EntityManager em){
-        this.queryFactory = new JPAQueryFactory(em);
-    }
 
     @Override
     public List<Review> findByUserAndRoom(ReviewSearchDto reviewSearchDto){
