@@ -29,8 +29,8 @@ public class User {
     @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private List<roomReservation> roomReservations = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "users")
-    private List<ChatRoom> chatRooms;
+    @ManyToMany(mappedBy = "chatMembers")
+    private List<ChatRoom> chatRooms = new ArrayList<>();
 
     @NotNull
     private String accountId;

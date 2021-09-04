@@ -6,6 +6,7 @@ import com.goomoong.room9backend.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,15 +23,22 @@ public class ChatRoom extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Room_id")
-    private Room roomId;
+    private Room room;
 
     @ManyToMany
-    @JoinTable(name = "users",
+    @JoinTable(name = "chat_member",
             joinColumns = @JoinColumn(name = "chatroom_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> users;
+    private List<User> chatMembers = new ArrayList<>();
 
     @OneToMany(mappedBy = "chatRoom")
-    private List<ChatMessage> chatMessages;
+    private List<ChatMessage> chatMessages = new ArrayList<>();
+
+    public static ChatRoom createChatRoom(Room room, User other, User me) {
+        List<User> chatMembers = new ArrayList<>();
+        chatMembers.add(me);
+        chatMembers.add(other);
+        return ChatRoom.builder().room(room).chatMembers(chatMembers).build();
+    }
 }
