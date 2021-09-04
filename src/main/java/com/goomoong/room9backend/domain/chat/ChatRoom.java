@@ -21,10 +21,6 @@ public class ChatRoom extends BaseEntity {
     @Column(name = "chatroom_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Room_id")
-    private Room room;
-
     @ManyToMany
     @JoinTable(name = "chat_member",
             joinColumns = @JoinColumn(name = "chatroom_id"),
@@ -35,10 +31,10 @@ public class ChatRoom extends BaseEntity {
     @OneToMany(mappedBy = "chatRoom")
     private List<ChatMessage> chatMessages = new ArrayList<>();
 
-    public static ChatRoom createChatRoom(Room room, User other, User me) {
+    public static ChatRoom createChatRoom(User other, User me) {
         List<User> chatMembers = new ArrayList<>();
-        chatMembers.add(me);
         chatMembers.add(other);
-        return ChatRoom.builder().room(room).chatMembers(chatMembers).build();
+        chatMembers.add(me);
+        return ChatRoom.builder().chatMembers(chatMembers).build();
     }
 }
