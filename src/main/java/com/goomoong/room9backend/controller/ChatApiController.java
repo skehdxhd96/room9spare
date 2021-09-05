@@ -7,12 +7,15 @@ import com.goomoong.room9backend.domain.chat.dto.CreateChatMessageRequestDto;
 import com.goomoong.room9backend.domain.chat.dto.CreateChatRoomRequestDto;
 import com.goomoong.room9backend.domain.chat.dto.ChatRoomIdResponseDto;
 import com.goomoong.room9backend.domain.user.User;
+import com.goomoong.room9backend.security.userdetails.CustomUserDetails;
 import com.goomoong.room9backend.service.chat.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,9 +27,9 @@ public class ChatApiController {
     @PostMapping("/chatroom")
     public ResponseEntity<ChatRoomIdResponseDto> createChatRoomApi(
             @RequestBody CreateChatRoomRequestDto chatRoomRequestDto,
-            @AuthenticationPrincipal User user
+            @AuthenticationPrincipal CustomUserDetails currentUser
             ) {
-        ChatRoom chatRoom = chatService.createChatRoom(chatRoomRequestDto, user);
+        ChatRoom chatRoom = chatService.createChatRoom(chatRoomRequestDto, currentUser.getUser());
         ChatRoomIdResponseDto idResponseDto = ChatRoomIdResponseDto.builder().chatRoomId(chatRoom.getId()).build();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(idResponseDto);
@@ -43,10 +46,10 @@ public class ChatApiController {
     @PostMapping("/chatroom/{id}/message")
     public ResponseEntity<ChatMessageIdResponseDto> createChatMessageApi(
             @PathVariable(name = "id") Long chatRoomId,
-            @AuthenticationPrincipal User user,
-            @RequestBody CreateChatMessageRequestDto chatMessageRequestDto
+            @AuthenticationPrincipal CustomUserDetails currentUser,
+            @RequestBody @Valid CreateChatMessageRequestDto chatMessageRequestDto
             ) {
-        ChatMessage  chatMessage = chatService.createChatMessage(chatRoomId, user, chatMessageRequestDto);
+        ChatMessage  chatMessage = chatService.createChatMessage(chatRoomId, currentUser.getUser(), chatMessageRequestDto);
         ChatMessageIdResponseDto idResponseDto = ChatMessageIdResponseDto.builder().chatMessageId(chatMessage.getId()).build();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(idResponseDto);
