@@ -1,15 +1,18 @@
 package com.goomoong.room9backend.security.jwt;
 
 import com.goomoong.room9backend.domain.user.User;
+import com.goomoong.room9backend.security.userdetails.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -18,6 +21,9 @@ import java.util.*;
 @Slf4j
 @Component
 public class JwtTokenProvider {
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     private final String SECRET;
     private final long ACCESS_TOKEN_EXPIRED_TIME;
@@ -46,10 +52,9 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String token) {
         Claims claims = jwtParser.parseClaimsJws(token).getBody();
-        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(claims.get("auth").toString()));
-        org.springframework.security.core.userdetails.User principal = new org.springframework.security.core.userdetails.User(claims.getSubject(), "", authorities);
+        UserDetails userDetails = customUserDetailsService.loadUserById(Long.parseLong(claims.getSubject()));
 
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 
     public boolean isValidToken(String token) {
