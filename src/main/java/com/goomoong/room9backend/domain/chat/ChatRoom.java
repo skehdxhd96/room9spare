@@ -37,4 +37,8 @@ public class ChatRoom extends BaseEntity {
         chatMembers.add(me);
         return ChatRoom.builder().chatMembers(chatMembers).build();
     }
+
+    public void addChatMessages(ChatMessage chatMessage) {
+        this.chatMessages.add(chatMessage);
+    }
 }
