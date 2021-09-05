@@ -1,6 +1,9 @@
 package com.goomoong.room9backend.controller;
 
+import com.goomoong.room9backend.domain.chat.ChatMessage;
 import com.goomoong.room9backend.domain.chat.ChatRoom;
+import com.goomoong.room9backend.domain.chat.dto.ChatMessageIdResponseDto;
+import com.goomoong.room9backend.domain.chat.dto.CreateChatMessageRequestDto;
 import com.goomoong.room9backend.domain.chat.dto.CreateChatRoomRequestDto;
 import com.goomoong.room9backend.domain.chat.dto.ChatRoomIdResponseDto;
 import com.goomoong.room9backend.domain.user.User;
@@ -35,5 +38,17 @@ public class ChatApiController {
         ChatRoomIdResponseDto idResponseDto = ChatRoomIdResponseDto.builder().chatRoomId(deletedChatRoomId).build();
 
         return ResponseEntity.ok(idResponseDto);
+    }
+
+    @PostMapping("/chatroom/{id}/message")
+    public ResponseEntity<ChatMessageIdResponseDto> createChatMessageApi(
+            @PathVariable(name = "id") Long chatRoomId,
+            @AuthenticationPrincipal User user,
+            @RequestBody CreateChatMessageRequestDto chatMessageRequestDto
+            ) {
+        ChatMessage  chatMessage = chatService.createChatMessage(chatRoomId, user, chatMessageRequestDto);
+        ChatMessageIdResponseDto idResponseDto = ChatMessageIdResponseDto.builder().chatMessageId(chatMessage.getId()).build();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(idResponseDto);
     }
 }

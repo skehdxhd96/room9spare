@@ -28,4 +28,12 @@ public class ChatMessage extends BaseEntity {
 
     @Column(nullable = false)
     private String content;
+
+    public static ChatMessage createChatMessage(ChatRoom chatRoom, User user, String content) {
+        return ChatMessage.builder()
+                .chatRoom(chatRoom)
+                .user(user)
+                .content(content)
+                .build();
+    }
 }
