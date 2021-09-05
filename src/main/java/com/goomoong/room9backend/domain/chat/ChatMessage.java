@@ -36,4 +36,8 @@ public class ChatMessage extends BaseEntity {
                 .content(content)
                 .build();
     }
+
+    public void editChatMessage(String content) {
+        this.content = content;
+    }
 }

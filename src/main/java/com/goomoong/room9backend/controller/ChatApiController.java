@@ -2,10 +2,7 @@ package com.goomoong.room9backend.controller;
 
 import com.goomoong.room9backend.domain.chat.ChatMessage;
 import com.goomoong.room9backend.domain.chat.ChatRoom;
-import com.goomoong.room9backend.domain.chat.dto.ChatMessageIdResponseDto;
-import com.goomoong.room9backend.domain.chat.dto.CreateChatMessageRequestDto;
-import com.goomoong.room9backend.domain.chat.dto.CreateChatRoomRequestDto;
-import com.goomoong.room9backend.domain.chat.dto.ChatRoomIdResponseDto;
+import com.goomoong.room9backend.domain.chat.dto.*;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.security.userdetails.CustomUserDetails;
 import com.goomoong.room9backend.service.chat.ChatService;
@@ -53,5 +50,28 @@ public class ChatApiController {
         ChatMessageIdResponseDto idResponseDto = ChatMessageIdResponseDto.builder().chatMessageId(chatMessage.getId()).build();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(idResponseDto);
+    }
+
+    @PutMapping("/chatroom/{chatroomid}/message/{chatmessageid}")
+    public ResponseEntity<ChatMessageIdResponseDto> editChatMessageApi(
+            @PathVariable(name = "chatroomid") Long chatRoomId,
+            @PathVariable(name = "chatmessageid") Long chatMessageId,
+            @RequestBody @Valid EditChatMessageRequestDto chatMessageRequestDto
+            ) {
+        ChatMessage chatMessage = chatService.editChatMessage(chatMessageId, chatMessageRequestDto);
+        ChatMessageIdResponseDto idResponseDto = ChatMessageIdResponseDto.builder().chatMessageId(chatMessage.getId()).build();
+
+        return ResponseEntity.ok(idResponseDto);
+    }
+
+    @DeleteMapping("/chatroom/{chatroomid}/message/{chatmessageid}")
+    public ResponseEntity<ChatMessageIdResponseDto> deleteChatMessageApi(
+            @PathVariable(name = "chatroomid") Long chatRoomId,
+            @PathVariable(name = "chatmessageid") Long chatMessageId
+    ) {
+        Long deletedChatMessageId = chatService.deleteChatMessage(chatMessageId);
+        ChatMessageIdResponseDto idResponseDto = ChatMessageIdResponseDto.builder().chatMessageId(deletedChatMessageId).build();
+
+        return ResponseEntity.ok(idResponseDto);
     }
 }
