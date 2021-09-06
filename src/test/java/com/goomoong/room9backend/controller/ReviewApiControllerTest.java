@@ -137,6 +137,47 @@ class ReviewApiControllerTest {
     }
 
     @Test
+    public void 최근_리뷰_조회() throws Exception{
+        //given
+        List<Review> reviews = new ArrayList<>();
+
+        Review review1 = new Review();
+        Review review2 = new Review();
+        Review review3 = new Review();
+
+        review1.setId(1L);
+        review2.setId(2L);
+        review3.setId(3L);
+
+        reviews.add(review3);
+        reviews.add(review2);
+        reviews.add(review1);
+
+        given(reviewService.findLatestReview()).willReturn(reviews);
+
+        //when
+        ResultActions result = mvc.perform(get("/api/v1/reviews/latest"));
+
+        //then
+        result
+                .andDo(document("review/latest",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        responseFields(
+                                fieldWithPath("data[].id").description("ID"),
+                                fieldWithPath("data[].reviewContent").description("내용"),
+                                fieldWithPath("data[].reviewCreated").description("생성 시각"),
+                                fieldWithPath("data[].reviewUpdated").description("수정 시각"),
+                                fieldWithPath("data[].reviewScore").description("평점")
+                        )
+                ))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data[0].id").value(3L))
+                .andExpect(jsonPath("$.data.length()").value(3))
+                .andDo(print());
+    }
+
+    @Test
     public void 리뷰_생성() throws Exception{
         //given
         given(reviewService.save(any(Review.class))).willReturn(review);
@@ -144,7 +185,7 @@ class ReviewApiControllerTest {
         //when
         ResultActions result = mvc.perform(post("/api/v1/reviews")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(CreateReviewRequestDto.builder().user_id(1L).room_id(1L).reviewContent("test").reviewScore(1).build())));
+                .content(objectMapper.writeValueAsString(CreateReviewRequestDto.builder().userId(1L).roomId(1L).reviewContent("test").reviewScore(1).build())));
 
         //then
         result
@@ -152,8 +193,8 @@ class ReviewApiControllerTest {
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestFields(
-                                fieldWithPath("user_id").description("유저 ID"),
-                                fieldWithPath("room_id").description("방 ID"),
+                                fieldWithPath("userId").description("유저 ID"),
+                                fieldWithPath("roomId").description("방 ID"),
                                 fieldWithPath("reviewContent").description("내용"),
                                 fieldWithPath("reviewScore").description("평점")
                         ),

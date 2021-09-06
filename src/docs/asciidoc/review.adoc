@@ -1,4 +1,4 @@
-= User API Docs
+= Review API Docs
 sockju
 1.0.0, 21/07/2021
 :doctype: book
@@ -24,6 +24,19 @@ include::{snippets}/review/select/http-response.adoc[]
 
 === Response Fields
 include::{snippets}/review/select/response-fields.adoc[]
+
+
+[[review-latest]]
+== GET 최근 리뷰 조회
+
+=== HTTP Request
+include::{snippets}/review/latest/http-request.adoc[]
+
+=== HTTP Response
+include::{snippets}/review/latest/http-response.adoc[]
+
+=== Response Fields
+include::{snippets}/review/latest/response-fields.adoc[]
 
 
 [[review-create]]

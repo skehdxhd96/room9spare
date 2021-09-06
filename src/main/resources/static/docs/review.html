@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
 <meta name="author" content="sockju">
-<title>User API Docs</title>
+<title>Review API Docs</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>User API Docs</h1>
+<h1>Review API Docs</h1>
 <div class="details">
 <span id="author" class="author">sockju</span><br>
 <span id="revnumber">version 0.0.1-SNAPSHOT,</span>
@@ -457,28 +457,35 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_response_fields">Response Fields</a></li>
 </ul>
 </li>
-<li><a href="#review-create">POST 리뷰 생성</a>
+<li><a href="#review-latest">GET 최근 리뷰 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_http_request_2">HTTP Request</a></li>
-<li><a href="#_request_fields_2">Request Fields</a></li>
 <li><a href="#_http_response_2">HTTP Response</a></li>
 <li><a href="#_response_fields_2">Response Fields</a></li>
 </ul>
 </li>
-<li><a href="#review-update">PATCH 리뷰 수정</a>
+<li><a href="#review-create">POST 리뷰 생성</a>
 <ul class="sectlevel2">
 <li><a href="#_http_request_3">HTTP Request</a></li>
-<li><a href="#_path_parameters">Path-parameters</a></li>
-<li><a href="#_request_fields_3">Request Fields</a></li>
+<li><a href="#_request_fields_2">Request Fields</a></li>
 <li><a href="#_http_response_3">HTTP Response</a></li>
 <li><a href="#_response_fields_3">Response Fields</a></li>
 </ul>
 </li>
-<li><a href="#review-delete">DELETE 리뷰 삭제</a>
+<li><a href="#review-update">PATCH 리뷰 수정</a>
 <ul class="sectlevel2">
 <li><a href="#_http_request_4">HTTP Request</a></li>
-<li><a href="#_path_parameters_2">Path-parameters</a></li>
+<li><a href="#_path_parameters">Path-parameters</a></li>
+<li><a href="#_request_fields_3">Request Fields</a></li>
 <li><a href="#_http_response_4">HTTP Response</a></li>
+<li><a href="#_response_fields_4">Response Fields</a></li>
+</ul>
+</li>
+<li><a href="#review-delete">DELETE 리뷰 삭제</a>
+<ul class="sectlevel2">
+<li><a href="#_http_request_5">HTTP Request</a></li>
+<li><a href="#_path_parameters_2">Path-parameters</a></li>
+<li><a href="#_http_response_5">HTTP Response</a></li>
 </ul>
 </li>
 </ul>
@@ -515,10 +522,33 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="review-create"><a class="link" href="#review-create">POST 리뷰 생성</a></h2>
+<h2 id="review-latest"><a class="link" href="#review-latest">GET 최근 리뷰 조회</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request_2"><a class="link" href="#_http_request_2">HTTP Request</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in review.adoc - include::{snippets}/review/latest/http-request.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_response_2"><a class="link" href="#_http_response_2">HTTP Response</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in review.adoc - include::{snippets}/review/latest/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_fields_2"><a class="link" href="#_response_fields_2">Response Fields</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in review.adoc - include::{snippets}/review/latest/response-fields.adoc[]</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="review-create"><a class="link" href="#review-create">POST 리뷰 생성</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_http_request_3"><a class="link" href="#_http_request_3">HTTP Request</a></h3>
 <div class="paragraph">
 <p>Unresolved directive in review.adoc - include::{snippets}/review/create/http-request.adoc[]</p>
 </div>
@@ -530,13 +560,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_http_response_2"><a class="link" href="#_http_response_2">HTTP Response</a></h3>
+<h3 id="_http_response_3"><a class="link" href="#_http_response_3">HTTP Response</a></h3>
 <div class="paragraph">
 <p>Unresolved directive in review.adoc - include::{snippets}/review/create/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_fields_2"><a class="link" href="#_response_fields_2">Response Fields</a></h3>
+<h3 id="_response_fields_3"><a class="link" href="#_response_fields_3">Response Fields</a></h3>
 <div class="paragraph">
 <p>Unresolved directive in review.adoc - include::{snippets}/review/create/response-fields.adoc[]</p>
 </div>
@@ -547,7 +577,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="review-update"><a class="link" href="#review-update">PATCH 리뷰 수정</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_3"><a class="link" href="#_http_request_3">HTTP Request</a></h3>
+<h3 id="_http_request_4"><a class="link" href="#_http_request_4">HTTP Request</a></h3>
 <div class="paragraph">
 <p>Unresolved directive in review.adoc - include::{snippets}/review/update/http-request.adoc[]</p>
 </div>
@@ -565,13 +595,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_http_response_3"><a class="link" href="#_http_response_3">HTTP Response</a></h3>
+<h3 id="_http_response_4"><a class="link" href="#_http_response_4">HTTP Response</a></h3>
 <div class="paragraph">
 <p>Unresolved directive in review.adoc - include::{snippets}/review/update/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_fields_3"><a class="link" href="#_response_fields_3">Response Fields</a></h3>
+<h3 id="_response_fields_4"><a class="link" href="#_response_fields_4">Response Fields</a></h3>
 <div class="paragraph">
 <p>Unresolved directive in review.adoc - include::{snippets}/review/update/response-fields.adoc[]</p>
 </div>
@@ -582,7 +612,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="review-delete"><a class="link" href="#review-delete">DELETE 리뷰 삭제</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_4"><a class="link" href="#_http_request_4">HTTP Request</a></h3>
+<h3 id="_http_request_5"><a class="link" href="#_http_request_5">HTTP Request</a></h3>
 <div class="paragraph">
 <p>Unresolved directive in review.adoc - include::{snippets}/review/delete/http-request.adoc[]</p>
 </div>
@@ -594,7 +624,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_http_response_4"><a class="link" href="#_http_response_4">HTTP Response</a></h3>
+<h3 id="_http_response_5"><a class="link" href="#_http_response_5">HTTP Response</a></h3>
 <div class="paragraph">
 <p>Unresolved directive in review.adoc - include::{snippets}/review/delete/http-response.adoc[]</p>
 </div>
@@ -605,7 +635,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2021-08-09 17:39:53 +0900
+Last updated 2021-09-06 14:02:23 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

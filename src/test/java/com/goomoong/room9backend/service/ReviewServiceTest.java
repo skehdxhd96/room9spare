@@ -108,4 +108,27 @@ class ReviewServiceTest {
         Assertions.assertEquals(reviews1.get(0).getRoom(), reviews2.get(0).getRoom());
         verify(reviewRepository).findByUserAndRoom(any(ReviewSearchDto.class));
     }
+
+    @Test
+    public void 최근_리뷰_조회(){
+        //given
+        List<Review> reviews1 = new ArrayList<>();
+
+        Review review1 = new Review();
+        Review review2 = new Review();
+        Review review3 = new Review();
+
+        reviews1.add(review3);
+        reviews1.add(review2);
+        reviews1.add(review1);
+
+        given(reviewRepository.findTop3ByOrderByIdDesc()).willReturn(reviews1);
+
+        //when
+        List<Review> reviews2 = reviewService.findLatestReview();
+
+        //then
+        Assertions.assertEquals(reviews1.size(), reviews2.size());
+        Assertions.assertEquals(reviews1.get(0).getId(), reviews2.get(0).getId());
+    }
 }

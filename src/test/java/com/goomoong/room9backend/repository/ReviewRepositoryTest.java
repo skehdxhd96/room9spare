@@ -19,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
@@ -84,5 +85,29 @@ class ReviewRepositoryTest {
 
         //then
         Assertions.assertEquals(1, Math.abs(savedReview1.getId() - savedReview2.getId()));
+    }
+
+    @Test
+    public void 최근_리뷰_조회(){
+        //given
+        Review review1 = new Review();
+        Review review2 = new Review();
+        Review review3 = new Review();
+        Review review4 = new Review();
+        Review review5 = new Review();
+
+        reviewRepository.save(review1);
+        reviewRepository.save(review2);
+        reviewRepository.save(review3);
+        reviewRepository.save(review4);
+        reviewRepository.save(review5);
+
+        //when
+        List<Review> findReviews = reviewRepository.findTop3ByOrderByIdDesc();
+        
+        //then
+        Assertions.assertEquals(3, findReviews.size());
+        Assertions.assertEquals(review5.getId(), findReviews.get(0).getId());
+        
     }
 }
