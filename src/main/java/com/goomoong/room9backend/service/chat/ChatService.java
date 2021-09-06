@@ -1,5 +1,6 @@
 package com.goomoong.room9backend.service.chat;
 
+import com.goomoong.room9backend.domain.chat.ChatMember;
 import com.goomoong.room9backend.domain.chat.ChatMessage;
 import com.goomoong.room9backend.domain.chat.ChatRoom;
 import com.goomoong.room9backend.domain.chat.dto.CreateChatMessageRequestDto;
@@ -9,11 +10,11 @@ import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.exception.NoSuchUserException;
 import com.goomoong.room9backend.exception.chat.NoSuchChatMessageException;
 import com.goomoong.room9backend.exception.chat.NoSuchChatRoomException;
+import com.goomoong.room9backend.repository.chat.ChatMemberRepository;
 import com.goomoong.room9backend.repository.chat.ChatMessageRepository;
 import com.goomoong.room9backend.repository.chat.ChatRoomRepository;
 import com.goomoong.room9backend.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,15 +24,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class ChatService {
 
     private final ChatRoomRepository chatRoomRepository;
+    private final ChatMemberRepository chatMemberRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
-
+    
     public ChatRoom createChatRoom(CreateChatRoomRequestDto createChatRoomRequestDto, User user) {
         User foundUser = userRepository.findById(createChatRoomRequestDto.getUserId())
                 .orElseThrow(() -> new NoSuchUserException("해당 id의 회원이 존재하지 않습니다."));
-        ChatRoom chatRoom = ChatRoom.createChatRoom(foundUser, user);
-        foundUser.addChatRoom(chatRoom);
-        user.addChatRoom(chatRoom);
+        ChatRoom chatRoom = ChatRoom.createChatRoom();
+        ChatMember other = ChatMember.builder().chatRoom(chatRoom).user(foundUser).build();
+        ChatMember me = ChatMember.builder().chatRoom(chatRoom).user(user).build();
+        chatMemberRepository.save(other);
+        chatMemberRepository.save(me);
 
         return chatRoomRepository.save(chatRoom);
     }
