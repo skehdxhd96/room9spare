@@ -39,11 +39,9 @@ public class RoomRepositoryTest {
     private User user;
 
     @BeforeEach
-    @Rollback(value = false)
     public void setUpData() {
 
         //given
-
         user = User.builder()
                 .accountId("testAccountId")
                 .nickname("testNickname")
@@ -68,7 +66,6 @@ public class RoomRepositoryTest {
 
     @Test
     @DisplayName("title : 포함 / limitPrice : 이하 / detailLocation : 포함 / limitPeople : 이하 / orderStandard : 정렬기준")
-    @Rollback(value = false)
     public void 방_필터조회_테스트() {
 
         //given

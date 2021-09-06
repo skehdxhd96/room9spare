@@ -5,12 +5,14 @@ import com.goomoong.room9backend.service.room.RoomService;
 import com.goomoong.room9backend.domain.room.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +29,9 @@ public class RoomApiController {
 
     @GetMapping("/room")
     public roomData.GET<List<GetCommonRoom>> getAllRooms() {
-        return new roomData.GET<>(roomService.findAll().size(), roomService.findAll());
+        List<GetCommonRoom> roomList = roomService.findAll()
+                .stream().map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
+        return new roomData.GET<>(roomList.size(), roomList);
     }
 
     @GetMapping("/room/{roomId}")
@@ -37,11 +41,13 @@ public class RoomApiController {
 
     @GetMapping("/room/search")
     public roomData.GET<List<GetCommonRoom>> getRoomWithFilter(@Valid searchDto search) {
-        return new roomData.GET<>(roomSearchService.search(search).size(), roomSearchService.search(search));
+        List<GetCommonRoom> roomList = roomSearchService.search(search).stream()
+                .map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
+        return new roomData.GET<>(roomList.size(), roomList);
     }
 
-    @PostMapping("/room/price/{roomId}")
-    public roomData.price getRoomPrice(@PathVariable("roomId") Long id, @RequestBody @Valid priceDto priceDto) {
+    @GetMapping("/room/price/{roomId}")
+    public roomData.price getRoomPrice(@PathVariable("roomId") Long id, @Valid priceDto priceDto) {
         return new roomData.price(roomService.getTotalPrice(id, priceDto));
     }
 }

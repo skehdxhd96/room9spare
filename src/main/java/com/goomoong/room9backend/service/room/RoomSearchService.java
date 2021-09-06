@@ -18,8 +18,7 @@ public class RoomSearchService {
 
     private final RoomRepository roomRepository;
 
-    public List<GetCommonRoom> search(searchDto search) {
-        return roomRepository.findRoomWithFilter(search).stream()
-                .map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
+    public List<Room> search(searchDto search) {
+        return roomRepository.findRoomWithFilter(search);
     }
 }

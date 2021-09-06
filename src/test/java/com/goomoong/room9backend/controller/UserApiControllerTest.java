@@ -81,6 +81,7 @@ public class UserApiControllerTest {
         //when
         ResultActions result = mvc.perform(get("/api/v1/users"));
 
+
         //then
         result
                 .andDo(print())

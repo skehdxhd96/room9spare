@@ -103,6 +103,7 @@ dependencies {
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
 	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	testImplementation('org.mockito:mockito-inline:3.4.0')
 }
 
 //querydsl 추가

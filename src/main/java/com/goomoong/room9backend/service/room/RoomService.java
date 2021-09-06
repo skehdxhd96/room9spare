@@ -1,5 +1,7 @@
 package com.goomoong.room9backend.service.room;
 
+import com.goomoong.room9backend.domain.room.Amenity;
+import com.goomoong.room9backend.domain.room.RoomConfiguration;
 import com.goomoong.room9backend.domain.room.dto.GetCommonRoom;
 import com.goomoong.room9backend.domain.room.dto.priceDto;
 import com.goomoong.room9backend.domain.user.Role;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.goomoong.room9backend.util.AboutDate.compareDay;
@@ -44,13 +47,15 @@ public class RoomService {
     public Long addRoom(CreatedRequestRoomDto request) throws IOException {
 
         User user = userService.findById(request.getUserId());
+        Set<RoomConfiguration> roomConfig = RoomConfiguration.createRoomConfig(request.getConf());
+        Set<Amenity> amenities = Amenity.createRoomFacility(request.getFacilities());
 
         if(user.getRole() != Role.HOST) {
             throw new RoomNotAddException();
         }
 
         List<File> files = fileService.uploadFiles(folderConfig.getRoom(), request.getImages());
-        Room room = Room.createRoom(user, request);
+        Room room = Room.createRoom(user, request, roomConfig, amenities);
         List<RoomImg> roomImgs = new ArrayList<>();
 
         for (File file : files) {
@@ -66,9 +71,8 @@ public class RoomService {
         return roomRepository.findById(id).orElseThrow(() -> new NoSuchRoomException("존재하지 않는 방입니다."));
     }
 
-    public List<GetCommonRoom> findAll() {
-        return roomRepository.findAll()
-                .stream().map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
+    public List<Room> findAll() {
+        return roomRepository.findAll();
     }
 
     public long getTotalPrice(Long id, priceDto priceDto) {
