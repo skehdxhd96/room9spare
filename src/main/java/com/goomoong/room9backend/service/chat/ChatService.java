@@ -13,6 +13,7 @@ import com.goomoong.room9backend.repository.chat.ChatMessageRepository;
 import com.goomoong.room9backend.repository.chat.ChatRoomRepository;
 import com.goomoong.room9backend.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,8 @@ public class ChatService {
         User foundUser = userRepository.findById(createChatRoomRequestDto.getUserId())
                 .orElseThrow(() -> new NoSuchUserException("해당 id의 회원이 존재하지 않습니다."));
         ChatRoom chatRoom = ChatRoom.createChatRoom(foundUser, user);
+        foundUser.addChatRoom(chatRoom);
+        user.addChatRoom(chatRoom);
 
         return chatRoomRepository.save(chatRoom);
     }

@@ -29,7 +29,7 @@ public class User {
     @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private List<roomReservation> roomReservations = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "chatMembers")
+    @ManyToMany(mappedBy = "chatMembers", fetch = FetchType.EAGER)
     private List<ChatRoom> chatRooms = new ArrayList<>();
 
     @NotNull
@@ -97,5 +97,9 @@ public class User {
                 .birthday(birthday)
                 .gender(gender)
                 .build();
+    }
+
+    public void addChatRoom(ChatRoom chatRoom) {
+        this.chatRooms.add(chatRoom);
     }
 }
