@@ -22,14 +22,16 @@ public class ChatRoom extends BaseEntity {
     private Long id;
 
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
-    private List<ChatMember> chatMembers;
+    private List<ChatMember> chatMembers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "chatRoom")
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
     private List<ChatMessage> chatMessages = new ArrayList<>();
 
     public static ChatRoom createChatRoom() {
         return ChatRoom.builder().build();
     }
+
+    public void addChatMembers(ChatMember chatMember) { chatMembers.add(chatMember); }
 
     public void addChatMessages(ChatMessage chatMessage) {
         this.chatMessages.add(chatMessage);

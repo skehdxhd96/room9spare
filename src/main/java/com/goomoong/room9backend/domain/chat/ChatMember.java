@@ -1,6 +1,5 @@
 package com.goomoong.room9backend.domain.chat;
 
-import com.goomoong.room9backend.domain.base.BaseEntity;
 import com.goomoong.room9backend.domain.user.User;
 import lombok.*;
 
@@ -11,7 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class ChatMember extends BaseEntity {
+public class ChatMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +26,8 @@ public class ChatMember extends BaseEntity {
     private User user;
 
     public static ChatMember createChatMember(ChatRoom chatRoom, User user) {
-        return ChatMember.builder().chatRoom(chatRoom).user(user).build();
+        ChatMember chatMember = ChatMember.builder().chatRoom(chatRoom).user(user).build();
+
+        return chatMember;
     }
 }
