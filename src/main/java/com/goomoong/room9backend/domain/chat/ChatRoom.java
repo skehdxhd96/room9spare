@@ -1,8 +1,6 @@
 package com.goomoong.room9backend.domain.chat;
 
 import com.goomoong.room9backend.domain.base.BaseEntity;
-import com.goomoong.room9backend.domain.room.Room;
-import com.goomoong.room9backend.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,16 +20,11 @@ public class ChatRoom extends BaseEntity {
     private Long id;
 
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
-    private List<ChatMember> chatMembers = new ArrayList<>();
-
-    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
     private List<ChatMessage> chatMessages = new ArrayList<>();
 
     public static ChatRoom createChatRoom() {
         return ChatRoom.builder().build();
     }
-
-    public void addChatMembers(ChatMember chatMember) { chatMembers.add(chatMember); }
 
     public void addChatMessages(ChatMessage chatMessage) {
         this.chatMessages.add(chatMessage);

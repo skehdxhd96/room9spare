@@ -3,7 +3,6 @@ package com.goomoong.room9backend.controller;
 import com.goomoong.room9backend.domain.chat.ChatMessage;
 import com.goomoong.room9backend.domain.chat.ChatRoom;
 import com.goomoong.room9backend.domain.chat.dto.*;
-import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.security.userdetails.CustomUserDetails;
 import com.goomoong.room9backend.service.chat.ChatService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -21,6 +21,18 @@ import java.util.List;
 public class ChatApiController {
 
     private final ChatService chatService;
+
+    @GetMapping("/chatroom")
+    public ResponseEntity<List<ChatRoomIdResponseDto>> getChatRoomsApi(@AuthenticationPrincipal CustomUserDetails currentUser) {
+        List<ChatRoom> chatRooms = chatService.getChatRooms(currentUser.getUser());
+        List<ChatRoomIdResponseDto> responseDtos = new ArrayList<>();
+        chatRooms.stream().forEach(chatRoom -> {
+            ChatRoomIdResponseDto responseDto = ChatRoomIdResponseDto.builder().chatRoomId(chatRoom.getId()).build();
+            responseDtos.add(responseDto);
+        });
+
+        return ResponseEntity.ok(responseDtos);
+    }
 
     @PostMapping("/chatroom")
     public ResponseEntity<ChatRoomIdResponseDto> createChatRoomApi(

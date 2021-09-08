@@ -19,6 +19,7 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -30,6 +31,17 @@ public class ChatService {
     private final ChatMemberRepository chatMemberRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
+
+    public List<ChatRoom> getChatRooms(User user) {
+        List<ChatRoom> chatRooms = new ArrayList<>();
+        List<ChatMember> chatMembers = chatMemberRepository.findAllByUser(user);
+        chatMembers.stream().forEach(chatMember -> {
+            Hibernate.initialize(chatMember.getChatRoom());
+            chatRooms.add(chatMember.getChatRoom());
+        });
+
+        return chatRooms;
+    }
 
     public ChatRoom createChatRoom(CreateChatRoomRequestDto createChatRoomRequestDto, User user) {
         User foundUser = userRepository.findById(createChatRoomRequestDto.getUserId())

@@ -26,8 +26,6 @@ public class ChatMember {
     private User user;
 
     public static ChatMember createChatMember(ChatRoom chatRoom, User user) {
-        ChatMember chatMember = ChatMember.builder().chatRoom(chatRoom).user(user).build();
-
-        return chatMember;
+        return ChatMember.builder().chatRoom(chatRoom).user(user).build();
     }
 }

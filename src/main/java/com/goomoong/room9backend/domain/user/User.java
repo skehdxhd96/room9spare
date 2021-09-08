@@ -1,5 +1,6 @@
 package com.goomoong.room9backend.domain.user;
 
+import com.goomoong.room9backend.domain.chat.ChatMember;
 import com.goomoong.room9backend.domain.reservation.roomReservation;
 import com.goomoong.room9backend.domain.room.Room;
 import lombok.Builder;
@@ -27,6 +28,9 @@ public class User {
 
     @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private List<roomReservation> roomReservations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<ChatMember> chatMembers = new ArrayList<>();
 
     @NotNull
     private String accountId;
@@ -93,5 +97,9 @@ public class User {
                 .birthday(birthday)
                 .gender(gender)
                 .build();
+    }
+
+    public void addChatMember(ChatMember chatMember) {
+        this.chatMembers.add(chatMember);
     }
 }
