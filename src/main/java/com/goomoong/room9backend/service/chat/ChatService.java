@@ -30,6 +30,7 @@ public class ChatService {
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
 
+    //TODO: 변경된 ui에 맞게 수정
     public List<ChatRoom> getChatRooms(User user) {
         List<ChatRoom> chatRooms = new ArrayList<>();
         List<ChatMember> chatMembers = chatMemberRepository.findAllByUser(user);
@@ -41,7 +42,7 @@ public class ChatService {
         return chatRooms;
     }
 
-    public ChatRoom createChatRoom(CreateChatRoomRequestDto createChatRoomRequestDto, User user) {
+    public ChatRoomIdResponseDto createChatRoom(CreateChatRoomRequestDto createChatRoomRequestDto, User user) {
         User foundUser = userRepository.findById(createChatRoomRequestDto.getUserId())
                 .orElseThrow(() -> new NoSuchUserException("해당 id의 회원이 존재하지 않습니다."));
         ChatRoom chatRoom = ChatRoom.createChatRoom();
@@ -49,25 +50,27 @@ public class ChatService {
         ChatMember me = ChatMember.createChatMember(chatRoom, user);
         chatMemberRepository.save(other);
         chatMemberRepository.save(me);
+        ChatRoom saved = chatRoomRepository.save(chatRoom);
 
-        return chatRoomRepository.save(chatRoom);
+        return ChatRoomIdResponseDto.builder().chatRoomId(saved.getId()).build();
     }
 
-    public Long deleteChatRoom(Long chatRoomId) {
+    public ChatRoomIdResponseDto deleteChatRoom(Long chatRoomId) {
         ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId)
                 .orElseThrow(() -> new NoSuchChatRoomException("해당 id의 채팅방이 존재하지 않습니다."));
         chatRoomRepository.delete(chatRoom);
 
-        return chatRoom.getId();
+        return ChatRoomIdResponseDto.builder().chatRoomId(chatRoom.getId()).build();
     }
 
-    public ChatMessage createChatMessage(Long chatRoomId, User user, CreateChatMessageRequestDto createChatMessageRequestDto) {
+    public ChatMessageIdResponseDto createChatMessage(Long chatRoomId, User user, CreateChatMessageRequestDto createChatMessageRequestDto) {
         ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId)
                 .orElseThrow(() -> new NoSuchChatRoomException("해당 id의 채팅방이 존재하지 않습니다."));
         ChatMessage chatMessage = ChatMessage.createChatMessage(chatRoom, user, createChatMessageRequestDto.getContent());
         chatRoom.addChatMessages(chatMessage);
+        ChatMessage saved = chatMessageRepository.save(chatMessage);
 
-        return chatMessageRepository.save(chatMessage);
+        return ChatMessageIdResponseDto.builder().chatMessageId(saved.getId()).build();
     }
 
     public ChatMessagesDto getChatMessages(Long chatRoomId) {
@@ -88,17 +91,17 @@ public class ChatService {
         return ChatMessagesDto.builder().messages(chatMessageDtos).build();
     }
 
-    public ChatMessage editChatMessage(Long chatMessageId, EditChatMessageRequestDto editChatMessageRequestDto) {
+    public ChatMessageIdResponseDto editChatMessage(Long chatMessageId, EditChatMessageRequestDto editChatMessageRequestDto) {
         ChatMessage chatMessage = chatMessageRepository.findById(chatMessageId).orElseThrow(() -> new NoSuchChatMessageException("해당 id의 메시지가 존재하지 않습니다."));
         chatMessage.editChatMessage(editChatMessageRequestDto.getContent());
 
-        return chatMessage;
+        return ChatMessageIdResponseDto.builder().chatMessageId(chatMessage.getId()).build();
     }
 
-    public Long deleteChatMessage(Long chatMessageId) {
+    public ChatMessageIdResponseDto deleteChatMessage(Long chatMessageId) {
         ChatMessage chatMessage = chatMessageRepository.findById(chatMessageId).orElseThrow(() -> new NoSuchChatMessageException("해당 id의 메시지가 존재하지 않습니다."));
         chatMessageRepository.delete(chatMessage);
 
-        return chatMessage.getId();
+        return ChatMessageIdResponseDto.builder().chatMessageId(chatMessage.getId()).build();
     }
 }

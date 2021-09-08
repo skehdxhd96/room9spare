@@ -1,6 +1,5 @@
 package com.goomoong.room9backend.controller;
 
-import com.goomoong.room9backend.domain.chat.ChatMessage;
 import com.goomoong.room9backend.domain.chat.ChatRoom;
 import com.goomoong.room9backend.domain.chat.dto.*;
 import com.goomoong.room9backend.security.userdetails.CustomUserDetails;
@@ -22,6 +21,7 @@ public class ChatApiController {
 
     private final ChatService chatService;
 
+    //TODO: 변경된 ui에 맞게 수정
     @GetMapping("/chatroom")
     public ResponseEntity<List<ChatRoomIdResponseDto>> getChatRoomsApi(@AuthenticationPrincipal CustomUserDetails currentUser) {
         List<ChatRoom> chatRooms = chatService.getChatRooms(currentUser.getUser());
@@ -39,16 +39,14 @@ public class ChatApiController {
             @RequestBody CreateChatRoomRequestDto chatRoomRequestDto,
             @AuthenticationPrincipal CustomUserDetails currentUser
             ) {
-        ChatRoom chatRoom = chatService.createChatRoom(chatRoomRequestDto, currentUser.getUser());
-        ChatRoomIdResponseDto idResponseDto = ChatRoomIdResponseDto.builder().chatRoomId(chatRoom.getId()).build();
+        ChatRoomIdResponseDto idResponseDto = chatService.createChatRoom(chatRoomRequestDto, currentUser.getUser());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(idResponseDto);
     }
 
     @DeleteMapping("/chatroom/{id}")
     public ResponseEntity<ChatRoomIdResponseDto> deleteChatRoomApi(@PathVariable(name = "id") Long chatRoomId) {
-        Long deletedChatRoomId = chatService.deleteChatRoom(chatRoomId);
-        ChatRoomIdResponseDto idResponseDto = ChatRoomIdResponseDto.builder().chatRoomId(deletedChatRoomId).build();
+        ChatRoomIdResponseDto idResponseDto = chatService.deleteChatRoom(chatRoomId);
 
         return ResponseEntity.ok(idResponseDto);
     }
@@ -59,8 +57,7 @@ public class ChatApiController {
             @AuthenticationPrincipal CustomUserDetails currentUser,
             @RequestBody @Valid CreateChatMessageRequestDto chatMessageRequestDto
             ) {
-        ChatMessage  chatMessage = chatService.createChatMessage(chatRoomId, currentUser.getUser(), chatMessageRequestDto);
-        ChatMessageIdResponseDto idResponseDto = ChatMessageIdResponseDto.builder().chatMessageId(chatMessage.getId()).build();
+        ChatMessageIdResponseDto idResponseDto = chatService.createChatMessage(chatRoomId, currentUser.getUser(), chatMessageRequestDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(idResponseDto);
     }
@@ -72,25 +69,23 @@ public class ChatApiController {
         return ResponseEntity.ok(chatMessagesDto);
     }
 
-    @PutMapping("/chatroom/{chatroomid}/message/{chatmessageid}")
+    @PutMapping("/chatroom/{roomid}/message/{messageid}")
     public ResponseEntity<ChatMessageIdResponseDto> editChatMessageApi(
-            @PathVariable(name = "chatroomid") Long chatRoomId,
-            @PathVariable(name = "chatmessageid") Long chatMessageId,
+            @PathVariable(name = "roomid") Long chatRoomId,
+            @PathVariable(name = "messageid") Long chatMessageId,
             @RequestBody @Valid EditChatMessageRequestDto chatMessageRequestDto
             ) {
-        ChatMessage chatMessage = chatService.editChatMessage(chatMessageId, chatMessageRequestDto);
-        ChatMessageIdResponseDto idResponseDto = ChatMessageIdResponseDto.builder().chatMessageId(chatMessage.getId()).build();
+        ChatMessageIdResponseDto idResponseDto = chatService.editChatMessage(chatMessageId, chatMessageRequestDto);
 
         return ResponseEntity.ok(idResponseDto);
     }
 
-    @DeleteMapping("/chatroom/{chatroomid}/message/{chatmessageid}")
+    @DeleteMapping("/chatroom/{roomid}/message/{messageid}")
     public ResponseEntity<ChatMessageIdResponseDto> deleteChatMessageApi(
-            @PathVariable(name = "chatroomid") Long chatRoomId,
-            @PathVariable(name = "chatmessageid") Long chatMessageId
+            @PathVariable(name = "roomid") Long chatRoomId,
+            @PathVariable(name = "messageid") Long chatMessageId
     ) {
-        Long deletedChatMessageId = chatService.deleteChatMessage(chatMessageId);
-        ChatMessageIdResponseDto idResponseDto = ChatMessageIdResponseDto.builder().chatMessageId(deletedChatMessageId).build();
+        ChatMessageIdResponseDto idResponseDto = chatService.deleteChatMessage(chatMessageId);
 
         return ResponseEntity.ok(idResponseDto);
     }
