@@ -65,6 +65,13 @@ public class ChatApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(idResponseDto);
     }
 
+    @GetMapping("/chatroom/{id}/message")
+    public ResponseEntity<ChatMessagesDto> getChatMessagesApi(@PathVariable(name = "id") Long chatRoomId) {
+        ChatMessagesDto chatMessagesDto = chatService.getChatMessages(chatRoomId);
+
+        return ResponseEntity.ok(chatMessagesDto);
+    }
+
     @PutMapping("/chatroom/{chatroomid}/message/{chatmessageid}")
     public ResponseEntity<ChatMessageIdResponseDto> editChatMessageApi(
             @PathVariable(name = "chatroomid") Long chatRoomId,

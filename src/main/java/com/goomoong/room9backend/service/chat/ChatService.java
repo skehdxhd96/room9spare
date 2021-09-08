@@ -3,9 +3,7 @@ package com.goomoong.room9backend.service.chat;
 import com.goomoong.room9backend.domain.chat.ChatMember;
 import com.goomoong.room9backend.domain.chat.ChatMessage;
 import com.goomoong.room9backend.domain.chat.ChatRoom;
-import com.goomoong.room9backend.domain.chat.dto.CreateChatMessageRequestDto;
-import com.goomoong.room9backend.domain.chat.dto.CreateChatRoomRequestDto;
-import com.goomoong.room9backend.domain.chat.dto.EditChatMessageRequestDto;
+import com.goomoong.room9backend.domain.chat.dto.*;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.exception.NoSuchUserException;
 import com.goomoong.room9backend.exception.chat.NoSuchChatMessageException;
@@ -70,6 +68,24 @@ public class ChatService {
         chatRoom.addChatMessages(chatMessage);
 
         return chatMessageRepository.save(chatMessage);
+    }
+
+    public ChatMessagesDto getChatMessages(Long chatRoomId) {
+        ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new NoSuchChatRoomException("해당 id의 채팅방이 존재하지 않습니다."));
+        List<ChatMessage> chatMessages = chatRoom.getChatMessages();
+        List<ChatMessageDto> chatMessageDtos = new ArrayList<>();
+        chatMessages.stream().forEach(chatMessage ->  {
+            ChatMessageDto chatMessageDto = ChatMessageDto.builder()
+                    .messageId(chatMessage.getId())
+                    .userId(chatMessage.getUser().getId())
+                    .content(chatMessage.getContent())
+                    .createdDate(chatMessage.getCreatedDate())
+                    .updatedDate(chatMessage.getUpdatedDate())
+                    .build();
+            chatMessageDtos.add(chatMessageDto);
+        });
+
+        return ChatMessagesDto.builder().messages(chatMessageDtos).build();
     }
 
     public ChatMessage editChatMessage(Long chatMessageId, EditChatMessageRequestDto editChatMessageRequestDto) {
