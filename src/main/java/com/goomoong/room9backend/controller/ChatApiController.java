@@ -24,12 +24,7 @@ public class ChatApiController {
     //TODO: 변경된 ui에 맞게 수정
     @GetMapping("/chatroom")
     public ResponseEntity<List<ChatRoomIdResponseDto>> getChatRoomsApi(@AuthenticationPrincipal CustomUserDetails currentUser) {
-        List<ChatRoom> chatRooms = chatService.getChatRooms(currentUser.getUser());
-        List<ChatRoomIdResponseDto> responseDtos = new ArrayList<>();
-        chatRooms.stream().forEach(chatRoom -> {
-            ChatRoomIdResponseDto responseDto = ChatRoomIdResponseDto.builder().chatRoomId(chatRoom.getId()).build();
-            responseDtos.add(responseDto);
-        });
+        List<ChatRoomIdResponseDto> responseDtos = chatService.getChatRooms(currentUser.getUser());
 
         return ResponseEntity.ok(responseDtos);
     }

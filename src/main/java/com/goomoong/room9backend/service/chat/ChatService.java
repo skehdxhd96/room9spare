@@ -1,6 +1,5 @@
 package com.goomoong.room9backend.service.chat;
 
-import com.goomoong.room9backend.domain.chat.ChatMember;
 import com.goomoong.room9backend.domain.chat.ChatMessage;
 import com.goomoong.room9backend.domain.chat.ChatRoom;
 import com.goomoong.room9backend.domain.chat.dto.*;
@@ -8,12 +7,10 @@ import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.exception.NoSuchUserException;
 import com.goomoong.room9backend.exception.chat.NoSuchChatMessageException;
 import com.goomoong.room9backend.exception.chat.NoSuchChatRoomException;
-import com.goomoong.room9backend.repository.chat.ChatMemberRepository;
 import com.goomoong.room9backend.repository.chat.ChatMessageRepository;
 import com.goomoong.room9backend.repository.chat.ChatRoomRepository;
 import com.goomoong.room9backend.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,30 +23,25 @@ import java.util.List;
 public class ChatService {
 
     private final ChatRoomRepository chatRoomRepository;
-    private final ChatMemberRepository chatMemberRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
 
     //TODO: 변경된 ui에 맞게 수정
-    public List<ChatRoom> getChatRooms(User user) {
-        List<ChatRoom> chatRooms = new ArrayList<>();
-        List<ChatMember> chatMembers = chatMemberRepository.findAllByUser(user);
-        chatMembers.stream().forEach(chatMember -> {
-            Hibernate.initialize(chatMember.getChatRoom());
-            chatRooms.add(chatMember.getChatRoom());
+    public List<ChatRoomIdResponseDto> getChatRooms(User user) {
+        List<ChatRoom> chatRooms = user.getChatRooms();
+        List<ChatRoomIdResponseDto> responseDtos = new ArrayList<>();
+        chatRooms.stream().forEach(chatRoom -> {
+            ChatRoomIdResponseDto responseDto = ChatRoomIdResponseDto.builder().chatRoomId(chatRoom.getId()).build();
+            responseDtos.add(responseDto);
         });
 
-        return chatRooms;
+        return responseDtos;
     }
 
     public ChatRoomIdResponseDto createChatRoom(CreateChatRoomRequestDto createChatRoomRequestDto, User user) {
         User foundUser = userRepository.findById(createChatRoomRequestDto.getUserId())
                 .orElseThrow(() -> new NoSuchUserException("해당 id의 회원이 존재하지 않습니다."));
-        ChatRoom chatRoom = ChatRoom.createChatRoom();
-        ChatMember other = ChatMember.createChatMember(chatRoom, foundUser);
-        ChatMember me = ChatMember.createChatMember(chatRoom, user);
-        chatMemberRepository.save(other);
-        chatMemberRepository.save(me);
+        ChatRoom chatRoom = ChatRoom.createChatRoom(foundUser, user);
         ChatRoom saved = chatRoomRepository.save(chatRoom);
 
         return ChatRoomIdResponseDto.builder().chatRoomId(saved.getId()).build();
@@ -69,6 +61,9 @@ public class ChatService {
         ChatMessage chatMessage = ChatMessage.createChatMessage(chatRoom, user, createChatMessageRequestDto.getContent());
         chatRoom.addChatMessages(chatMessage);
         ChatMessage saved = chatMessageRepository.save(chatMessage);
+        //채팅이 시작되면 사용자에게 채팅방 정보가 저장됨
+        List<User> chatMembers = chatRoom.getChatMembers();
+        chatMembers.stream().forEach(member -> member.addChatRoom(chatRoom));
 
         return ChatMessageIdResponseDto.builder().chatMessageId(saved.getId()).build();
     }
