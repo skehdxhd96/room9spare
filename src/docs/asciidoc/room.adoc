@@ -1,0 +1,77 @@
+= Room Api Docs
+NDM 08/09/2021
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+
+[[room-create]]
+== 방 생성하기
+
+=== http-request
+include::{snippets}/room-create/http-request.adoc[]
+=== http-response
+include::{snippets}/room-create/http-response.adoc[]
+=== httpie-request
+include::{snippets}/room-create/httpie-request.adoc[]
+=== request-body
+include::{snippets}/room-create/request-body.adoc[]
+=== request-parts
+include::{snippets}/room-create/request-parts.adoc[]
+=== request-parameters
+include::{snippets}/room-create/request-parameters.adoc[]
+=== response-body
+include::{snippets}/room-create/response-body.adoc[]
+=== response-fields
+include::{snippets}/room-create/response-fields.adoc[]
+
+[[room-detail]]
+=== Room
+include::{snippets}/room-detail/curl-request.adoc[]
+include::{snippets}/room-detail/http-request.adoc[]
+include::{snippets}/room-detail/http-response.adoc[]
+include::{snippets}/room-detail/httpie-request.adoc[]
+include::{snippets}/room-detail/request-body.adoc[]
+include::{snippets}/room-detail/path-parameters.adoc[]
+include::{snippets}/room-detail/response-body.adoc[]
+include::{snippets}/room-detail/response-fields.adoc[]
+
+[[room-filter]]
+=== Room 필터 적용
+include::{snippets}/room-filter/curl-request.adoc[]
+include::{snippets}/room-filter/http-request.adoc[]
+include::{snippets}/room-filter/http-response.adoc[]
+include::{snippets}/room-filter/httpie-request.adoc[]
+include::{snippets}/room-filter/request-body.adoc[]
+include::{snippets}/room-filter/request-parameters.adoc[]
+include::{snippets}/room-filter/response-body.adoc[]
+include::{snippets}/room-filter/response-fields.adoc[]
+
+[[room-getAll]]
+=== Room 전체 조회
+include::{snippets}/room-getAll/curl-request.adoc[]
+include::{snippets}/room-getAll/http-request.adoc[]
+include::{snippets}/room-getAll/http-response.adoc[]
+include::{snippets}/room-getAll/httpie-request.adoc[]
+include::{snippets}/room-getAll/request-body.adoc[]
+include::{snippets}/room-getAll/response-body.adoc[]
+include::{snippets}/room-getAll/response-fields.adoc[]
+
+[[room-reserve-price]]
+=== 가격 조회
+include::{snippets}/room-reserve-price/curl-request.adoc[]
+include::{snippets}/room-reserve-price/http-request.adoc[]
+include::{snippets}/room-reserve-price/http-response.adoc[]
+include::{snippets}/room-reserve-price/httpie-request.adoc[]
+include::{snippets}/room-reserve-price/path-parameters.adoc[]
+include::{snippets}/room-reserve-price/request-body.adoc[]
+include::{snippets}/room-reserve-price/request-parameters.adoc[]
+include::{snippets}/room-reserve-price/response-body.adoc[]
+include::{snippets}/room-reserve-price/response-fields.adoc[]

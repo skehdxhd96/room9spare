@@ -9,6 +9,7 @@ import com.goomoong.room9backend.config.SecurityConfig;
 import com.goomoong.room9backend.domain.file.File;
 import com.goomoong.room9backend.domain.file.RoomImg;
 import com.goomoong.room9backend.domain.file.dto.GetRoomfileDto;
+import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.review.dto.CreateReviewRequestDto;
 import com.goomoong.room9backend.domain.room.Amenity;
 import com.goomoong.room9backend.domain.room.Room;
@@ -37,6 +38,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
@@ -96,7 +98,12 @@ public class RoomApiControllerTest {
     private List<Room> filterRooms = new ArrayList<>();
 
     @BeforeEach
-    public void setUp() {
+    public void setUp(RestDocumentationContextProvider restDocumentation) {
+
+        mvc = MockMvcBuilders.webAppContextSetup(context)
+                .apply(documentationConfiguration(restDocumentation))
+                .apply(springSecurity(new MockSecurityFilter()))
+                .build();
 
         user = User.builder()
                 .id(1L)

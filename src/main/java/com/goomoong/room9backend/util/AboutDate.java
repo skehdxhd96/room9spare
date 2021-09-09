@@ -1,5 +1,8 @@
 package com.goomoong.room9backend.util;
 
+import com.goomoong.room9backend.domain.reservation.dto.ReservationDto;
+import org.apache.tomcat.jni.Local;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -19,5 +22,9 @@ public class AboutDate {
         LocalDate finalDate = LocalDate.parse(date2, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         long days = ChronoUnit.DAYS.between(startDate, finalDate);
         return days;
+    }
+
+    public static boolean reservePossible(ReservationDto.request request, LocalDateTime date1, LocalDateTime date2) {
+        return true;
     }
 }
