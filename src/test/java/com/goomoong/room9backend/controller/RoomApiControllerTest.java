@@ -185,7 +185,7 @@ public class RoomApiControllerTest {
     }
 
     @Test
-    public void addRoomApiTest() throws Exception {
+    public void 방_생성() throws Exception {
 
         //given
         InputStream is1 = new ClassPathResource("mock/images/jpgFile.jpg").getInputStream();
