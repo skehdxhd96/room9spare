@@ -1,11 +1,14 @@
 package com.goomoong.room9backend.controller;
 
+import com.goomoong.room9backend.domain.user.User;
+import com.goomoong.room9backend.security.userdetails.CustomUserDetails;
 import com.goomoong.room9backend.service.room.RoomSearchService;
 import com.goomoong.room9backend.service.room.RoomService;
 import com.goomoong.room9backend.domain.room.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticatedPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +26,9 @@ public class RoomApiController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/room/create")
-    public CreatedResponseRoomDto createdRoom(@ModelAttribute @Validated CreatedRequestRoomDto request) throws IOException{
-        return new CreatedResponseRoomDto(roomService.addRoom(request));
+    public CreatedResponseRoomDto createdRoom(@Valid CreatedRequestRoomDto request,
+                                              @AuthenticationPrincipal CustomUserDetails currentUser) throws IOException{
+        return new CreatedResponseRoomDto(roomService.addRoom(request, currentUser.getUser()));
     }
 
     @GetMapping("/room")

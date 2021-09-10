@@ -99,7 +99,7 @@ public class RoomServiceTest {
         given(testRoom.getId()).willReturn(1L);
 
         //when
-        Long savedRoomId = roomService.addRoom(request);
+        Long savedRoomId = roomService.addRoom(request, user);
 
         //then
         Assertions.assertEquals(testRoom.getId(), savedRoomId);

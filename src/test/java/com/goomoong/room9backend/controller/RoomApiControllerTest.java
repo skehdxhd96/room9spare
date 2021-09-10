@@ -18,6 +18,8 @@ import com.goomoong.room9backend.domain.room.dto.*;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.repository.user.UserRepository;
+import com.goomoong.room9backend.security.userdetails.CustomUserDetails;
+import com.goomoong.room9backend.security.userdetails.CustomUserDetailsService;
 import com.goomoong.room9backend.service.UserService;
 import com.goomoong.room9backend.service.file.FileService;
 import com.goomoong.room9backend.service.file.S3Uploader;
@@ -43,6 +45,10 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -58,6 +64,7 @@ import static com.goomoong.room9backend.ApiDocumentUtils.getDocumentRequest;
 import static com.goomoong.room9backend.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -110,12 +117,12 @@ public class RoomApiControllerTest {
                 .accountId("1")
                 .name("mock")
                 .nickname("mockusername")
-                .role(Role.GUEST)
+                .role(Role.HOST)
                 .thumbnailImgUrl("mock.jpg")
                 .email("mock@abc")
                 .birthday("0101")
                 .gender("male")
-                .intro("test").build();
+                .intro("test").build();;
 
         Set<RoomConfiguration> rset = new LinkedHashSet<>();
         rset.add(RoomConfiguration.builder().confType("화장실").count(3).build());
@@ -191,13 +198,11 @@ public class RoomApiControllerTest {
         InputStream is1 = new ClassPathResource("mock/images/jpgFile.jpg").getInputStream();
         MockMultipartFile m1 = new MockMultipartFile("images", "jpgFile.jpg", "image/jpg", is1.readAllBytes());
 
-        given(userService.findById(anyLong())).willReturn(user);
-        given(roomService.addRoom(any())).willReturn(1L);
+        given(roomService.addRoom(any(), any())).willReturn(1L);
 
         //when
         ResultActions result = mvc.perform(multipart("/room/create")
                 .file(m1)
-                .param("userId", "1")
                 .param("conf.confType", "화장실")
                 .param("conf.count", "2")
                 .param("conf.confType", "침실")
@@ -211,6 +216,8 @@ public class RoomApiControllerTest {
                 .param("detailLocation", "testLocation")
                 .param("rule", "testRule")
                 .param("addCharge", "1000")
+                .principal(new UsernamePasswordAuthenticationToken(CustomUserDetails.create(user), null))
+                .header("Authorization", "Bearer accessToken")
                 .contentType(MediaType.MULTIPART_FORM_DATA));
 
         //then
@@ -218,11 +225,13 @@ public class RoomApiControllerTest {
                 .andDo(document("room-create",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("카카오 사용자 Bearer Token")
+                        ),
                         requestParts(
                                 partWithName("images").description("이미지 파일(최소 1개 이상)")
                         ),
                         requestParameters(
-                                parameterWithName("userId").description("생성한 유저 아이디 - 로그인한 유저로 받아와야함"),
                                 parameterWithName("conf.confType").description("구성 요소 타입(최소 1개 이상)"),
                                 parameterWithName("conf.count").description("구성 요소 숫자(최소 1개 이상)"),
                                 parameterWithName("facilities").description("부대 시설(최소 1개 이상)"),

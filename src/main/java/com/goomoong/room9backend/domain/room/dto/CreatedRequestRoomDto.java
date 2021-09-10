@@ -15,9 +15,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class CreatedRequestRoomDto {
 
-    //pk
-    private Long userId;
-
     //Configuration
     private List<confDto> conf;
 

@@ -39,14 +39,12 @@ public class RoomService {
     private final FileService fileService;
     private final RoomImgRepository roomImgRepository;
     private final RoomRepository roomRepository;
-    private final UserService userService;
     private final FolderConfig folderConfig;
 
     //방 생성
     @Transactional
-    public Long addRoom(CreatedRequestRoomDto request) throws IOException {
+    public Long addRoom(CreatedRequestRoomDto request, User user) throws IOException {
 
-        User user = userService.findById(request.getUserId());
         Set<RoomConfiguration> roomConfig = RoomConfiguration.createRoomConfig(request.getConf());
         Set<Amenity> amenities = Amenity.createRoomFacility(request.getFacilities());
 
