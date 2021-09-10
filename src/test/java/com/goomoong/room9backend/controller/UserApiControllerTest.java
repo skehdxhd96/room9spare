@@ -149,7 +149,7 @@ public class UserApiControllerTest {
     public void changeRoleApiTest() throws Exception {
         //given
         User user = User.builder().id(1L).role(Role.GUEST).build();
-        given(userService.findById(1L)).willReturn(user);
+        given(userService.changeRole(1L)).willReturn(user);
 
         //when
         ResultActions result = mvc.perform(RestDocumentationRequestBuilders.post("/api/v1/users/{id}/role", 1L));
@@ -164,10 +164,10 @@ public class UserApiControllerTest {
                                 parameterWithName("id").description("user id")
                         ),
                         responseFields(
-                                fieldWithPath("role").description("user role")
+                                fieldWithPath("id").description("user id")
                         )
                 ))
-                .andExpect(jsonPath("$.role").value("HOST"));
+                .andExpect(jsonPath("$.id").value(1L));
     }
 
     @Test
