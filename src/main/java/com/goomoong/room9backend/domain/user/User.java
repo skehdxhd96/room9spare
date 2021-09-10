@@ -98,4 +98,8 @@ public class User {
                 .gender(gender)
                 .build();
     }
+
+    public boolean isHost() {
+        return this.role == Role.HOST ? true : false;
+    }
 }
