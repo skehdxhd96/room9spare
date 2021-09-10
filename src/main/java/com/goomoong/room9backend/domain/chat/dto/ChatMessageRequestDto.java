@@ -5,17 +5,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChatMessageDto {
+public class ChatMessageRequestDto {
 
-    private Long messageId;
-    private Long userId;
+    @NotBlank(message = "메세지 내용은 빈칸일 수 없습니다.")
     private String content;
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ChatMessageIdResponseDto {
+public class IdResponseDto {
 
-    private Long chatMessageId;
+    private Long id;
 }

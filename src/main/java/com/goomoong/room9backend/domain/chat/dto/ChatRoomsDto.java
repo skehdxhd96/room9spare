@@ -12,20 +12,21 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChatMessagesDto {
+public class ChatRoomsDto {
 
-    private List<ChatMessageDto> messages;
+    private List<ChatRoomDto> rooms;
 
     @Getter
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class ChatMessageDto {
+    public static class ChatRoomDto {
 
-        private Long messageId;
-        private Long userId;
-        private String content;
-        private LocalDateTime createdDate;
-        private LocalDateTime updatedDate;
+        private Long chatRoomId;
+        private Boolean isHost;
+        private String roomTitle;
+        private Integer personnel;
+        private LocalDateTime checkinDate;
+        private LocalDateTime checkoutDate;
     }
 }
