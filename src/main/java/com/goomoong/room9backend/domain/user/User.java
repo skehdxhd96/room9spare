@@ -98,8 +98,4 @@ public class User {
                 .gender(gender)
                 .build();
     }
-
-    public void addChatRoom(ChatRoom chatRoom) {
-        this.getChatRooms().add(chatRoom);
-    }
 }

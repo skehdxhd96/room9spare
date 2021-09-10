@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional
@@ -28,11 +29,16 @@ public class ChatService {
 
     //TODO: 변경된 ui에 맞게 수정
     public List<ChatRoomIdResponseDto> getChatRooms(User user) {
-        List<ChatRoom> chatRooms = user.getChatRooms();
+        User foundUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new NoSuchUserException("해당 id의 회원이 존재하지 않습니다."));
+        List<ChatRoom> chatRooms = foundUser.getChatRooms();
         List<ChatRoomIdResponseDto> responseDtos = new ArrayList<>();
         chatRooms.stream().forEach(chatRoom -> {
-            ChatRoomIdResponseDto responseDto = ChatRoomIdResponseDto.builder().chatRoomId(chatRoom.getId()).build();
-            responseDtos.add(responseDto);
+            //메시지가 있는 채팅방만 보여줌
+            if (!chatRoom.getChatMessages().isEmpty()) {
+                ChatRoomIdResponseDto responseDto = ChatRoomIdResponseDto.builder().chatRoomId(chatRoom.getId()).build();
+                responseDtos.add(responseDto);
+            }
         });
 
         return responseDtos;
@@ -61,16 +67,16 @@ public class ChatService {
         ChatMessage chatMessage = ChatMessage.createChatMessage(chatRoom, user, createChatMessageRequestDto.getContent());
         chatRoom.addChatMessages(chatMessage);
         ChatMessage saved = chatMessageRepository.save(chatMessage);
-        //채팅이 시작되면 사용자에게 채팅방 정보가 저장됨
-        List<User> chatMembers = chatRoom.getChatMembers();
-        chatMembers.stream().forEach(member -> member.addChatRoom(chatRoom));
 
         return ChatMessageIdResponseDto.builder().chatMessageId(saved.getId()).build();
     }
 
     public ChatMessagesDto getChatMessages(Long chatRoomId) {
         ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new NoSuchChatRoomException("해당 id의 채팅방이 존재하지 않습니다."));
-        List<ChatMessage> chatMessages = chatRoom.getChatMessages();
+        List<ChatMessage> chatMessages = chatRoom.getChatMessages().stream()
+                //최근 메시지부터 보여주기
+                .sorted((m1, m2) -> m2.getId().intValue() - m1.getId().intValue())
+                .collect(Collectors.toList());
         List<ChatMessageDto> chatMessageDtos = new ArrayList<>();
         chatMessages.stream().forEach(chatMessage ->  {
             ChatMessageDto chatMessageDto = ChatMessageDto.builder()
