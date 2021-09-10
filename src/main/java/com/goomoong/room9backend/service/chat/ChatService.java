@@ -7,8 +7,8 @@ import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.exception.NoSuchUserException;
 import com.goomoong.room9backend.exception.chat.NoSuchChatMessageException;
 import com.goomoong.room9backend.exception.chat.NoSuchChatRoomException;
-import com.goomoong.room9backend.repository.chat.ChatMessageRepository;
-import com.goomoong.room9backend.repository.chat.ChatRoomRepository;
+import com.goomoong.room9backend.repository.chat.chatmessage.ChatMessageRepository;
+import com.goomoong.room9backend.repository.chat.chatroom.ChatRoomRepository;
 import com.goomoong.room9backend.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,6 +47,12 @@ public class ChatService {
     public ChatRoomIdResponseDto createChatRoom(CreateChatRoomRequestDto createChatRoomRequestDto, User user) {
         User foundUser = userRepository.findById(createChatRoomRequestDto.getUserId())
                 .orElseThrow(() -> new NoSuchUserException("해당 id의 회원이 존재하지 않습니다."));
+        //이전에 생성된 채팅방이 있는지 확인
+        ChatRoom checkChatRoom = chatRoomRepository.findChatRoomByChatMembers(foundUser, user);
+        if (checkChatRoom != null) {
+            return ChatRoomIdResponseDto.builder().chatRoomId(checkChatRoom.getId()).build();
+        }
+        //채팅방이 없으면 새로 생성
         ChatRoom chatRoom = ChatRoom.createChatRoom(foundUser, user);
         ChatRoom saved = chatRoomRepository.save(chatRoom);
 
