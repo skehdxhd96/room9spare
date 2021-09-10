@@ -1,6 +1,7 @@
 package com.goomoong.room9backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.goomoong.room9backend.config.MockSecurityFilter;
 import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.review.dto.CreateReviewRequestDto;
 import com.goomoong.room9backend.domain.review.dto.ReviewSearchDto;
@@ -12,34 +13,47 @@ import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.repository.room.RoomRepository;
 import com.goomoong.room9backend.service.ReviewService;
 import com.goomoong.room9backend.service.UserService;
-import com.goomoong.room9backend.service.room.RoomService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.goomoong.room9backend.ApiDocumentUtils.*;
+import static com.goomoong.room9backend.ApiDocumentUtils.getDocumentRequest;
+import static com.goomoong.room9backend.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureRestDocs
-@WebMvcTest(ReviewApiController.class)
+@AutoConfigureMockMvc
+@ExtendWith({SpringExtension.class, RestDocumentationExtension.class})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 class ReviewApiControllerTest {
 
     @Autowired
@@ -47,6 +61,9 @@ class ReviewApiControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private WebApplicationContext context;
 
     @MockBean
     private ReviewService reviewService;
@@ -62,12 +79,14 @@ class ReviewApiControllerTest {
     private Room room;
 
     @BeforeEach
-    public void init(){
+    public void init(RestDocumentationContextProvider restDocumentation){
+        mvc = MockMvcBuilders.webAppContextSetup(context)
+                .apply(documentationConfiguration(restDocumentation))
+                .apply(springSecurity(new MockSecurityFilter()))
+                .build();
+
         user = User.builder().id(1L).accountId("1").name("mock").nickname("mock").role(Role.GUEST).thumbnailImgUrl("mock.jpg").email("mock@abc").birthday("0101").gender("male").intro("test").build();;
-        room = new Room();
-
         room = Room.builder().id(1L).build();
-
         review = Review.builder()
                 .id(1L)
                 .user(user)
@@ -84,13 +103,13 @@ class ReviewApiControllerTest {
         reviews.add(review);
 
         given(userService.findById(1L)).willReturn(user);
-//        given(roomRepository.findById(1L)).willReturn(room);
+//        given(roomRepository.findById(1L).orElse(null)).willReturn(room);
         given(reviewService.findByUserAndRoom(any(ReviewSearchDto.class))).willReturn(reviews);
 
         //when
         ResultActions result = mvc.perform(get("/api/v1/reviews")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(SelectReviewRequestDto.builder().user_id(1L).room_id(1L).build())));
+                .content(objectMapper.writeValueAsString(SelectReviewRequestDto.builder().userId(1L).roomId(1L).build())));
 
         //then
         result
@@ -98,13 +117,14 @@ class ReviewApiControllerTest {
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestFields(
-                                fieldWithPath("user_id").description("유저 ID"),
-                                fieldWithPath("room_id").description("방 ID")
+                                fieldWithPath("userId").description("유저 ID"),
+                                fieldWithPath("roomId").description("방 ID")
                         ),
                         responseFields(
                                 fieldWithPath("data[].id").description("ID"),
                                 fieldWithPath("data[].reviewContent").description("내용"),
-                                fieldWithPath("data[].reviewCreated").description("생성 시간"),
+                                fieldWithPath("data[].reviewCreated").description("생성 시각"),
+                                fieldWithPath("data[].reviewUpdated").description("수정 시각"),
                                 fieldWithPath("data[].reviewScore").description("평점")
                         )
                 ))

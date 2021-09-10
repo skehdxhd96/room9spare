@@ -39,11 +39,10 @@ public class UserApiController {
     }
 
     @PostMapping("/api/v1/users/{id}/role")
-    public RoleResponseDto changeRole(@PathVariable Long id) {
-        User findUser = userService.findById(id);
-        userService.changeRole(id);
+    public IdResponseDto changeRole(@PathVariable Long id) {
+        User user = userService.changeRole(id);
 
-        return RoleResponseDto.builder().role(findUser.getRole()).build();
+        return IdResponseDto.builder().id(user.getId()).build();
     }
 
     @PostMapping("/api/v1/users/{id}")

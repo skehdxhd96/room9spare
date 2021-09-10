@@ -1,7 +1,7 @@
 = Room Api Docs
-NDM 08/09/2021
+NDM 10/09/2021
 ifndef::snippets[]
-:snippets: ./build/generated-snippets
+:snippets:./build/generated-snippets
 endif::[]
 :doctype: book
 :icons: font
@@ -13,61 +13,63 @@ endif::[]
 :operation-http-response-title: Example Response
 
 [[room-create]]
-== 방 생성하기
+= 방 생성하기
 
-=== http-request
+== http-request
 include::{snippets}/room-create/http-request.adoc[]
-=== http-response
+== http-response
 include::{snippets}/room-create/http-response.adoc[]
-=== request-parts
+== request-headers
+include::{snippets}/room-create/request-headers.adoc[]
+== request-parts
 include::{snippets}/room-create/request-parts.adoc[]
-=== request-parameters
+== request-parameters
 include::{snippets}/room-create/request-parameters.adoc[]
-=== response-fields
+== response-fields
 include::{snippets}/room-create/response-fields.adoc[]
 
 [[room-detail]]
-== 방 상세 조회
+= 방 상세 조회
 
-=== http-request
+== http-request
 include::{snippets}/room-detail/http-request.adoc[]
-=== http-response
+== http-response
 include::{snippets}/room-detail/http-response.adoc[]
-=== path-parameters
+== path-parameters
 include::{snippets}/room-detail/path-parameters.adoc[]
-=== response-fields
+== response-fields
 include::{snippets}/room-detail/response-fields.adoc[]
 
 [[room-filter]]
-== 방 필터
+= 방 필터
 
-=== http-request
+== http-request
 include::{snippets}/room-filter/http-request.adoc[]
-=== request-parameters
+== request-parameters
 include::{snippets}/room-filter/request-parameters.adoc[]
-=== response-fields
+== response-fields
 include::{snippets}/room-filter/response-fields.adoc[]
 
 [[room-getAll]]
-== 방 전체 리스트로 조회
+= 방 전체 리스트로 조회
 
-=== http-request
+== http-request
 include::{snippets}/room-getAll/http-request.adoc[]
-=== http-response
+== http-response
 include::{snippets}/room-getAll/http-response.adoc[]
-=== response-fields
+== response-fields
 include::{snippets}/room-getAll/response-fields.adoc[]
 
 [[room-reserve-price]]
-== 인원수 / 날짜에 따른 가격 조회
+= 인원수 / 날짜에 따른 가격 조회
 
-=== http-request
+== http-request
 include::{snippets}/room-reserve-price/http-request.adoc[]
-=== http-response
+== http-response
 include::{snippets}/room-reserve-price/http-response.adoc[]
-=== path-parameters
+== path-parameters
 include::{snippets}/room-reserve-price/path-parameters.adoc[]
-=== request-parameters
+== request-parameters
 include::{snippets}/room-reserve-price/request-parameters.adoc[]
-=== response-fields
+== response-fields
 include::{snippets}/room-reserve-price/response-fields.adoc[]

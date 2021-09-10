@@ -91,7 +91,6 @@ public class RoomServiceTest {
         CreatedRequestRoomDto request = mock(CreatedRequestRoomDto.class);
         Room testRoom = mock(Room.class);
 
-        given(userService.findById(anyLong())).willReturn(user);
         given(RoomConfiguration.createRoomConfig(testList2)).willReturn(testhrc);
         given(Amenity.createRoomFacility(testList3)).willReturn(testha);
         given(user.getRole()).willReturn(Role.HOST);
