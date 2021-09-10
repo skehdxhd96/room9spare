@@ -25,7 +25,8 @@ public class ChatRoomsDto {
         private Long chatRoomId;
         private Boolean isHost;
         private String roomTitle;
-        private Integer personnel;
+        //TODO: 예약 테이블에 인원수 추가되면 수정
+        //private Integer personnel;
         private LocalDateTime checkinDate;
         private LocalDateTime checkoutDate;
     }

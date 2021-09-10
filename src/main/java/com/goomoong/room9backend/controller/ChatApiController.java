@@ -10,7 +10,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,12 +18,11 @@ public class ChatApiController {
 
     private final ChatService chatService;
 
-    //TODO: 변경된 ui에 맞게 수정
     @GetMapping("/chatroom")
-    public ResponseEntity<List<IdResponseDto>> getChatRoomsApi(@AuthenticationPrincipal CustomUserDetails currentUser) {
-        List<IdResponseDto> responseDtos = chatService.getChatRooms(currentUser.getUser());
+    public ResponseEntity<ChatRoomsDto> getChatRoomsApi(@AuthenticationPrincipal CustomUserDetails currentUser) {
+        ChatRoomsDto chatRoomsDto = chatService.getChatRooms(currentUser.getUser());
 
-        return ResponseEntity.ok(responseDtos);
+        return ResponseEntity.ok(chatRoomsDto);
     }
 
     @PostMapping("/chatroom")
