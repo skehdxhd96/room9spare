@@ -73,3 +73,23 @@ include::{snippets}/room-reserve-price/path-parameters.adoc[]
 include::{snippets}/room-reserve-price/request-parameters.adoc[]
 == response-fields
 include::{snippets}/room-reserve-price/response-fields.adoc[]
+
+[[room-popular]]
+= 인기순 방 조회 / 첫 화면 api
+
+== http-request
+include::{snippets}/room-popular/http-request.adoc[]
+== http-response
+include::{snippets}/room-popular/http-response.adoc[]
+== response-fields
+include::{snippets}/room-popular/response-fields.adoc[]
+
+[[room-random]]
+= 랜덤 방 조회 / 첫 화면 api
+
+== http-request
+include::{snippets}/room-random/http-request.adoc[]
+== http-response
+include::{snippets}/room-random/http-response.adoc[]
+== response-fields
+include::{snippets}/room-random/response-fields.adoc[]
