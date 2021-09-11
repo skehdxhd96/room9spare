@@ -1,8 +1,5 @@
-= Room Api Docs
-NDM 10/09/2021
-ifndef::snippets[]
-:snippets:./build/generated-snippets
-endif::[]
+= RoomApiDocs
+NDM10/09/2021
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -11,65 +8,66 @@ endif::[]
 :sectlinks:
 :operation-http-request-title: Example Request
 :operation-http-response-title: Example Response
+:safe-mode-level: 0
 
 [[room-create]]
-= 방 생성하기
+== 방 생성하기
 
-== http-request
-include::{snippets}/room-create/http-request.adoc[]
-== http-response
-include::{snippets}/room-create/http-response.adoc[]
-== request-headers
-include::{snippets}/room-create/request-headers.adoc[]
-== request-parts
-include::{snippets}/room-create/request-parts.adoc[]
-== request-parameters
-include::{snippets}/room-create/request-parameters.adoc[]
-== response-fields
-include::{snippets}/room-create/response-fields.adoc[]
+=== http-request
+include::{snippets}/room/create/http-request.adoc[]
+=== http-response
+include::{snippets}/room/create/http-response.adoc[]
+=== request-headers
+include::{snippets}/room/create/request-headers.adoc[]
+=== request-parts
+include::{snippets}/room/create/request-parts.adoc[]
+=== request-parameters
+include::{snippets}/room/create/request-parameters.adoc[]
+=== response-fields
+include::{snippets}/room/create/response-fields.adoc[]
 
 [[room-detail]]
-= 방 상세 조회
+== 방 상세 조회
 
-== http-request
-include::{snippets}/room-detail/http-request.adoc[]
-== http-response
-include::{snippets}/room-detail/http-response.adoc[]
-== path-parameters
-include::{snippets}/room-detail/path-parameters.adoc[]
-== response-fields
-include::{snippets}/room-detail/response-fields.adoc[]
+=== http-request
+include::{snippets}/room/detail/http-request.adoc[]
+=== http-response
+include::{snippets}/room/detail/http-response.adoc[]
+=== path-parameters
+include::{snippets}/room/detail/path-parameters.adoc[]
+=== response-fields
+include::{snippets}/room/detail/response-fields.adoc[]
 
 [[room-filter]]
-= 방 필터
+== 방 필터
 
-== http-request
-include::{snippets}/room-filter/http-request.adoc[]
-== request-parameters
-include::{snippets}/room-filter/request-parameters.adoc[]
-== response-fields
-include::{snippets}/room-filter/response-fields.adoc[]
+=== http-request
+include::{snippets}/room/filter/http-request.adoc[]
+=== request-parameters
+include::{snippets}/room/filter/request-parameters.adoc[]
+=== response-fields
+include::{snippets}/room/filter/response-fields.adoc[]
 
 [[room-getAll]]
-= 방 전체 리스트로 조회
+== 방 전체 리스트로 조회
 
-== http-request
-include::{snippets}/room-getAll/http-request.adoc[]
-== http-response
-include::{snippets}/room-getAll/http-response.adoc[]
-== response-fields
-include::{snippets}/room-getAll/response-fields.adoc[]
+=== http-request
+include::{snippets}/room/getAll/http-request.adoc[]
+=== http-response
+include::{snippets}/room/getAll/http-response.adoc[]
+=== response-fields
+include::{snippets}/room/getAll/response-fields.adoc[]
 
 [[room-reserve-price]]
-= 인원수 / 날짜에 따른 가격 조회
+== 인원수 / 날짜에 따른 가격 조회
 
-== http-request
-include::{snippets}/room-reserve-price/http-request.adoc[]
-== http-response
-include::{snippets}/room-reserve-price/http-response.adoc[]
-== path-parameters
-include::{snippets}/room-reserve-price/path-parameters.adoc[]
-== request-parameters
-include::{snippets}/room-reserve-price/request-parameters.adoc[]
-== response-fields
-include::{snippets}/room-reserve-price/response-fields.adoc[]
+=== http-request
+include::{snippets}/room/reservePrice/http-request.adoc[]
+=== http-response
+include::{snippets}/room/reservePrice/http-response.adoc[]
+=== path-parameters
+include::{snippets}/room/reservePrice/path-parameters.adoc[]
+=== request-parameters
+include::{snippets}/room/reservePrice/request-parameters.adoc[]
+=== response-fields
+include::{snippets}/room/reservePrice/response-fields.adoc[]

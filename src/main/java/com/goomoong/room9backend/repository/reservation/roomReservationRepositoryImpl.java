@@ -1,8 +1,8 @@
 package com.goomoong.room9backend.repository.reservation;
 
 import com.goomoong.room9backend.domain.reservation.ReserveStatus;
+import com.goomoong.room9backend.domain.reservation.dto.ReservationDto;
 import com.goomoong.room9backend.domain.reservation.roomReservation;
-import com.goomoong.room9backend.repository.room.RoomRepositoryCustom;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -16,12 +16,22 @@ public class roomReservationRepositoryImpl implements roomReservationRepositoryC
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<roomReservation> findByRoomId(Long roomId) {
+    public List<roomReservation> getAllList(Long roomId) {
         return queryFactory.select(roomReservation)
                 .from(roomReservation)
-                .join(roomReservation.users).fetchJoin()
+                .where(roomReservation.room.id.eq(roomId),
+                        roomReservation.reserveStatus.eq(ReserveStatus.COMPLETE))
+                .fetch();
+    }
+
+    @Override
+    public List<roomReservation> getMyBookList(Long userId) {
+        return queryFactory.select(roomReservation)
+                .from(roomReservation)
                 .join(roomReservation.room).fetchJoin()
-                .where(roomReservation.room.id.eq(roomId))
+                .where(roomReservation.users.id.eq(userId),
+                        roomReservation.reserveStatus.eq(ReserveStatus.COMPLETE)
+                                .or(roomReservation.reserveStatus.eq(ReserveStatus.DONE)))
                 .fetch();
     }
 }

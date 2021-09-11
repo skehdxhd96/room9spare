@@ -64,24 +64,24 @@ public class RoomRepositoryTest {
         rooms.forEach(r -> testEntityManager.persist(r));
     }
 
-    @Test
-    @DisplayName("title : 포함 / limitPrice : 이하 / detailLocation : 포함 / limitPeople : 이하 / orderStandard : 정렬기준")
-    public void 방_필터조회_테스트() {
-
-        //given
-        ArrayList<Room> actual_likedby = new ArrayList<>();
-        actual_likedby.add(roomRepository.findById(2L).orElse(null));
-        actual_likedby.add(roomRepository.findById(1L).orElse(null));
-
-        //when
-        searchDto s1 = new searchDto("테", 4999, "h", 29, OrderDto.LIKEDDESC);
-        var result_likedby = roomRepository.findRoomWithFilter(s1);
-
-        searchDto s2= new searchDto("테", 4999, "h", 29, OrderDto.LIKEDASC);
-        var result_likedby2 = roomRepository.findRoomWithFilter(s2);
-
-        //then
-        Assertions.assertThat(actual_likedby).containsExactly(result_likedby.get(0), result_likedby.get(1));
-        Assertions.assertThat(actual_likedby).containsExactly(result_likedby2.get(1), result_likedby2.get(0));
-    }
+//    @Test
+//    @DisplayName("title : 포함 / limitPrice : 이하 / detailLocation : 포함 / limitPeople : 이하 / orderStandard : 정렬기준")
+//    public void 방_필터조회_테스트() {
+//
+//        //given
+//        ArrayList<Room> actual_likedby = new ArrayList<>();
+//        actual_likedby.add(roomRepository.findById(2L).orElse(null));
+//        actual_likedby.add(roomRepository.findById(1L).orElse(null));
+//
+//        //when
+//        searchDto s1 = new searchDto("테", 4999, "h", 29, OrderDto.LIKEDDESC);
+//        var result_likedby = roomRepository.findRoomWithFilter(s1);
+//
+//        searchDto s2= new searchDto("테", 4999, "h", 29, OrderDto.LIKEDASC);
+//        var result_likedby2 = roomRepository.findRoomWithFilter(s2);
+//
+//        //then
+//        Assertions.assertThat(actual_likedby).containsExactly(result_likedby.get(0), result_likedby.get(1));
+//        Assertions.assertThat(actual_likedby).containsExactly(result_likedby2.get(1), result_likedby2.get(0));
+//    }
 }

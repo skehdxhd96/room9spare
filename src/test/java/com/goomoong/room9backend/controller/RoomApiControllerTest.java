@@ -222,7 +222,7 @@ public class RoomApiControllerTest {
 
         //then
         result.andExpect(status().isCreated())
-                .andDo(document("room-create",
+                .andDo(document("room/create",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestHeaders(
@@ -262,7 +262,7 @@ public class RoomApiControllerTest {
         //then
         results
                 .andDo(print())
-                .andDo(document("room-getAll",
+                .andDo(document("room/getAll",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         responseFields(
@@ -317,7 +317,7 @@ public class RoomApiControllerTest {
         //then
         results
                 .andDo(print())
-                .andDo(document("room-filter",
+                .andDo(document("room/filter",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestParameters(
@@ -372,7 +372,7 @@ public class RoomApiControllerTest {
         //then
         results
                 .andDo(print())
-                .andDo(document("room-detail",
+                .andDo(document("room/detail",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
@@ -432,7 +432,7 @@ public class RoomApiControllerTest {
         //then
         results
                 .andDo(print())
-                .andDo(document("room-reserve-price",
+                .andDo(document("room/reservePrice",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
