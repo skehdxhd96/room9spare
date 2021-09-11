@@ -37,20 +37,13 @@ ext {
 	snippetsDir = file('build/generated-snippets')
 }
 
-//bootJar {
-//	dependsOn asciidoctor
-//	copy { //build/asciidoc/html5에 있는 컨버팅 된 html을 jar로 복붙
-//		from "build/asciidoc/html5"
-//		into 'src/main/resources/static/docs/'
-//	}
-//}
-
 apply plugin: "io.spring.dependency-management"
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	testImplementation('org.mockito:mockito-inline:3.4.0')
 
 	/**
 	 * Lombok
