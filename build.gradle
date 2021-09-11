@@ -32,17 +32,18 @@ repositories {
 	mavenCentral()
 }
 
+//Rest Docs dir
 ext {
-	set('snippetsDir', file("build/generated-snippets")) //문서 조각인 스니펫이 생성되는 경로
+	snippetsDir = file('build/generated-snippets')
 }
 
-bootJar {
-	dependsOn asciidoctor
-	copy { //build/asciidoc/html5에 있는 컨버팅 된 html을 jar로 복붙
-		from "build/asciidoc/html5"
-		into 'src/main/resources/static/docs/'
-	}
-}
+//bootJar {
+//	dependsOn asciidoctor
+//	copy { //build/asciidoc/html5에 있는 컨버팅 된 html을 jar로 복붙
+//		from "build/asciidoc/html5"
+//		into 'src/main/resources/static/docs/'
+//	}
+//}
 
 apply plugin: "io.spring.dependency-management"
 
@@ -88,7 +89,7 @@ dependencies {
 	 * RestDoc
 	 */
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc' //mockmvc 를 restdocs 에 사용하게 돕는 라이브러리
-	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.1.RELEASE'
+	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
 	/**
 	 * AWS
@@ -110,6 +111,7 @@ def querydslDir = "$buildDir/generated/querydsl"
 
 test {
 	useJUnitPlatform()
+	outputs.dir snippetsDir
 }
 
 querydsl {
@@ -134,17 +136,29 @@ configurations {
 	querydsl.extendsFrom compileClasspath
 }
 
-////RestDoc
-//asciidoctor {
-//	configurations 'asciidoctorExtensions'
-//	inputs.dir snippetsDir
-//	dependsOn test
-//}
+/***********
+ * REST Docs
+ ***********/
+asciidoctor {
+	configurations 'asciidoctorExtensions'
+	inputs.dir snippetsDir
+	dependsOn test
+}
 
 bootJar {
 	dependsOn asciidoctor
-	copy {
-		from "${asciidoctor.outputDir}"
-		into 'src/main/resources/static/docs'
+	duplicatesStrategy(DuplicatesStrategy.INCLUDE)
+	from("${asciidoctor.outputDir}") {
+		into "BOOT-INF/classes/static/docs"
 	}
+}
+
+task copyDocument(type: Copy) {
+	dependsOn asciidoctor
+	from file("build/docs/asciidoc")
+	into file("src/main/resources/static/docs")
+}
+
+build {
+	dependsOn copyDocument
 }
