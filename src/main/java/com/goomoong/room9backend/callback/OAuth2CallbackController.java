@@ -8,10 +8,7 @@ import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.repository.user.UserRepository;
 import com.goomoong.room9backend.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -19,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +31,7 @@ public class OAuth2CallbackController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/kakao")
-    public String kakao(@RequestParam String code, @RequestParam String state) {
+    public RedirectView kakao(@RequestParam String code, @RequestParam String state) {
         Map<String, String> res = new HashMap<>();
         res.put("code", code);
         res.put("state", state);
@@ -84,7 +82,10 @@ public class OAuth2CallbackController {
             ex.printStackTrace();
         }
 
-        return "redirect:" + res.get("redirectUri") + "?token=" + res.get("jwtToken");
+        String rrredirectUrl = res.get("redirectUri") + "?token=" + res.get("jwtToken");
+        RedirectView rv = new RedirectView(rrredirectUrl);
+        rv.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
+        return rv;
     }
 
 }
