@@ -62,7 +62,7 @@ public class RoomApiController {
         searchDto search = new searchDto();
         search.setOrderStandard(OrderDto.LIKEDDESC);
 
-        List<GetCommonRoom> roomList = roomSearchService.search(search).stream()
+        List<GetCommonRoom> roomList = roomSearchService.search(search).stream().limit(3)
                 .map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
         return new roomData.GET<>(roomList.size(), roomList);
     }
