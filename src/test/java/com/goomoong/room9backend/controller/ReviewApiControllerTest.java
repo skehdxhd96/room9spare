@@ -5,7 +5,6 @@ import com.goomoong.room9backend.config.MockSecurityFilter;
 import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.review.dto.CreateReviewRequestDto;
 import com.goomoong.room9backend.domain.review.dto.ReviewSearchDto;
-import com.goomoong.room9backend.domain.review.dto.SelectReviewRequestDto;
 import com.goomoong.room9backend.domain.review.dto.UpdateReviewRequestDto;
 import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.user.Role;
@@ -41,8 +40,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -107,18 +105,16 @@ class ReviewApiControllerTest {
         given(reviewService.findByUserAndRoom(any(ReviewSearchDto.class))).willReturn(reviews);
 
         //when
-        ResultActions result = mvc.perform(get("/api/v1/reviews")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(SelectReviewRequestDto.builder().userId(1L).roomId(1L).build())));
+        ResultActions result = mvc.perform(get("/api/v1/reviews").param("user","1").param("room","1"));
 
         //then
         result
                 .andDo(document("review/select",
                         getDocumentRequest(),
                         getDocumentResponse(),
-                        requestFields(
-                                fieldWithPath("userId").description("유저 ID"),
-                                fieldWithPath("roomId").description("방 ID")
+                        requestParameters(
+                                parameterWithName("user").description("유저 ID (Nullable)"),
+                                parameterWithName("room").description("방 ID (Nullable)")
                         ),
                         responseFields(
                                 fieldWithPath("data[].id").description("ID"),

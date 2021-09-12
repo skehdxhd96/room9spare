@@ -17,7 +17,7 @@ sockju
 include::{snippets}/review/select/http-request.adoc[]
 
 === Request Fields
-include::{snippets}/review/select/request-fields.adoc[]
+include::{snippets}/review/select/request-parameters.adoc[]
 
 === HTTP Response
 include::{snippets}/review/select/http-response.adoc[]
