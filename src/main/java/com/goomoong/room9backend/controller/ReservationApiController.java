@@ -18,9 +18,9 @@ public class ReservationApiController {
 
     //예약 결제 api -> 예약 테이블에 데이터 넣고 아임포트 param에 전달까지
     @PostMapping("/room/book/{roomId}")
-    public JSONObject roomBooked(@PathVariable Long roomId, @RequestBody ReservationDto.request request,
+    public void roomBooked(@PathVariable Long roomId, @RequestBody ReservationDto.request request,
                                  @AuthenticationPrincipal CustomUserDetails currentUser) throws Exception {
-        return reservationService.reserveRoom(currentUser.getUser(), roomId, request);
+        reservationService.reserveRoom(currentUser.getUser(), roomId, request);
     }
 
     /**

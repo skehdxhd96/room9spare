@@ -46,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ExtendWith({SpringExtension.class, RestDocumentationExtension.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, properties = "spring.config.location=" +
-        "classpath:application.properties," +
+        "classpath:application.yml," +
         "classpath:aws.yml")
 public class UserApiControllerTest {
 
@@ -87,7 +87,7 @@ public class UserApiControllerTest {
         //then
         result
                 .andDo(print())
-                .andDo(document("user/getAll",
+                .andDo(document("user-getAll",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         responseFields(
@@ -122,7 +122,7 @@ public class UserApiControllerTest {
         //then
         result
                 .andDo(print())
-                .andDo(document("user/getById",
+                .andDo(document("user-getById",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
@@ -160,7 +160,7 @@ public class UserApiControllerTest {
         //then
         result
                 .andDo(print())
-                .andDo(document("user/changeRole",
+                .andDo(document("user-changeRole",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
@@ -197,7 +197,7 @@ public class UserApiControllerTest {
         //then
         result
                 .andDo(print())
-                .andDo(document("user/update",
+                .andDo(document("user-update",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(

@@ -79,11 +79,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureRestDocs
+@AutoConfigureMockMvc
 @ExtendWith({SpringExtension.class, RestDocumentationExtension.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, properties = "spring.config.location=" +
-        "classpath:application.properties," +
+        "classpath:application.yml," +
         "classpath:aws.yml")
-@AutoConfigureMockMvc
 public class RoomApiControllerTest {
 
     @Autowired
@@ -222,7 +222,7 @@ public class RoomApiControllerTest {
 
         //then
         result.andExpect(status().isCreated())
-                .andDo(document("room/create",
+                .andDo(document("room-create",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestHeaders(
@@ -262,7 +262,7 @@ public class RoomApiControllerTest {
         //then
         results
                 .andDo(print())
-                .andDo(document("room/getAll",
+                .andDo(document("room-getAll",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         responseFields(
@@ -317,7 +317,7 @@ public class RoomApiControllerTest {
         //then
         results
                 .andDo(print())
-                .andDo(document("room/filter",
+                .andDo(document("room-filter",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestParameters(
@@ -372,7 +372,7 @@ public class RoomApiControllerTest {
         //then
         results
                 .andDo(print())
-                .andDo(document("room/detail",
+                .andDo(document("room-detail",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
@@ -432,7 +432,7 @@ public class RoomApiControllerTest {
         //then
         results
                 .andDo(print())
-                .andDo(document("room/reservePrice",
+                .andDo(document("room-reservePrice",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
@@ -448,5 +448,63 @@ public class RoomApiControllerTest {
                         )
                 ))
                 .andExpect(jsonPath("$.totalPrice").value(42000));
+    }
+
+    @Test
+    @DisplayName(value = "랜덤 방 조회")
+    public void getRoomRandom() throws Exception{
+        //given
+        given(roomSearchService.randSearch()).willReturn(rooms);
+
+        //when
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/room/random"));
+
+        //then
+        results
+                .andDo(print())
+                .andDo(document("room-random",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        responseFields(
+                                fieldWithPath("count").type(JsonFieldType.NUMBER).description("총 숙소 개수"),
+                                fieldWithPath("room.[].roomId").type(JsonFieldType.NUMBER).description("숙소 아이디"),
+                                fieldWithPath("room.[].username").type(JsonFieldType.STRING).description("숙소 만든 사람 닉네임"),
+                                fieldWithPath("room.[].title").type(JsonFieldType.STRING).description("숙소 제목"),
+                                fieldWithPath("room.[].location").type(JsonFieldType.STRING).description("숙소 위치"),
+                                fieldWithPath("room.[].limitPeople").type(JsonFieldType.NUMBER).description("제한 인원"),
+                                fieldWithPath("room.[].price").type(JsonFieldType.NUMBER).description("숙소 가격"),
+                                fieldWithPath("room.[].like").type(JsonFieldType.NUMBER).description("숙소에 찍힌 좋아요 수"),
+                                fieldWithPath("room.[].images[].url").type(JsonFieldType.STRING).description("숙소 이미지")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName(value = "인기순 방 조회")
+    public void getRoomPopular() throws Exception{
+        //given
+        given(roomSearchService.search(any(searchDto.class))).willReturn(rooms);
+
+        //when
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/room/popular"));
+
+        //then
+        results
+                .andDo(print())
+                .andDo(document("room-popular",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        responseFields(
+                                fieldWithPath("count").type(JsonFieldType.NUMBER).description("총 숙소 개수"),
+                                fieldWithPath("room.[].roomId").type(JsonFieldType.NUMBER).description("숙소 아이디"),
+                                fieldWithPath("room.[].username").type(JsonFieldType.STRING).description("숙소 만든 사람 닉네임"),
+                                fieldWithPath("room.[].title").type(JsonFieldType.STRING).description("숙소 제목"),
+                                fieldWithPath("room.[].location").type(JsonFieldType.STRING).description("숙소 위치"),
+                                fieldWithPath("room.[].limitPeople").type(JsonFieldType.NUMBER).description("제한 인원"),
+                                fieldWithPath("room.[].price").type(JsonFieldType.NUMBER).description("숙소 가격"),
+                                fieldWithPath("room.[].like").type(JsonFieldType.NUMBER).description("숙소에 찍힌 좋아요 수"),
+                                fieldWithPath("room.[].images[].url").type(JsonFieldType.STRING).description("숙소 이미지")
+                        )
+                ));
     }
 }

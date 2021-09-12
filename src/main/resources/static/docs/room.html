@@ -451,26 +451,56 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#room-create">방 생성하기</a>
 <ul class="sectlevel2">
 <li><a href="#_http_request">http-request</a></li>
+<li><a href="#_http_response">http-response</a></li>
+<li><a href="#_request_headers">request-headers</a></li>
+<li><a href="#_request_parts">request-parts</a></li>
+<li><a href="#_request_parameters">request-parameters</a></li>
+<li><a href="#_response_fields">response-fields</a></li>
 </ul>
 </li>
 <li><a href="#room-detail">방 상세 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_http_request_2">http-request</a></li>
+<li><a href="#_http_response_2">http-response</a></li>
+<li><a href="#_path_parameters">path-parameters</a></li>
+<li><a href="#_response_fields_2">response-fields</a></li>
 </ul>
 </li>
 <li><a href="#room-filter">방 필터</a>
 <ul class="sectlevel2">
 <li><a href="#_http_request_3">http-request</a></li>
+<li><a href="#_request_parameters_2">request-parameters</a></li>
+<li><a href="#_response_fields_3">response-fields</a></li>
 </ul>
 </li>
 <li><a href="#room-getAll">방 전체 리스트로 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_http_request_4">http-request</a></li>
+<li><a href="#_http_response_3">http-response</a></li>
+<li><a href="#_response_fields_4">response-fields</a></li>
 </ul>
 </li>
 <li><a href="#room-reserve-price">인원수 / 날짜에 따른 가격 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_http_request_5">http-request</a></li>
+<li><a href="#_http_response_4">http-response</a></li>
+<li><a href="#_path_parameters_2">path-parameters</a></li>
+<li><a href="#_request_parameters_3">request-parameters</a></li>
+<li><a href="#_response_fields_5">response-fields</a></li>
+</ul>
+</li>
+<li><a href="#room-popular">인기순 방 조회 / 첫 화면 api</a>
+<ul class="sectlevel1">
+<li><a href="#_http_request_6">http-request</a></li>
+<li><a href="#_http_response_5">http-response</a></li>
+<li><a href="#_response_fields_6">response-fields</a></li>
+</ul>
+</li>
+<li><a href="#room-random">랜덤 방 조회 / 첫 화면 api</a>
+<ul class="sectlevel1">
+<li><a href="#_http_request_7">http-request</a></li>
+<li><a href="#_http_response_6">http-response</a></li>
+<li><a href="#_response_fields_7">response-fields</a></li>
 </ul>
 </li>
 </ul>
@@ -482,19 +512,220 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request"><a class="link" href="#_http_request">http-request</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in room.adoc - include::{snippets}/room/create/http-request.adoc[]
-=== http-response
-Unresolved directive in room.adoc - include::{snippets}/room/create/http-response.adoc[]
-=== request-headers
-Unresolved directive in room.adoc - include::{snippets}/room/create/request-headers.adoc[]
-=== request-parts
-Unresolved directive in room.adoc - include::{snippets}/room/create/request-parts.adoc[]
-=== request-parameters
-Unresolved directive in room.adoc - include::{snippets}/room/create/request-parameters.adoc[]
-=== response-fields
-Unresolved directive in room.adoc - include::{snippets}/room/create/response-fields.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /room/create HTTP/1.1
+Content-Type: multipart/form-data; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Authorization: Bearer accessToken
+Host: room9.docs.com
+
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=conf.confType
+
+화장실
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=conf.confType
+
+침실
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=conf.count
+
+2
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=conf.count
+
+2
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=facilities
+
+전자레인지
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=facilities
+
+에어프라이기
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=limit
+
+10
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=price
+
+10000
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=title
+
+testTitle
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=content
+
+testContent
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=detailLocation
+
+testLocation
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=rule
+
+testRule
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=addCharge
+
+1000
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=images; filename=jpgFile.jpg
+Content-Type: image/jpg
+
+??? Exif  II*            ?? Ducky     &lt;  ??|https://room9.docs.com/xap/1.0/ &lt;?xpacket begin="�?" id="W5M0MpCehiHzreSzNTczkc9d"?&gt; &lt;x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 6.0-c002 79.164488, 2020/07/10-22:06:53        "&gt; &lt;rdf:RDF xmlns:rdf="https://room9.docs.com/1999/02/22-rdf-syntax-ns#"&gt; &lt;rdf:Description rdf:about="" xmlns:xmpMM="https://room9.docs.com/xap/1.0/mm/" xmlns:stRef="https://room9.docs.com/xap/1.0/sType/ResourceRef#" xmlns:xmp="https://room9.docs.com/xap/1.0/" xmpMM:OriginalDocumentID="xmp.did:c1aeffd9-0af2-5b44-bbb6-22751b06f4d8" xmpMM:DocumentID="xmp.did:20E6FFD83EAB11EB90B5AAED879BDD3D" xmpMM:InstanceID="xmp.iid:20E6FFD73EAB11EB90B5AAED879BDD3D" xmp:CreatorTool="Adobe Photoshop 22.0 (Windows)"&gt; &lt;xmpMM:DerivedFrom stRef:instanceID="xmp.iid:26a59f7c-5d9b-e24b-8e38-78ac81935880" stRef:documentID="xmp.did:c1aeffd9-0af2-5b44-bbb6-22751b06f4d8"/&gt; &lt;/rdf:Description&gt; &lt;/rdf:RDF&gt; &lt;/x:xmpmeta&gt; &lt;?xpacket end="r"?&gt;?? Adobe d?   ?? ? 		
+
+
+
+?? ?? ?? ?          	            
+    !1AQaq6?"2Rr��t?�b��#?$?5E����B�C�eu�S�U��?4D%7      ?!1q?234AQa�Br??����"Rb��C��#c$??   ? ?                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         {6��?v?,?`Z��7�Ji��?UO?":��ݹ�p?7+��D?T?�mw?6����?/i��US?���g?1��?g�t��D�ʄsO)nܵ�N6}4?7bjǿnu��1צ�LLk??/U��W9&lt;��?;��8���&amp;                                                         ,n����&amp;g��?Oe?^��Z?L?~y��c?i?osJ?]��߿)����i??o����?n��?r?������?��J?[                                                         �k?3��?9?7f?M�⢸?��?{���q?7+?i�L?Tc�mw�?f)����z#I�MU?L?��?����?(���x*?�f�?��c+q?'?&amp;?6h?v?��b��z?3=(W??rq�o��[�ӻG? \w?                                                      L|{?7豏n����Snպf��z��cY???V?w?827~??'?��ɪ'I��"c���|?�y�m������n��o.?5*?��lܪ����&lt; ?r?,��=?6?W�Ǯm?s��&amp;��?:4?;?^ϼ�w�ٸ��ߘ�?6? b?/����u:o??}???:&gt;��h?;r&amp;O*?m�FW�v?&lt;?&lt;=?��3��"?r�kgVZ~?��#?&gt;\~dwr��cSW߹E��z�k?)��Q?�f!&gt;?{��^(Y_?V? u? N??YW?g����'?q����?]����g[Ȣ�被t?U3��Mu�q���t?c?^KX?��Ȧa���y?�NE�t?`��NVF��Q㢘���?W��?N��&lt;P?�լ�?&amp;w��G:m��V[��u?]?۵M?����?#�R���׏�?&gt;7?/��9��&amp;?r��? 6?5????4*?#�S?��Dl??����qVu���ᷗjf�S&gt;)?"i?%Q?W��?o��y��mf:3��S��ccde_??W???v����?|?M33?&amp;?\S����^����t��2?��V��?Omr#�V�M1?iX��j���?w��3?5|��?q{6��??3?����G?)��?;�f����{�ˢ���?*oU4�Ȣm��?3T��^?&gt;����38WN?2��?}?iͯqǫ"��������1�UXVܷU�Q��?_??;?N0?&lt;; ��?n~?�F&amp;��2n{�v?Y��?#?2?ET?��ݻM�w��!cm?n7h?��F,?LسOkW�k����6?+zd?Jpg����?(?,?:��^ͤ�dD?&amp;i?����|r����٧?G��?w?;u^?2m?4S��?v7t?X����??tڣ��?;/?u?��??)?F0�[wi7?-?w{j*?&amp;*�xf����G����M&lt;X,3��6(��?����?[����?:��/�ʾ�??b~4��+??��ݻM��?5�LM1=?�nuO?@�k��4?�y&lt;?_?"0��?"?��?\��f��f?�r?̻7?��t]�n)��i��g?\?^�r?C?V�{?��G? ;[?Dx�H�G�Zt??                                     ~˰?[?m8[F�쪿��D?1:kV?��?]\��Zݲ��W6gF?ft��Ěn_?���ζ蟃??����?S��?{m�k?W?1?_??]�Z��k?$@?|��?0�f|?`?w5???6����w[�K�vj���T������?*�S����wo?=��??O?X9�򐬵ҎV?1���ϙ�Z��?&amp;�`n��?gZ��)�E�ʯs5[�i??k?y��?0?[7��8?8K?UV��5U1E?L??Nq/��?;��Z�n?~?��?~�K?U?z�uGK����g?bg���̵M?k��-?��? ��b��x��ܪ���g	?{?9k?�o\��Fm�����c��Z?Kt��=??}�l�V?^YO��u?0��?&lt;_I{"Śb��)�L?D?TS3Ʈ��?(,��?��7h?��TU��"bx�j�c?0}^Q?~?;ű]?G?x��7&lt;&lt;q?_}_��F?X��yc�c�gg/v'???����&amp;'I?g��';2?-s#"��j��?T?T?5N��r?4S5U??\��?,�f?E��?��1��*#?��e��j?#������W��c?&gt;?!򽕍cH�z�S=\uE:?��?#��?&amp;x?��?7��?]7(��LUfbq|�f8?6?*3�Ϣ�4��???��k��??/?��?�ݪi?����?9��z��n??{l?{���f?E�m?R��U??q? H���tE�U?=?r5?�sv?qs?k3�a?f�զ�פM'�� ?����?Wi��^?|Íf-F�r���T?W?{ڵ�z
+?77&amp;?\?{��V?K?/?U����STD?&gt;                                 $\��?8s]跱�rm?\72?8,Qկ����]t��???&gt;?;V4Q�͹�?{�gj�b::b��+?? ][.��?xt?m6p1i��?DL����O�zA?g����V��޷[6r":0?��"|_��?\k?��/ͿZ�����?f����?*��?b��?&gt;)��?
+?;'?;';*?&lt;����?^�O?�MUN��F?&gt; L���Ο�]��?;?إ׻???|Īn?a?u?�N����j;����?V{'���?HVZ?G+E����g�ԭK?W;?7?}�f��2"j��Gu?US?O?UTC�ۑE3T?�y�r(?9g^a?��˪��UtL?o���n&lt;M^?[;z?W'? +��b?(��&amp;�������j�u��?���ÊL?+��t��m��??#?]ǿT?]V��j������|���fk?��?��4?mL\?0����?L?7ϼ?O-lue[��6?]?����5��?0�����°?r_��?=??{?wM?sʫ+?"����?]?��?DuDy!�����fqn?Y��;�F?a��?dQ��z?|�s?m?4??&gt;ST?8��?t?U�D?1��Z�ο���5Y��?��G��?qS1W��eo{?"g����b��8H?�������qNMʨ��S\��{S5��v?Q?~���߱D��L?��h�ܲ���?tŜm?\��?&lt;����I�m�fj?��9����??G��\��I?C�n?����?*��n?Ock]8��?U&gt;? $?k����w��?~f����������?*?w��:?v?S]S?��TuU38?gE?SCѵo;�ӕNV??^5��Y�t��?UOUQ?��w*�q�ps��??;��0?�Ϳ�?$e]?-?X��˦�s5�kS�&lt;?+����?a?&lt;��?n?Fxa%IW3?z��n??{l?{���f?E�m?R��w:s'? �v;��ʪ��??M?+�UT?UEQ?5QOLi&gt;TE?��O�f?ӵU�WDU��&lt;tk?��\?Sj?��&lt;��?j+��[���U�j�L}��?nS��?8���ܱ�ؾ���s?�LQ]?t�F��?S�t}?��?/��?d?��?=q��α��E?#_4UO��R��|��&gt;���j���t?j��?�i�_��                               :\�f��bڬޢ���fc?r?QMT?v��������Ǳ�f?��b?p۵n���b&lt;Li �ݻnժ��?)�DMU?=Q?2
+��&gt;?&lt;��Uwe?{z͢f��"lc?TN?]q?:}?yAJso=��ig? E�׬z.߭�k�UWu�����?+ʪ����?j��֪��fg�fA? ?�s��?~?;N?v)u��?B?_1*����?~%S�z;y������?����??6~R��Q��f:��Y?5+R��?W?��&gt;�m=��?:?E?Tm?2?,?xw��UG9i?V5??6��?'��f?&amp;?��?^��)Qw?3?4x82:=�j�S���Wv���Ϊ�M0��?�ݼ�ע3*��=�k?3?&lt;?x��}^yX?}?{��?u?v?F�w;����7??f�o�V�s��X�7b4����?&gt;9��/ⶵ���?+5?׽��?1�Λ�����?*?p?/��?E��[��Sg?q��^Y��{?&amp;_�閽?^��c�����.n??R?_9��?u�tg��?YO��?L?=w����?G��g����o4^?F��(?"?��۶nSv?u[�D�TWD?5D?T��P,^T? ?}���s67|*4�G?"n�ïO?�n�V�LG?O%}e9S}ȱ��ad?{��h��j˳USফT??^�zG??5ET�Q��Ʊ1=&gt;8��|?0��b�ط��v8nؽE7(?&lt;USTLH??P                              {vl?x;?u?f�x?�WM:qM6?��#]:z?9;?I��i�g?h�ɍj��~&amp;?#Y?^?Mzf�c?	X#\��?$?M5N��ٿ~cHˢ;,��~?~��?�y��z?;������?-?4�ؿn?'ɭ?5�����vh?6??�k?9O��z�oQ�ng��?#?u�׮t���ާi?n?.����_?%Sw���ĪuOGo3Qݿ��2��?]`|��?B��J9Z,?WW?&gt;f�j_��}����|G?-�g����Zh�����Y?�o N���Ο�]��?;?إ׻???|Ī.? ?;7��?;j�S���Wv���Ϊ�M0?��W3�y?%B?L?O+?.��W�V:şg^�z?~������?|&lt;?�٨�?��?W?;_��"��#��?;+�v??~K?l��?U[�mUGS~��O�f��e�t��?]���Hx?@\��~?ܾsO��?L��+#?&gt;��W�f,��z?W����&gt;�m��uӳ��h�����Q$E?	?*wK��?4W�mWiįO˲cI��u��$7)?Uv?~�ѹכr4���㲳��*�V?+?4P��y;��n?c���?iUv��Ҩ?r�nW?UH; ��?{��?Qr���{&gt;����K��}?Q�G�� ?                               ?Eu?]5?T?]3SU3��?LLL�俬7&gt;��g��z7ͺ����37���ȍk��y|?_��̽��?_?7?�D?��MUOF��k��?:DL�S???LOT��vի��v�n[?&amp;��?"i������V��?}���cv|ں??L[?_-������'?��m��o��?;h�ɽ�t��?nM\:?��릠�?5???6����w[�K�vj���T������?*�S����wo?=��??O?X9�򐬵ҎV?1���ϙ�Z�樟z��???�h��vy??/j�o?�yg��?�s��?~?;N?v)u��?B?_1*���f/l��&amp;��?&lt;M��Tj��?f��s?_�ΪUM8?��W3�y?%B?L?O+?.��W�V:şg^�z?~������?|&lt;?�٨�?����]7?&amp;Ũ�g��UG�f?��?-t��?Fg]?��?"y��d?;3s?xպ��p�ܪ��rx? ��fs��?&lt;??r7?QW?����qKsw?�r��?'?3?&lt;��x��}^u��gY�__�O��=?{=?N?3y??Z6?)z����?9?�ѓ�^&gt;&gt;-y�n[?+?�h�n?&lt;SL?k?�OWR"Ѩ�O��?9g��?FNeLf��QwX??&lt;Q�D?
+`p~22,cٮ?E?,طW.ܪ)��??:D@*�s��r6��cj��?:�b#xq?c?_������Es?~��?7if��??}zǡ?kj&amp;?w5��tu?m&lt;??                                  ?����Q?-�W?)??Gek{H?SL?��?��Y�Qݻ&lt;n`�V?�WD?�n��?#��~??#?�����Ʒ�?~?V-����5?r��?MT��?��?������?���׮t���ާi?n?.����_?%Sw���ĪuOGo3Qݿ��2��?]`|��?B��J9Z,?WW?&gt;f�j_��}����|G?-�g����Zh�����Y?�o N���Ο�]��?;?إ׻???|Īn?a?u?�N����j;����?T?����w��?&lt;���w�t'��?]O��+bϳ�y޽n?����?zھ?G��m��S?~?M��?��ZzE1��oo��y�b}��2?4?;ŗ?�nG��y?
+?�V}?r&gt;N?�m���f??F�Wn�s]1sOT?&lt;��?Zj����Z-Q��?U?&lt;R��&amp;'I?S5��&gt;&gt;FM?,c۪����n?5UT??":e?"fp����c?!?{��&lt;?\?f?e_����_??[��Ѭu?G[A��6��??V��b?4?i??*Z��g??}~?&gt;#����?];&lt;���h��?9��?��?{?8?�F��?��?{s7��??OW������?}?s�&amp;AJs��??i��[|?W�f��k?E�f+�0(?j��o�?s|��eQ?��X?|6��?&lt;?j?                                     ?r?:?O+?zFŹ^ªg��g[U��ګZ*?`��?#q?r?���̽s"��Gڦ��?k ��5???6����w[�K�vj���T������?*�S����wo?=��??O?X9�򐬵ҎV?1���ϙ�Z�樟z��???�h��vy??/j�o?�yg��?�s��?~?;N?v)u��?B?_1*����?~%S�z;y������??2��u?��w?'�]??	?c��?S����X����w?[?÷?43�޶�����?5|��?{?^ٸc��W��?\\�W�X?O?&amp;:%�晉?8N�j��MqKG�4m��?[��?��F&lt;?MV?xi?'?|0?X?)?�gru��ݫd�ݗdG'?��g&gt;����1?_����n����1�ϲ�U?*�f!*?v??5?���ɵ?;~�Z??Uۢ�j?=Zj?E�i?���ٛ�:uL��]T?D?N�U:�ƽZ��??3?z��n??{l?{���f?E�m?R��?9s*f��lY����V%w?)?�m?]'?+��'[qӢ"����]?t˯3r˽��_��?]W+?'S3?&lt;?                                       �ɼ�������?����?\}��ӧ��?��/�ս�(Y?��-?c��?????⿹O?S���B��������?&gt;s��g��C?^��? k��v?ioM;4L?k����M7M��������?&gt;Y�89&gt;������?\���k�TU��&gt;$jj�bV7(ަi��? ~? ?r��S���C5?o��? g'����?�em?��?{?��Gi��ܦ��?^:ܯ��?N??~����?.��?p??&amp;5x?_ ��o3��o1�z7��n?}?g�������w��?uoa?'??{������?��?S? ��?/Ф��? g? ?'?����??���v����]??[?N?5���pa��M?k������aŏ?|h?"??������o?~������?;n?Mi��4����4ܶs?S1?*}GI��qV��?&lt;?? ???⿹I?S���B��������?���ӛ�^��??�M3��q��?{?)��?����?5qb����ͨ?pr??]?}?v\?s6?��^���馪}?t?EQ?t�v?'e?1��?;��0��~��f?4o}t\��??,�T��?+�f��J��??|L���Տ�upy~xu美N���ʙ�Z�Y?5?#o?��c��h��?�ۖ���?M��?#'+J��5�fi��T?��?b&gt;4��wb'�c?����k+;;l?s?n?~���oz��j?-ӯ?��}:�������SEtSLaO:�X(Y�:���wI�u�lǳ��Y��[;&lt;��??h��?DZ                                                     ?W]t?E3UuLE4�k33?��cn?f��??U��?1z��u��i?f����c?|?6?i�����u?/?X��pr?U?�n?.d?nX?c?�xu?5Dxh?:*?2�媨?*��/��z��'x��ݣf��|?0��d_?�LtS����?,�۷Us?0?1E�w��!�yK��r�Í�QWv?j�r:8?W:?&gt;oy;��K��M��\��uo^�b��ת?-Z�k?\?E4?��?�p�Qi�fp?9f? t�u��??#*?w(�z?��k?:C/v����?���un?&lt;P�?                                                    ?'o8[71bn9��f�mO]T?E?c�j��5w��?+��1C���jh�p��`��n?��?[���NF5�֋�N��?\LxbzZ:+��?~v?V?�j?&amp;L?,&lt;?3c.ż?5{�Wi��gت&amp;j?&amp;0??.UD?L?O�ǞB�٫Y�񵞞�"#?C��m?�J?K1����\�o����?Zŵ?,?M?)�u��?0����?�j���/Nj��^��]�w����r*??*���G?TLu��?5N{7��jtm.bb��?c����:��                                                      ��9�z��;}?*�z�N:#����?N��?��Q8?(?���хq��?{�M1F��Ɉ齍_?^��????? w#��_��;Q??*??gD?b-?��? 'o??'?��v? ��?~g?3?=��'��?��?"?V?G٦n�թ�?�t��?�Ҫ���~d#?{��m?����`?U�UcX��|?�m&gt;?��A��??(\?4{6xpޫ??2 ��                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ??
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_response"><a class="link" href="#_http_response">http-response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
+Content-Type: application/json
+Content-Length: 20
+
+{
+  "roomId" : 1
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_request_headers"><a class="link" href="#_request_headers">request-headers</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카카오 사용자 Bearer Token</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_request_parts"><a class="link" href="#_request_parts">request-parts</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Part</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>images</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 파일(최소 1개 이상)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_request_parameters"><a class="link" href="#_request_parameters">request-parameters</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>conf.confType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">구성 요소 타입(최소 1개 이상)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>conf.count</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">구성 요소 숫자(최소 1개 이상)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>facilities</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부대 시설(최소 1개 이상)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>limit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 제한 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>price</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 가격</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 소개 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>detailLocation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 위치</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rule</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 규칙</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>addCharge</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제한 인원 초과시 발생되는 비용(단위:명)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_response_fields"><a class="link" href="#_response_fields">response-fields</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>roomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성된 방 아이디</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -503,15 +734,163 @@ Unresolved directive in room.adoc - include::{snippets}/room/create/response-fie
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request_2"><a class="link" href="#_http_request_2">http-request</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in room.adoc - include::{snippets}/room/detail/http-request.adoc[]
-=== http-response
-Unresolved directive in room.adoc - include::{snippets}/room/detail/http-response.adoc[]
-=== path-parameters
-Unresolved directive in room.adoc - include::{snippets}/room/detail/path-parameters.adoc[]
-=== response-fields
-Unresolved directive in room.adoc - include::{snippets}/room/detail/response-fields.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /room/1 HTTP/1.1
+Host: room9.docs.com</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_response_2"><a class="link" href="#_http_response_2">http-response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 827
+
+{
+  "roomId" : 1,
+  "username" : "mockusername",
+  "title" : "아메리카노",
+  "location" : "서울",
+  "limitPeople" : 10,
+  "price" : 10000,
+  "like" : 3,
+  "images" : [ {
+    "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"
+  }, {
+    "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"
+  } ],
+  "content" : "내용1입니다.",
+  "rule" : "상세페이지 들어가기 전 간단한 정보만 표기합니다.",
+  "charge" : 1000,
+  "room_configuration" : [ {
+    "confType" : "화장실",
+    "count" : 3
+  }, {
+    "confType" : "방",
+    "count" : 5
+  } ],
+  "room_amenity" : [ {
+    "facility" : "전자레인지"
+  }, {
+    "facility" : "도어락"
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_path_parameters"><a class="link" href="#_path_parameters">path-parameters</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /room/{roomId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>roomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 아이디</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_response_fields_2"><a class="link" href="#_response_fields_2">response-fields</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>roomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 만든 사람 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>location</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 위치</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>limitPeople</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제한 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>price</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 가격</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>like</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소에 찍힌 좋아요 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>images[].url</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 소개글 본문</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rule</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 규칙</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>charge</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제한 인원 초과시 추가요금</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room_configuration[].confType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 구성요소 타입(ex 화장실, 침실&#8230;&#8203;)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room_configuration[].count</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 구성요소 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room_amenity[].facility</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 부대시설 이름(ex 전자레인지, 도어락 ..)</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -520,13 +899,113 @@ Unresolved directive in room.adoc - include::{snippets}/room/detail/response-fie
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request_3"><a class="link" href="#_http_request_3">http-request</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in room.adoc - include::{snippets}/room/filter/http-request.adoc[]
-=== request-parameters
-Unresolved directive in room.adoc - include::{snippets}/room/filter/request-parameters.adoc[]
-=== response-fields
-Unresolved directive in room.adoc - include::{snippets}/room/filter/response-fields.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /room/search?title=%EC%95%84&amp;limitPrice=20000&amp;detailLocation=%EC%84%9C%EC%9A%B8&amp;limitPeople=10&amp;orderStandard=LIKEDDESC HTTP/1.1
+Host: room9.docs.com</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_request_parameters_2"><a class="link" href="#_request_parameters_2">request-parameters</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">입력한 단어를 포함하는 제목의 숙소만 검색</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>detailLocation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">입력한 단어를 포함하는 지역의 숙소만 검색</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>limitPrice</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">입력한 가격 이하의 숙소만 검색</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>limitPeople</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">입력한 인원 이하의 숙소만 검색</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orderStandard</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준[LIKEDDESC(좋아요 많은순), LIKEDASC, CREATEDASC, CREATEDDESC(최신순, default)]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_response_fields_3"><a class="link" href="#_response_fields_3">response-fields</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>count</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">총 숙소 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].roomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 만든 사람 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].location</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 위치</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].limitPeople</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제한 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].price</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 가격</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].like</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소에 찍힌 좋아요 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].images[].url</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 이미지</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -535,13 +1014,117 @@ Unresolved directive in room.adoc - include::{snippets}/room/filter/response-fie
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request_4"><a class="link" href="#_http_request_4">http-request</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in room.adoc - include::{snippets}/room/getAll/http-request.adoc[]
-=== http-response
-Unresolved directive in room.adoc - include::{snippets}/room/getAll/http-response.adoc[]
-=== response-fields
-Unresolved directive in room.adoc - include::{snippets}/room/getAll/response-fields.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /room HTTP/1.1
+Host: room9.docs.com</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_response_3"><a class="link" href="#_http_response_3">http-response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 975
+
+{
+  "count" : 2,
+  "room" : [ {
+    "roomId" : 1,
+    "username" : "mockusername",
+    "title" : "아메리카노",
+    "location" : "서울",
+    "limitPeople" : 10,
+    "price" : 10000,
+    "like" : 3,
+    "images" : [ {
+      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"
+    }, {
+      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"
+    } ]
+  }, {
+    "roomId" : 2,
+    "username" : "mockusername",
+    "title" : "카페라떼",
+    "location" : "인천",
+    "limitPeople" : 4,
+    "price" : 20000,
+    "like" : 7,
+    "images" : [ {
+      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"
+    }, {
+      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"
+    } ]
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_fields_4"><a class="link" href="#_response_fields_4">response-fields</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>count</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">총 숙소 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].roomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 만든 사람 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].location</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 위치</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].limitPeople</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제한 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].price</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 가격</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].like</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소에 찍힌 좋아요 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].images[].url</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 이미지</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -550,25 +1133,351 @@ Unresolved directive in room.adoc - include::{snippets}/room/getAll/response-fie
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request_5"><a class="link" href="#_http_request_5">http-request</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in room.adoc - include::{snippets}/room/reservePrice/http-request.adoc[]
-=== http-response
-Unresolved directive in room.adoc - include::{snippets}/room/reservePrice/http-response.adoc[]
-=== path-parameters
-Unresolved directive in room.adoc - include::{snippets}/room/reservePrice/path-parameters.adoc[]
-=== request-parameters
-Unresolved directive in room.adoc - include::{snippets}/room/reservePrice/request-parameters.adoc[]
-=== response-fields
-Unresolved directive in room.adoc - include::{snippets}/room/reservePrice/response-fields.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /room/price/1?personnel=12&amp;startDate=2021-08-29&amp;finalDate=2021-09-02 HTTP/1.1
+Host: room9.docs.com</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_http_response_4"><a class="link" href="#_http_response_4">http-response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 28
+
+{
+  "totalPrice" : 42000
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_path_parameters_2"><a class="link" href="#_path_parameters_2">path-parameters</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. /room/price/{roomId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>roomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 아이디</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_request_parameters_3"><a class="link" href="#_request_parameters_3">request-parameters</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">예약 시작날짜 ("yyyy-mm-dd")</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>finalDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">예약 마지막날짜 ("yyyy-mm-dd")</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>personnel</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">예약하려고 하는 인원 수</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_response_fields_5"><a class="link" href="#_response_fields_5">response-fields</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalPrice</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">총 가격</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<h1 id="room-popular" class="sect0"><a class="link" href="#room-popular">인기순 방 조회 / 첫 화면 api</a></h1>
+<div class="sect1">
+<h2 id="_http_request_6"><a class="link" href="#_http_request_6">http-request</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /room/popular HTTP/1.1
+Host: room9.docs.com</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_http_response_5"><a class="link" href="#_http_response_5">http-response</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 975
+
+{
+  "count" : 2,
+  "room" : [ {
+    "roomId" : 1,
+    "username" : "mockusername",
+    "title" : "아메리카노",
+    "location" : "서울",
+    "limitPeople" : 10,
+    "price" : 10000,
+    "like" : 3,
+    "images" : [ {
+      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"
+    }, {
+      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"
+    } ]
+  }, {
+    "roomId" : 2,
+    "username" : "mockusername",
+    "title" : "카페라떼",
+    "location" : "인천",
+    "limitPeople" : 4,
+    "price" : 20000,
+    "like" : 7,
+    "images" : [ {
+      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"
+    }, {
+      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"
+    } ]
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_response_fields_6"><a class="link" href="#_response_fields_6">response-fields</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>count</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">총 숙소 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].roomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 만든 사람 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].location</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 위치</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].limitPeople</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제한 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].price</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 가격</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].like</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소에 찍힌 좋아요 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].images[].url</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 이미지</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h1 id="room-random" class="sect0"><a class="link" href="#room-random">랜덤 방 조회 / 첫 화면 api</a></h1>
+<div class="sect1">
+<h2 id="_http_request_7"><a class="link" href="#_http_request_7">http-request</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /room/random HTTP/1.1
+Host: room9.docs.com</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_http_response_6"><a class="link" href="#_http_response_6">http-response</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 975
+
+{
+  "count" : 2,
+  "room" : [ {
+    "roomId" : 1,
+    "username" : "mockusername",
+    "title" : "아메리카노",
+    "location" : "서울",
+    "limitPeople" : 10,
+    "price" : 10000,
+    "like" : 3,
+    "images" : [ {
+      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"
+    }, {
+      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"
+    } ]
+  }, {
+    "roomId" : 2,
+    "username" : "mockusername",
+    "title" : "카페라떼",
+    "location" : "인천",
+    "limitPeople" : 4,
+    "price" : 20000,
+    "like" : 7,
+    "images" : [ {
+      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"
+    }, {
+      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"
+    } ]
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_response_fields_7"><a class="link" href="#_response_fields_7">response-fields</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>count</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">총 숙소 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].roomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 만든 사람 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].location</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 위치</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].limitPeople</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제한 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].price</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 가격</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].like</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소에 찍힌 좋아요 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].images[].url</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 이미지</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2021-09-11 20:09:15 +0900
+Last updated 2021-09-12 15:28:33 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

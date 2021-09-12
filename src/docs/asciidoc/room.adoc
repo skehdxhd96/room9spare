@@ -14,60 +14,80 @@ NDM10/09/2021
 == 방 생성하기
 
 === http-request
-include::{snippets}/room/create/http-request.adoc[]
+include::{snippets}/room-create/http-request.adoc[]
 === http-response
-include::{snippets}/room/create/http-response.adoc[]
+include::{snippets}/room-create/http-response.adoc[]
 === request-headers
-include::{snippets}/room/create/request-headers.adoc[]
+include::{snippets}/room-create/request-headers.adoc[]
 === request-parts
-include::{snippets}/room/create/request-parts.adoc[]
+include::{snippets}/room-create/request-parts.adoc[]
 === request-parameters
-include::{snippets}/room/create/request-parameters.adoc[]
+include::{snippets}/room-create/request-parameters.adoc[]
 === response-fields
-include::{snippets}/room/create/response-fields.adoc[]
+include::{snippets}/room-create/response-fields.adoc[]
 
 [[room-detail]]
 == 방 상세 조회
 
 === http-request
-include::{snippets}/room/detail/http-request.adoc[]
+include::{snippets}/room-detail/http-request.adoc[]
 === http-response
-include::{snippets}/room/detail/http-response.adoc[]
+include::{snippets}/room-detail/http-response.adoc[]
 === path-parameters
-include::{snippets}/room/detail/path-parameters.adoc[]
+include::{snippets}/room-detail/path-parameters.adoc[]
 === response-fields
-include::{snippets}/room/detail/response-fields.adoc[]
+include::{snippets}/room-detail/response-fields.adoc[]
 
 [[room-filter]]
 == 방 필터
 
 === http-request
-include::{snippets}/room/filter/http-request.adoc[]
+include::{snippets}/room-filter/http-request.adoc[]
 === request-parameters
-include::{snippets}/room/filter/request-parameters.adoc[]
+include::{snippets}/room-filter/request-parameters.adoc[]
 === response-fields
-include::{snippets}/room/filter/response-fields.adoc[]
+include::{snippets}/room-filter/response-fields.adoc[]
 
 [[room-getAll]]
 == 방 전체 리스트로 조회
 
 === http-request
-include::{snippets}/room/getAll/http-request.adoc[]
+include::{snippets}/room-getAll/http-request.adoc[]
 === http-response
-include::{snippets}/room/getAll/http-response.adoc[]
+include::{snippets}/room-getAll/http-response.adoc[]
 === response-fields
-include::{snippets}/room/getAll/response-fields.adoc[]
+include::{snippets}/room-getAll/response-fields.adoc[]
 
 [[room-reserve-price]]
 == 인원수 / 날짜에 따른 가격 조회
 
 === http-request
-include::{snippets}/room/reservePrice/http-request.adoc[]
+include::{snippets}/room-reservePrice/http-request.adoc[]
 === http-response
-include::{snippets}/room/reservePrice/http-response.adoc[]
+include::{snippets}/room-reservePrice/http-response.adoc[]
 === path-parameters
-include::{snippets}/room/reservePrice/path-parameters.adoc[]
+include::{snippets}/room-reservePrice/path-parameters.adoc[]
 === request-parameters
-include::{snippets}/room/reservePrice/request-parameters.adoc[]
+include::{snippets}/room-reservePrice/request-parameters.adoc[]
 === response-fields
-include::{snippets}/room/reservePrice/response-fields.adoc[]
+include::{snippets}/room-reservePrice/response-fields.adoc[]
+
+[[room-popular]]
+= 인기순 방 조회 / 첫 화면 api
+
+== http-request
+include::{snippets}/room-popular/http-request.adoc[]
+== http-response
+include::{snippets}/room-popular/http-response.adoc[]
+== response-fields
+include::{snippets}/room-popular/response-fields.adoc[]
+
+[[room-random]]
+= 랜덤 방 조회 / 첫 화면 api
+
+== http-request
+include::{snippets}/room-random/http-request.adoc[]
+== http-response
+include::{snippets}/room-random/http-response.adoc[]
+== response-fields
+include::{snippets}/room-random/response-fields.adoc[]

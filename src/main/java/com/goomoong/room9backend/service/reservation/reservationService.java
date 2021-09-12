@@ -15,7 +15,6 @@ import com.goomoong.room9backend.service.UserService;
 import com.goomoong.room9backend.service.room.RoomService;
 import com.goomoong.room9backend.util.AboutDate;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.boot.jackson.JsonObjectDeserializer;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.stereotype.Service;
@@ -40,45 +39,8 @@ public class reservationService {
     private final UserService userService;
 
     @Transactional
-    public JSONObject reserveRoom(User user, Long roomId, ReservationDto.request request) throws Exception{
+    public void reserveRoom(User user, Long roomId, ReservationDto.request request) throws Exception{
 
-        JSONObject reserveAndpayData = new JSONObject();
-        if(userService.findById(user.getId()).getRole() != Role.GUEST) {
-            throw new ReservationNotAddException();
-        } else {
-            if(reserve_OK(request, roomId)) {
-                /**
-                 * 예약 데이터 save
-                 */
-                roomReservationRepository.save(
-                        roomReservation.builder()
-                                .room(roomRepository.getById(roomId))
-                                .users(user)
-                                .reserveStatus(ReserveStatus.WAITING)
-                                .startDate(AboutDate.getLocalDateTimeFromString(request.getStartDate()))
-                                .finalDate(AboutDate.getLocalDateTimeFromString(request.getFinalDate()))
-                                .personnel(request.getPersonnel())
-                                .build());
-
-                /**
-                 * 전송할 결제 데이터를 JSONObject 타입으로 만든다.
-                 */
-                reserveAndpayData.put("startDate", request.getStartDate());
-                reserveAndpayData.put("finalDate", request.getFinalDate());
-                reserveAndpayData.put("totalPrice", roomService.getTotalPrice(roomId,
-                        new priceDto(request.getPersonnel(), request.getStartDate(), request.getFinalDate())));
-                reserveAndpayData.put("totalPeople", request.getPersonnel());
-                reserveAndpayData.put("roomTitle", roomRepository.getById(roomId).getTitle());
-                reserveAndpayData.put("userName", user.getName());
-                reserveAndpayData.put("userEmail", user.getEmail());
-                reserveAndpayData.put("userPhone", user.getAccountId());
-
-            } else {
-                throw new DuplicateDateException("이미 예약된 날짜가 있습니다.");
-            }
-        }
-
-        return reserveAndpayData;
     }
 
     public boolean reserve_OK(ReservationDto.request request,Long roomId) {
