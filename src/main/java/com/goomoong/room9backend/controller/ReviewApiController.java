@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,16 +25,16 @@ public class ReviewApiController {
     private final RoomRepository roomRepository;
 
     @GetMapping("/api/v1/reviews")
-    public SelectReviewResultDto selectReviewsV1(@RequestBody @Validated SelectReviewRequestDto request){
+    public SelectReviewResultDto selectReviewsV1(@RequestParam @Nullable Long user, @RequestParam @Nullable Long room){
         ReviewSearchDto reviewSearchDto = new ReviewSearchDto();
 
-        if(request.getUserId() != null)
-            reviewSearchDto.setUser(userService.findById(request.getUserId()));
+        if(user != null)
+            reviewSearchDto.setUser(userService.findById(user));
         else
             reviewSearchDto.setUser(null);
 
-        if(request.getRoomId() != null)
-            reviewSearchDto.setRoom(roomRepository.findById(request.getRoomId()).orElse(null));
+        if(room != null)
+            reviewSearchDto.setRoom(roomRepository.findById(room).orElse(null));
         else
             reviewSearchDto.setRoom(null);
 
