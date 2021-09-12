@@ -53,10 +53,28 @@ public class ReviewApiController {
         return new SelectReviewResultDto(collect);
     }
 
+    @GetMapping("/api/v1/reviews/latest")
+    public SelectReviewResultDto selectLatestReviewV1(){
+        List<Review> findReviews = reviewService.findLatestReview();
+
+        List<ReviewDto> collect = findReviews.stream()
+                .map(r -> ReviewDto.builder()
+                        .id(r.getId())
+                        .reviewContent(r.getReviewContent())
+                        .reviewScore(r.getReviewScore())
+                        .reviewCreated(r.getCreatedDate())
+                        .reviewUpdated(r.getUpdatedDate())
+                        .build()
+                )
+                .collect(Collectors.toList());
+
+        return new SelectReviewResultDto(collect);
+    }
+
     @PostMapping("/api/v1/reviews")
     public CreateReviewResponseDto saveReviewV1(@RequestBody @Validated CreateReviewRequestDto request) {
-        User user = userService.findById(request.getUser_id());
-        Room room = roomRepository.findById(request.getRoom_id()).orElse(null);
+        User user = userService.findById(request.getUserId());
+        Room room = roomRepository.findById(request.getUserId()).orElse(null);
 
         Review review = Review.builder()
                                 .user(user)
