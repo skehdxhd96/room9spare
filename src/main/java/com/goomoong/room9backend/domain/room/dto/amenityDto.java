@@ -1,5 +1,6 @@
 package com.goomoong.room9backend.domain.room.dto;
 
+import com.goomoong.room9backend.domain.room.Amenity;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,4 +12,8 @@ import org.jetbrains.annotations.NotNull;
 public class amenityDto {
 
     private String facility;
+
+    public amenityDto(Amenity amenity) {
+        this.facility = amenity.getFacility();
+    }
 }

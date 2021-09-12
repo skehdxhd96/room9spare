@@ -1,6 +1,4 @@
 package com.goomoong.room9backend.domain.reservation.dto;
-
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,16 +15,10 @@ public class ReservationDto {
     @NoArgsConstructor
     public static class request {
         private Long userId; // 빼야돼
-        private requestDate startDate;
-        private requestDate finalDate;
-    }
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    public static class requestDate {
-        private Integer day;
-        private Integer month;
-        private Integer year;
+        /**
+         * 'yyyy-mm-dd'
+         */
+        private String startDate;
+        private String finalDate;
     }
 }

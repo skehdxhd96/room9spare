@@ -2,6 +2,7 @@ package com.goomoong.room9backend.service.file;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+//import com.amazonaws.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import com.goomoong.room9backend.domain.file.dto.fileDto;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 @Service
 public class S3Uploader {
 
-    //    private final AmazonS3Client amazonS3Client;
+//        private final AmazonS3Client amazonS3Client;
     private final S3Client s3Client;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -52,10 +53,10 @@ public class S3Uploader {
                                 .key(fileName)
                                 .bucket(bucket)
                                 .build(), RequestBody.fromBytes(file.getBytes()));
-
+//                amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null));
             } catch(Exception e) {
-//                throw new S3FileUploadException("S3 파일 업로드 중 오류가 발생하였습니다.");
-                e.printStackTrace();
+                throw new S3FileUploadException("S3 파일 업로드 중 오류가 발생하였습니다.");
+//                e.printStackTrace();
             }
         } else {
             throw new ImageTypeException("이미지 파일 형식은 png/jpeg/jpg/bmp/gif/svg 중 하나여야 합니다.");
@@ -67,6 +68,7 @@ public class S3Uploader {
                 .extension(extension)
                 .fileName(fileName)
                 .url("https://roomimg.s3.ap-northeast-2.amazonaws.com/" + fileName)
+//                .url(amazonS3Client.getUrl(bucket, fileName).toString())
                 .build();
     }
 
@@ -75,5 +77,4 @@ public class S3Uploader {
                 .map(s -> s.toLowerCase().matches("png|jpeg|jpg|bmp|gif|svg"))
                 .orElse(false);
     }
-
 }

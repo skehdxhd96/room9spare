@@ -1,5 +1,7 @@
 package com.goomoong.room9backend.domain.room.dto;
 
+import com.goomoong.room9backend.domain.review.Review;
+import com.goomoong.room9backend.domain.review.dto.ReviewDto;
 import com.goomoong.room9backend.domain.room.Room;
 import lombok.AllArgsConstructor;
 import lombok.Data;

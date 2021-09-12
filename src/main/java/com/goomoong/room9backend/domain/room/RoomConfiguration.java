@@ -23,11 +23,12 @@ public class RoomConfiguration {
     private String confType;
     private Integer count;
 
-    public static void createRoomConfig(Room room, List<confDto> confs) {
+    public static Set<RoomConfiguration> createRoomConfig(List<confDto> confs) {
         try {
+            Set<RoomConfiguration> roomConfig = new LinkedHashSet<>();
             for (confDto conf : confs) {
-                room.getRoomConfigures()
-                        .add(new RoomConfiguration(conf.getConfType(), conf.getCount())); }
+                roomConfig.add(new RoomConfiguration(conf.getConfType(), conf.getCount())); }
+            return roomConfig;
         } catch (Exception e) {
             throw new RoomConfException("하나 이상의 구성요소를 등록해야 합니다. ex) 침실, 화장실 ..");
         }

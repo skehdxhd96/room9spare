@@ -1,6 +1,7 @@
 package com.goomoong.room9backend.service.file;
 
 import com.goomoong.room9backend.exception.NumberOfImageException;
+import com.goomoong.room9backend.exception.S3FileUploadException;
 import com.goomoong.room9backend.repository.file.FileRepository;
 import com.goomoong.room9backend.domain.file.File;
 import com.goomoong.room9backend.domain.file.dto.fileDto;

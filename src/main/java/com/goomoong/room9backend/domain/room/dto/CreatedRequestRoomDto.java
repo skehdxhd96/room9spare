@@ -1,5 +1,6 @@
 package com.goomoong.room9backend.domain.room.dto;
 
+import com.goomoong.room9backend.domain.room.Amenity;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,14 +15,11 @@ import java.util.Set;
 @NoArgsConstructor
 public class CreatedRequestRoomDto {
 
-    //pk
-    private Long userId;
-
     //Configuration
     private List<confDto> conf;
 
     //Amenity
-    private List<String> facilities;
+    private List<amenityDto> facilities;
 
     //images
     private List<MultipartFile> images;

@@ -10,6 +10,9 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RoomImg {
 
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)

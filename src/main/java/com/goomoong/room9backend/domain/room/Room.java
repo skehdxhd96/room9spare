@@ -14,10 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -47,12 +44,12 @@ public class Room extends BaseEntity {
     @CollectionTable(name = "Room_Amenity",
             joinColumns = @JoinColumn(name = "Room_Id"))
     @Column(name = "Facility")
-    private Set<String> amenities = new HashSet<>();
+    private Set<Amenity> amenities = new LinkedHashSet<>();
 
     @ElementCollection
     @CollectionTable(name = "Room_Configuration",
             joinColumns = @JoinColumn(name = "Room_Id"))
-    private Set<RoomConfiguration> roomConfigures = new HashSet<>();
+    private Set<RoomConfiguration> roomConfigures = new LinkedHashSet<>();
 
     private int limited; // 제한 인원
     private int price; // 가격
@@ -69,21 +66,22 @@ public class Room extends BaseEntity {
         users.getRooms().add(this);
     }
 
-    public static Room createRoom(User users, CreatedRequestRoomDto request) {
-        Room room = new Room();
-        room.setUsers(users);
-        room.limited = request.getLimit();
-        room.price = request.getPrice();
-        room.title = request.getTitle();
-        room.content = request.getContent();
-        room.detailLocation = request.getDetailLocation();
-        room.rule = request.getRule();
-        room.charge = request.getAddCharge();
-        room.liked = 0;
-        RoomConfiguration.createRoomConfig(room, request.getConf());
-        Amenity.createRoomFacility(room, request.getFacilities());
+    public static Room createRoom(User users, CreatedRequestRoomDto request,
+                                  Set<RoomConfiguration> roomConfig, Set<Amenity> roomAmenities) {
 
-        return room;
+        return Room.builder()
+                .users(users)
+                .limited(request.getLimit())
+                .price(request.getPrice())
+                .title(request.getTitle())
+                .content(request.getContent())
+                .detailLocation(request.getDetailLocation())
+                .rule(request.getRule())
+                .charge(request.getAddCharge())
+                .liked(0)
+                .roomConfigures(roomConfig)
+                .amenities(roomAmenities)
+                .build();
     }
 
     public void modifyRoom(UpdateRequestRoomDto request) {
@@ -104,7 +102,7 @@ public class Room extends BaseEntity {
 
         this.getAmenities().removeAll(this.getAmenities());
         for (String facility : request.getFacilities()) {
-            this.getAmenities().add(facility);
+            this.getAmenities().add(new Amenity(facility));
         }
     }
 }

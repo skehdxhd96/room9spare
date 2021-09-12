@@ -16,6 +16,6 @@ public class ReservationApiController {
 
     @PostMapping("/room/book/{roomId}")
     public void roomBooked(@PathVariable Long roomId, @RequestBody ReservationDto.request request) {
-        reservationService.createReservation(roomId, request);
+        reservationService.reserveRoomwithKakaoPayment(roomId, request);
     }
 }
