@@ -1,0 +1,3 @@
+- link:/docs/review.html[Review Api Docs]
+- link:/docs/room.html[Room Api Docs]
+- link:/docs/user.html[User Api Docs]

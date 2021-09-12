@@ -15,9 +15,12 @@ import javax.persistence.*;
 @Builder
 public class payment extends BaseEntity { // BaseEntity.CreatedAt = 결제일시
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     @Column(name = "payment_Id")
-    private Long Id;
+    /**
+     * import : merchant_uid
+     */
+    private String Id;
 
 
 

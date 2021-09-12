@@ -2,6 +2,10 @@ package com.goomoong.room9backend.repository.reservation;
 
 import com.goomoong.room9backend.domain.reservation.roomReservation;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-public interface roomReservationRepository extends JpaRepository<roomReservation, Long> {
+import java.util.List;
+import java.util.Optional;
+
+public interface roomReservationRepository extends JpaRepository<roomReservation, Long> ,roomReservationRepositoryCustom{
 }
