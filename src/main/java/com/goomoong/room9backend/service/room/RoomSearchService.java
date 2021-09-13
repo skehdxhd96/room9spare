@@ -26,7 +26,7 @@ public class RoomSearchService {
 
     public List<GetCommonRoom> search(searchDto search) {
 
-        List<Room> filterRooms = roomRepository.findRoomWithFilter(search);
+        List<Room> filterRooms = roomRepository.findRoomWithFilter(search).stream().limit(3).collect(Collectors.toList());
         List<GetCommonRoom> roomList = new ArrayList<>();
         for (Room filterRoom : filterRooms) {
             scoreDto scoredto = reviewService.getAvgScoreAndCount(filterRoom.getId());

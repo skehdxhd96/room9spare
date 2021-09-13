@@ -22,6 +22,17 @@ include::{snippets}/user-getAll/http-response.adoc[]
 === Response Fields
 include::{snippets}/user-getAll/response-fields.adoc[]
 
+[[user-getByToken]]
+== GET 토큰으로 사용자 정보 가져오기
+
+=== HTTP Request
+include::{snippets}/user/getByToken/http-request.adoc[]
+
+=== HTTP Response
+include::{snippets}/user/getByToken/http-response.adoc[]
+
+=== Response Fields
+include::{snippets}/user/getByToken/response-fields.adoc[]
 
 [[user-getById]]
 == GET id로 사용자 정보 가져오기

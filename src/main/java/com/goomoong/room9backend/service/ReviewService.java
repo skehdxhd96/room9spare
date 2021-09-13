@@ -42,6 +42,10 @@ public class ReviewService {
         return reviewRepository.findById(id).orElseThrow(() -> new NoSuchReviewException("존재하지 않는 리뷰입니다."));
     }
 
+    public List<Review> findLatestReview(){
+        return reviewRepository.findTop3ByOrderByIdDesc();
+    }
+
     public List<Review> findByUserAndRoom(ReviewSearchDto reviewSearchDto){
         return reviewRepository.findByUserAndRoom(reviewSearchDto);
     }

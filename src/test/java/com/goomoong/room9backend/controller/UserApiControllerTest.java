@@ -5,6 +5,7 @@ import com.goomoong.room9backend.config.MockSecurityFilter;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.domain.user.dto.UpdateRequestDto;
+import com.goomoong.room9backend.security.userdetails.CustomUserDetails;
 import com.goomoong.room9backend.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -45,9 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
 @ExtendWith({SpringExtension.class, RestDocumentationExtension.class})
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, properties = "spring.config.location=" +
-        "classpath:application.properties," +
-        "classpath:aws.yml")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class UserApiControllerTest {
 
     @Autowired
@@ -74,7 +74,7 @@ public class UserApiControllerTest {
     @DisplayName("전체 회원 조회 api 테스트")
     public void findAllUsersApiTest() throws Exception {
         //given
-        User user = User.builder().id(1L).accountId("1").name("mock").nickname("mock").role(Role.GUEST).thumbnailImgUrl("mock.jpg").email("mock@abc").birthday("0101").gender("male").intro("test").build();
+        User user = User.builder().id(1L).nickname("mock").role(Role.GUEST).thumbnailImgUrl("mock.jpg").email("mock@abc").birthday("0101").gender("male").intro("test").build();
         List<User> userList = new ArrayList<>();
         userList.add(user);
 
@@ -93,6 +93,7 @@ public class UserApiControllerTest {
                         responseFields(
                                 fieldWithPath("users.[].id").description("user id").type(Long.class),
                                 fieldWithPath("users.[].nickname").description("user nickname"),
+                                fieldWithPath("users.[].role").description("user role"),
                                 fieldWithPath("users.[].thumbnailImgUrl").description("user thumbnail image url"),
                                 fieldWithPath("users.[].email").description("user email"),
                                 fieldWithPath("users.[].birthday").description("user birthday"),
@@ -110,10 +111,48 @@ public class UserApiControllerTest {
     }
 
     @Test
+    @DisplayName("토큰으로 회원 조회 api 테스트")
+    public void findUserByTokenApiTest() throws Exception {
+        //given
+        User user = User.builder().id(1L).nickname("mock").role(Role.GUEST).thumbnailImgUrl("mock.jpg").email("mock@abc").birthday("0101").gender("male").intro("test").build();
+        given(userService.findById(1L)).willReturn(user);
+
+        //when
+        ResultActions result = mvc.perform(RestDocumentationRequestBuilders.get("/api/v1/users/info")
+                .principal(new UsernamePasswordAuthenticationToken(CustomUserDetails.create(user), null)));
+
+        //then
+        result
+                .andDo(print())
+                .andDo(document("user/getByToken",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        responseFields(
+                                fieldWithPath("id").description("user id").type(Long.class),
+                                fieldWithPath("nickname").description("user nickname"),
+                                fieldWithPath("role").description("user role"),
+                                fieldWithPath("thumbnailImgUrl").description("user thumbnail image url"),
+                                fieldWithPath("email").description("user email"),
+                                fieldWithPath("birthday").description("user birthday"),
+                                fieldWithPath("gender").description("user gender"),
+                                fieldWithPath("intro").description("user introduction")
+                        )
+                ))
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.nickname").value("mock"))
+                .andExpect(jsonPath("$.role").value("GUEST"))
+                .andExpect(jsonPath("$.thumbnailImgUrl").value("mock.jpg"))
+                .andExpect(jsonPath("$.email").value("mock@abc"))
+                .andExpect(jsonPath("$.birthday").value("0101"))
+                .andExpect(jsonPath("$.gender").value("male"))
+                .andExpect(jsonPath("$.intro").value("test"));
+    }
+
+    @Test
     @DisplayName("Id로 회원 조회 api 테스트")
     public void findUserByIdApiTest() throws Exception {
         //given
-        User user = User.builder().id(1L).nickname("mock").thumbnailImgUrl("mock.jpg").email("mock@abc").birthday("0101").gender("male").intro("test").build();
+        User user = User.builder().id(1L).nickname("mock").role(Role.GUEST).thumbnailImgUrl("mock.jpg").email("mock@abc").birthday("0101").gender("male").intro("test").build();
         given(userService.findById(1L)).willReturn(user);
 
         //when
@@ -131,6 +170,7 @@ public class UserApiControllerTest {
                         responseFields(
                                 fieldWithPath("id").description("user id").type(Long.class),
                                 fieldWithPath("nickname").description("user nickname"),
+                                fieldWithPath("role").description("user role"),
                                 fieldWithPath("thumbnailImgUrl").description("user thumbnail image url"),
                                 fieldWithPath("email").description("user email"),
                                 fieldWithPath("birthday").description("user birthday"),
@@ -140,6 +180,7 @@ public class UserApiControllerTest {
                 ))
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.nickname").value("mock"))
+                .andExpect(jsonPath("$.role").value("GUEST"))
                 .andExpect(jsonPath("$.thumbnailImgUrl").value("mock.jpg"))
                 .andExpect(jsonPath("$.email").value("mock@abc"))
                 .andExpect(jsonPath("$.birthday").value("0101"))
