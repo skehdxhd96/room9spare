@@ -5,8 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="sockju">
-<title>User API Docs</title>
+<meta name="author" content="zooneon">
+<title>Chat API Docs</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,45 +440,73 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>User API Docs</h1>
+<h1>Chat API Docs</h1>
 <div class="details">
-<span id="author" class="author">sockju</span><br>
+<span id="author" class="author">zooneon</span><br>
 <span id="revnumber">version 0.0.1-SNAPSHOT,</span>
-<span id="revdate">21/07/2021</span>
+<span id="revdate">14/09/2021</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#review-select">GET 유저, 방에 따른 리뷰 가져오기 (동적쿼리)</a>
+<li><a href="#chat-getChatRooms">GET 채팅방 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_http_request">HTTP Request</a></li>
-<li><a href="#_request_fields">Request Fields</a></li>
+<li><a href="#_request_headers">Request Headers</a></li>
 <li><a href="#_http_response">HTTP Response</a></li>
 <li><a href="#_response_fields">Response Fields</a></li>
 </ul>
 </li>
-<li><a href="#review-create">POST 리뷰 생성</a>
+<li><a href="#chat-createChatRoom">POST 채팅방 생성</a>
 <ul class="sectlevel2">
 <li><a href="#_http_request_2">HTTP Request</a></li>
-<li><a href="#_request_fields_2">Request Fields</a></li>
+<li><a href="#_request_headers_2">Request Headers</a></li>
+<li><a href="#_request_fields">Request Fields</a></li>
 <li><a href="#_http_response_2">HTTP Response</a></li>
 <li><a href="#_response_fields_2">Response Fields</a></li>
 </ul>
 </li>
-<li><a href="#review-update">PATCH 리뷰 수정</a>
+<li><a href="#chat-deleteChatRoom">DELETE 채팅방 삭제</a>
 <ul class="sectlevel2">
 <li><a href="#_http_request_3">HTTP Request</a></li>
-<li><a href="#_path_parameters">Path-parameters</a></li>
-<li><a href="#_request_fields_3">Request Fields</a></li>
+<li><a href="#_path_parameters">Path Parameters</a></li>
 <li><a href="#_http_response_3">HTTP Response</a></li>
 <li><a href="#_response_fields_3">Response Fields</a></li>
 </ul>
 </li>
-<li><a href="#review-delete">DELETE 리뷰 삭제</a>
+<li><a href="#chat-createChatMessage">POST 메시지 생성</a>
 <ul class="sectlevel2">
 <li><a href="#_http_request_4">HTTP Request</a></li>
-<li><a href="#_path_parameters_2">Path-parameters</a></li>
+<li><a href="#_request_headers_3">Request Headers</a></li>
+<li><a href="#_path_parameters_2">Path Parameters</a></li>
+<li><a href="#_request_fields_2">Request Fields</a></li>
 <li><a href="#_http_response_4">HTTP Response</a></li>
+<li><a href="#_response_fields_4">Response Fields</a></li>
+</ul>
+</li>
+<li><a href="#chat-getChatMessages">GET 메시지 조회</a>
+<ul class="sectlevel2">
+<li><a href="#_http_request_5">HTTP Request</a></li>
+<li><a href="#_path_parameters_3">Path Parameters</a></li>
+<li><a href="#_http_response_5">HTTP Response</a></li>
+<li><a href="#_response_fields_5">Response Fields</a></li>
+</ul>
+</li>
+<li><a href="#chat-editChatMessage">PUT 메시지 수정</a>
+<ul class="sectlevel2">
+<li><a href="#_http_request_6">HTTP Request</a></li>
+<li><a href="#_path_parameters_4">Path Parameters</a></li>
+<li><a href="#_request_fields_3">Request Fields</a></li>
+<li><a href="#_http_response_6">HTTP Response</a></li>
+<li><a href="#_response_fields_6">Response Fields</a></li>
+</ul>
+</li>
+<li><a href="#chat-deleteChatMessage">DELETE 메시지 삭제</a>
+<ul class="sectlevel2">
+<li><a href="#_http_request_7">HTTP Request</a></li>
+<li><a href="#_path_parameters_5">Path Parameters</a></li>
+<li><a href="#_http_response_7">HTTP Response</a></li>
+<li><a href="#_response_fields_7">Response Fields</a></li>
 </ul>
 </li>
 </ul>
@@ -486,117 +514,228 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="review-select"><a class="link" href="#review-select">GET 유저, 방에 따른 리뷰 가져오기 (동적쿼리)</a></h2>
+<h2 id="chat-getChatRooms"><a class="link" href="#chat-getChatRooms">GET 채팅방 조회</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request"><a class="link" href="#_http_request">HTTP Request</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/select/http-request.adoc[]</p>
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatRooms/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_request_fields"><a class="link" href="#_request_fields">Request Fields</a></h3>
+<h3 id="_request_headers"><a class="link" href="#_request_headers">Request Headers</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/select/request-fields.adoc[]</p>
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatRooms/request-headers.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_http_response"><a class="link" href="#_http_response">HTTP Response</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/select/http-response.adoc[]</p>
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatRooms/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_response_fields"><a class="link" href="#_response_fields">Response Fields</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/select/response-fields.adoc[]</p>
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatRooms/response-fields.adoc[]</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="review-create"><a class="link" href="#review-create">POST 리뷰 생성</a></h2>
+<h2 id="chat-createChatRoom"><a class="link" href="#chat-createChatRoom">POST 채팅방 생성</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request_2"><a class="link" href="#_http_request_2">HTTP Request</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/create/http-request.adoc[]</p>
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatRoom/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_request_fields_2"><a class="link" href="#_request_fields_2">Request Fields</a></h3>
+<h3 id="_request_headers_2"><a class="link" href="#_request_headers_2">Request Headers</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/create/request-fields.adoc[]</p>
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatRoom/request-headers.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_request_fields"><a class="link" href="#_request_fields">Request Fields</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatRoom/request-fields.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_http_response_2"><a class="link" href="#_http_response_2">HTTP Response</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/create/http-response.adoc[]</p>
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatRoom/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_response_fields_2"><a class="link" href="#_response_fields_2">Response Fields</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/create/response-fields.adoc[]</p>
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatRoom/response-fields.adoc[]</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="review-update"><a class="link" href="#review-update">PATCH 리뷰 수정</a></h2>
+<h2 id="chat-deleteChatRoom"><a class="link" href="#chat-deleteChatRoom">DELETE 채팅방 삭제</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request_3"><a class="link" href="#_http_request_3">HTTP Request</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/update/http-request.adoc[]</p>
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatRoom/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_path_parameters"><a class="link" href="#_path_parameters">Path-parameters</a></h3>
+<h3 id="_path_parameters"><a class="link" href="#_path_parameters">Path Parameters</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/update/path-parameters.adoc[]</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_request_fields_3"><a class="link" href="#_request_fields_3">Request Fields</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/update/request-fields.adoc[]</p>
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatRoom/path-parameters.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_http_response_3"><a class="link" href="#_http_response_3">HTTP Response</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/update/http-response.adoc[]</p>
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatRoom/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_response_fields_3"><a class="link" href="#_response_fields_3">Response Fields</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/update/response-fields.adoc[]</p>
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatRoom/response-fields.adoc[]</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="review-delete"><a class="link" href="#review-delete">DELETE 리뷰 삭제</a></h2>
+<h2 id="chat-createChatMessage"><a class="link" href="#chat-createChatMessage">POST 메시지 생성</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request_4"><a class="link" href="#_http_request_4">HTTP Request</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/delete/http-request.adoc[]</p>
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatMessage/http-request.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_path_parameters_2"><a class="link" href="#_path_parameters_2">Path-parameters</a></h3>
+<h3 id="_request_headers_3"><a class="link" href="#_request_headers_3">Request Headers</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/delete/path-parameters.adoc[]</p>
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatMessage/request-headers.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_path_parameters_2"><a class="link" href="#_path_parameters_2">Path Parameters</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatMessage/path-parameters.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_request_fields_2"><a class="link" href="#_request_fields_2">Request Fields</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatMessage/request-fields.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_http_response_4"><a class="link" href="#_http_response_4">HTTP Response</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in review.adoc - include::{snippets}/review/delete/http-response.adoc[]</p>
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatMessage/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_fields_4"><a class="link" href="#_response_fields_4">Response Fields</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatMessage/response-fields.adoc[]</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="chat-getChatMessages"><a class="link" href="#chat-getChatMessages">GET 메시지 조회</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_http_request_5"><a class="link" href="#_http_request_5">HTTP Request</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatMessages/http-request.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_path_parameters_3"><a class="link" href="#_path_parameters_3">Path Parameters</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatMessages/path-parameters.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_response_5"><a class="link" href="#_http_response_5">HTTP Response</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatMessages/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_fields_5"><a class="link" href="#_response_fields_5">Response Fields</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatMessages/response-fields.adoc[]</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="chat-editChatMessage"><a class="link" href="#chat-editChatMessage">PUT 메시지 수정</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_http_request_6"><a class="link" href="#_http_request_6">HTTP Request</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/editChatMessage/http-request.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_path_parameters_4"><a class="link" href="#_path_parameters_4">Path Parameters</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/editChatMessage/path-parameters.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_request_fields_3"><a class="link" href="#_request_fields_3">Request Fields</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/editChatMessage/request-fields.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_response_6"><a class="link" href="#_http_response_6">HTTP Response</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/editChatMessage/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_fields_6"><a class="link" href="#_response_fields_6">Response Fields</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/editChatMessage/response-fields.adoc[]</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="chat-deleteChatMessage"><a class="link" href="#chat-deleteChatMessage">DELETE 메시지 삭제</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_http_request_7"><a class="link" href="#_http_request_7">HTTP Request</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatMessage/http-request.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_path_parameters_5"><a class="link" href="#_path_parameters_5">Path Parameters</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatMessage/path-parameters.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_response_7"><a class="link" href="#_http_response_7">HTTP Response</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatMessage/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_fields_7"><a class="link" href="#_response_fields_7">Response Fields</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatMessage/response-fields.adoc[]</p>
 </div>
 </div>
 </div>
@@ -605,7 +744,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2021-08-08 00:06:44 +0900
+Last updated 2021-09-14 02:12:08 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

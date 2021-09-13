@@ -1,0 +1,120 @@
+= Chat API Docs
+zooneon
+1.0.0, 14/09/2021
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+
+[[chat-getChatRooms]]
+== GET 채팅방 조회
+
+=== HTTP Request
+include::{snippets}/chat/getChatRooms/http-request.adoc[]
+
+=== Request Headers
+include::{snippets}/chat/getChatRooms/request-headers.adoc[]
+
+=== HTTP Response
+include::{snippets}/chat/getChatRooms/http-response.adoc[]
+
+=== Response Fields
+include::{snippets}/chat/getChatRooms/response-fields.adoc[]
+
+
+[[chat-createChatRoom]]
+== POST 채팅방 생성
+
+=== HTTP Request
+include::{snippets}/chat/createChatRoom/http-request.adoc[]
+
+=== Request Headers
+include::{snippets}/chat/createChatRoom/request-headers.adoc[]
+
+=== Request Fields
+include::{snippets}/chat/createChatRoom/request-fields.adoc[]
+
+=== HTTP Response
+include::{snippets}/chat/createChatRoom/http-response.adoc[]
+
+[[chat-deleteChatRoom]]
+== DELETE 채팅방 삭제
+
+=== HTTP Request
+include::{snippets}/chat/deleteChatRoom/http-request.adoc[]
+
+=== Path Parameters
+include::{snippets}/chat/deleteChatRoom/path-parameters.adoc[]
+
+=== HTTP Response
+include::{snippets}/chat/deleteChatRoom/http-response.adoc[]
+
+=== Response Fields
+include::{snippets}/chat/deleteChatRoom/response-fields.adoc[]
+
+[[chat-createChatMessage]]
+== POST 메시지 생성
+
+=== HTTP Request
+include::{snippets}/chat/createChatMessage/http-request.adoc[]
+
+=== Request Headers
+include::{snippets}/chat/createChatMessage/request-headers.adoc[]
+
+=== Path Parameters
+include::{snippets}/chat/createChatMessage/path-parameters.adoc[]
+
+=== Request Fields
+include::{snippets}/chat/createChatMessage/request-fields.adoc[]
+
+=== HTTP Response
+include::{snippets}/chat/createChatMessage/http-response.adoc[]
+
+[[chat-getChatMessages]]
+== GET 메시지 조회
+
+=== HTTP Request
+include::{snippets}/chat/getChatMessages/http-request.adoc[]
+
+=== Path Parameters
+include::{snippets}/chat/getChatMessages/path-parameters.adoc[]
+
+=== HTTP Response
+include::{snippets}/chat/getChatMessages/http-response.adoc[]
+
+=== Response Fields
+include::{snippets}/chat/getChatMessages/response-fields.adoc[]
+
+[[chat-editChatMessage]]
+== PUT 메시지 수정
+
+=== HTTP Request
+include::{snippets}/chat/editChatMessage/http-request.adoc[]
+
+=== Path Parameters
+include::{snippets}/chat/editChatMessage/path-parameters.adoc[]
+
+=== Request Fields
+include::{snippets}/chat/editChatMessage/request-fields.adoc[]
+
+=== HTTP Response
+include::{snippets}/chat/editChatMessage/http-response.adoc[]
+
+[[chat-deleteChatMessage]]
+== DELETE 메시지 삭제
+
+=== HTTP Request
+include::{snippets}/chat/deleteChatMessage/http-request.adoc[]
+
+=== Path Parameters
+include::{snippets}/chat/deleteChatMessage/path-parameters.adoc[]
+
+=== HTTP Response
+include::{snippets}/chat/deleteChatMessage/http-response.adoc[]
+
+=== Response Fields
+include::{snippets}/chat/deleteChatMessage/response-fields.adoc[]
