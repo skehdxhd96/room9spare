@@ -1,11 +1,14 @@
 package com.goomoong.room9backend.service.room;
 
+import com.goomoong.room9backend.domain.review.dto.scoreDto;
 import com.goomoong.room9backend.domain.room.Amenity;
 import com.goomoong.room9backend.domain.room.RoomConfiguration;
 import com.goomoong.room9backend.domain.room.dto.GetCommonRoom;
+import com.goomoong.room9backend.domain.room.dto.GetDetailRoom;
 import com.goomoong.room9backend.domain.room.dto.priceDto;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.exception.RoomNotAddException;
+import com.goomoong.room9backend.service.ReviewService;
 import com.goomoong.room9backend.service.UserService;
 import com.goomoong.room9backend.service.file.FileService;
 import com.goomoong.room9backend.config.FolderConfig;
@@ -17,6 +20,7 @@ import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.room.dto.CreatedRequestRoomDto;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.exception.NoSuchRoomException;
+import com.goomoong.room9backend.util.AboutScore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +44,7 @@ public class RoomService {
     private final RoomImgRepository roomImgRepository;
     private final RoomRepository roomRepository;
     private final FolderConfig folderConfig;
+    private final ReviewService reviewService;
 
     //방 생성
     @Transactional
@@ -65,23 +70,47 @@ public class RoomService {
         return room.getId();
     }
 
-    public Room getRoomDetail(Long id) {
-        return roomRepository.findById(id).orElseThrow(() -> new NoSuchRoomException("존재하지 않는 방입니다."));
+    public GetDetailRoom getRoomDetail(Long id) {
+        Room room = roomRepository.findById(id).orElseThrow(() -> new NoSuchRoomException("존재하지 않는 방입니다."));
+        scoreDto scoreDto = reviewService.getAvgScoreAndCount(id);
+        return new GetDetailRoom(room, scoreDto);
     }
 
-    public List<Room> findAll() {
-        return roomRepository.findAll();
+    public List<GetCommonRoom> findAll() {
+
+        List<Room> rooms = roomRepository.findAll();
+        List<GetCommonRoom> roomList = new ArrayList<>();
+        for (Room room : rooms) {
+            scoreDto scoredto = reviewService.getAvgScoreAndCount(room.getId());
+            roomList.add(new GetCommonRoom(room, scoredto));
+        }
+        return roomList;
     }
 
     public long getTotalPrice(Long id, priceDto priceDto) {
 
-        Room room = getRoomDetail(id);
+        Room room = roomRepository.findById(id).orElseThrow(() -> new NoSuchRoomException("존재하지 않는 방입니다."));
         long days = compareDay(priceDto.getStartDate(), priceDto.getFinalDate());
+
+        if(priceDto.getPersonnel() == null) {
+            return room.getPrice() * days;
+        }
 
         if(room.getLimited() < priceDto.getPersonnel()) {
             int addCharge = room.getCharge() * (priceDto.getPersonnel() - room.getLimited());
             return addCharge + room.getPrice() * days;
         }
         return room.getPrice() * days;
+    }
+
+    public List<GetCommonRoom> getMyRoom(User user) {
+
+        List<Room> myRooms = roomRepository.findMyRoom(user);
+        List<GetCommonRoom> roomList = new ArrayList<>();
+        for (Room myRoom : myRooms) {
+            scoreDto scoredto = reviewService.getAvgScoreAndCount(myRoom.getId());
+            roomList.add(new GetCommonRoom(myRoom, scoredto));
+        }
+        return roomList;
     }
 }

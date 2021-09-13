@@ -46,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ExtendWith({SpringExtension.class, RestDocumentationExtension.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, properties = "spring.config.location=" +
-        "classpath:application.yml," +
+        "classpath:application.properties," +
         "classpath:aws.yml")
 public class UserApiControllerTest {
 

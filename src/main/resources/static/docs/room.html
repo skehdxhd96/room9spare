@@ -747,7 +747,7 @@ Host: room9.docs.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 827
+Content-Length: 948
 
 {
   "roomId" : 1,
@@ -757,6 +757,8 @@ Content-Length: 827
   "limitPeople" : 10,
   "price" : 10000,
   "like" : 3,
+  "avgScore" : 0.0,
+  "reviewCount" : 0,
   "images" : [ {
     "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"
   }, {
@@ -776,7 +778,10 @@ Content-Length: 827
     "facility" : "전자레인지"
   }, {
     "facility" : "도어락"
-  } ]
+  } ],
+  "userImg" : "mock.jpg",
+  "userIntro" : "test",
+  "userGender" : "male"
 }</code></pre>
 </div>
 </div>
@@ -830,6 +835,21 @@ Content-Length: 827
 <td class="tableblock halign-left valign-top"><p class="tableblock">숙소 만든 사람 닉네임</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userImg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 만든 사람 썸네일이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userIntro</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 만든 사람 인트로</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userGender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 만든 사람 성별</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">숙소 제목</p></td>
@@ -875,6 +895,16 @@ Content-Length: 827
 <td class="tableblock halign-left valign-top"><p class="tableblock">제한 인원 초과시 추가요금</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>avgScore</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 댓글 평점 평균</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reviewCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 댓글 수</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>room_configuration[].confType</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">숙소 구성요소 타입(ex 화장실, 침실&#8230;&#8203;)</p></td>
@@ -901,7 +931,7 @@ Content-Length: 827
 <h3 id="_http_request_3"><a class="link" href="#_http_request_3">http-request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /room/search?title=%EC%95%84&amp;limitPrice=20000&amp;detailLocation=%EC%84%9C%EC%9A%B8&amp;limitPeople=10&amp;orderStandard=LIKEDDESC HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /room/search?title=%EC%95%84%EB%A9%94%EB%A6%AC%EC%B9%B4%EB%85%B8&amp;limitPrice=10&amp;detailLocation=%EC%84%9C%EC%9A%B8&amp;limitPeople=10000&amp;orderStandard=LIKEDDESC HTTP/1.1
 Host: room9.docs.com</code></pre>
 </div>
 </div>
@@ -1004,6 +1034,16 @@ Host: room9.docs.com</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">숙소 이미지</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].avgScore</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 댓글 평점 평균</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].reviewCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 댓글 수</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1027,10 +1067,10 @@ Host: room9.docs.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 975
+Content-Length: 554
 
 {
-  "count" : 2,
+  "count" : 1,
   "room" : [ {
     "roomId" : 1,
     "username" : "mockusername",
@@ -1039,19 +1079,8 @@ Content-Length: 975
     "limitPeople" : 10,
     "price" : 10000,
     "like" : 3,
-    "images" : [ {
-      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"
-    }, {
-      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"
-    } ]
-  }, {
-    "roomId" : 2,
-    "username" : "mockusername",
-    "title" : "카페라떼",
-    "location" : "인천",
-    "limitPeople" : 4,
-    "price" : 20000,
-    "like" : 7,
+    "avgScore" : 0.0,
+    "reviewCount" : 0,
     "images" : [ {
       "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"
     }, {
@@ -1122,6 +1151,16 @@ Content-Length: 975
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].images[].url</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">숙소 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].avgScore</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 댓글 평점 평균</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].reviewCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 댓글 수</p></td>
 </tr>
 </tbody>
 </table>
@@ -1250,10 +1289,10 @@ Host: room9.docs.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 975
+Content-Length: 554
 
 {
-  "count" : 2,
+  "count" : 1,
   "room" : [ {
     "roomId" : 1,
     "username" : "mockusername",
@@ -1262,19 +1301,8 @@ Content-Length: 975
     "limitPeople" : 10,
     "price" : 10000,
     "like" : 3,
-    "images" : [ {
-      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"
-    }, {
-      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"
-    } ]
-  }, {
-    "roomId" : 2,
-    "username" : "mockusername",
-    "title" : "카페라떼",
-    "location" : "인천",
-    "limitPeople" : 4,
-    "price" : 20000,
-    "like" : 7,
+    "avgScore" : 0.0,
+    "reviewCount" : 0,
     "images" : [ {
       "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"
     }, {
@@ -1348,6 +1376,16 @@ Content-Length: 975
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">숙소 이미지</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].avgScore</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 댓글 평점 평균</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].reviewCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 댓글 수</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1371,10 +1409,10 @@ Host: room9.docs.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 975
+Content-Length: 554
 
 {
-  "count" : 2,
+  "count" : 1,
   "room" : [ {
     "roomId" : 1,
     "username" : "mockusername",
@@ -1383,19 +1421,8 @@ Content-Length: 975
     "limitPeople" : 10,
     "price" : 10000,
     "like" : 3,
-    "images" : [ {
-      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"
-    }, {
-      "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"
-    } ]
-  }, {
-    "roomId" : 2,
-    "username" : "mockusername",
-    "title" : "카페라떼",
-    "location" : "인천",
-    "limitPeople" : 4,
-    "price" : 20000,
-    "like" : 7,
+    "avgScore" : 0.0,
+    "reviewCount" : 0,
     "images" : [ {
       "url" : "https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"
     }, {
@@ -1468,6 +1495,16 @@ Content-Length: 975
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].images[].url</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">숙소 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].avgScore</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 댓글 평점 평균</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>room.[].reviewCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">숙소 댓글 수</p></td>
 </tr>
 </tbody>
 </table>

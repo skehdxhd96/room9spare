@@ -3,6 +3,7 @@ package com.goomoong.room9backend.controller;
 import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.security.userdetails.CustomUserDetails;
+import com.goomoong.room9backend.service.ReviewService;
 import com.goomoong.room9backend.service.room.RoomSearchService;
 import com.goomoong.room9backend.service.room.RoomService;
 import com.goomoong.room9backend.domain.room.dto.*;
@@ -13,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Nullable;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,42 +37,52 @@ public class RoomApiController {
 
     @GetMapping("/room")
     public roomData.GET<List<GetCommonRoom>> getAllRooms() {
-        List<GetCommonRoom> roomList = roomService.findAll()
-                .stream().map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
-        return new roomData.GET<>(roomList.size(), roomList);
+
+        List<GetCommonRoom> allRooms = roomService.findAll();
+        return new roomData.GET<>(allRooms.size(), allRooms);
     }
 
     @GetMapping("/room/{roomId}")
     public GetDetailRoom getDetailRoom(@PathVariable("roomId") Long id) {
-        return new GetDetailRoom(roomService.getRoomDetail(id));
+        return roomService.getRoomDetail(id);
+    }
+
+    @GetMapping("/room/myRoom")
+    public roomData.GET<List<GetCommonRoom>> getMyRoomList(@AuthenticationPrincipal CustomUserDetails currentUser) {
+        List<GetCommonRoom> myRooms = roomService.getMyRoom(currentUser.getUser());
+        return new roomData.GET<>(myRooms.size(), myRooms);
     }
 
     @GetMapping("/room/search")
     public roomData.GET<List<GetCommonRoom>> getRoomWithFilter(@Valid searchDto search) {
-        List<GetCommonRoom> roomList = roomSearchService.search(search).stream()
-                .map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
+
+        List<GetCommonRoom> roomList = roomSearchService.search(search);
+
         return new roomData.GET<>(roomList.size(), roomList);
     }
 
     @GetMapping("/room/price/{roomId}")
-    public roomData.price getRoomPrice(@PathVariable("roomId") Long id, @Valid priceDto priceDto) {
-        return new roomData.price(roomService.getTotalPrice(id, priceDto));
+    public roomData.price getRoomPrice(@PathVariable("roomId") Long id, @RequestParam(required = false) Integer personnel,
+                                       @RequestParam String startDate,
+                                       @RequestParam String finalDate) {
+        return new roomData.price(roomService.getTotalPrice(id, priceDto.builder()
+                                                                .personnel(personnel)
+                                                                .startDate(startDate)
+                                                                .finalDate(finalDate).build()));
     }
 
     @GetMapping("/room/popular")
     public roomData.GET<List<GetCommonRoom>> getPopularRooms(){
         searchDto search = new searchDto();
         search.setOrderStandard(OrderDto.LIKEDDESC);
+        List<GetCommonRoom> roomList = roomSearchService.search(search);
 
-        List<GetCommonRoom> roomList = roomSearchService.search(search).stream()
-                .map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
         return new roomData.GET<>(roomList.size(), roomList);
     }
 
     @GetMapping("/room/random")
     public roomData.GET<List<GetCommonRoom>> getRandomRooms(){
-        List<GetCommonRoom> roomList = roomSearchService.randSearch().stream()
-                .map(r -> new GetCommonRoom(r)).collect(Collectors.toList());
+        List<GetCommonRoom> roomList = roomSearchService.randSearch();
         return new roomData.GET<>(roomList.size(), roomList);
     }
 }
