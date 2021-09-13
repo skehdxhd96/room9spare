@@ -14,16 +14,21 @@ sockju
 == GET 유저, 방에 따른 리뷰 가져오기 (동적쿼리)
 
 === HTTP Request
-include::{snippets}/review/select/http-request.adoc[]
+include::{snippets}/review-select/http-request.adoc[]
 
 === Request Fields
+
+=== request fields
+include::{snippets}/review-select/request-fields.adoc[]
+=== request parameters
 include::{snippets}/review/select/request-parameters.adoc[]
 
+
 === HTTP Response
-include::{snippets}/review/select/http-response.adoc[]
+include::{snippets}/review-select/http-response.adoc[]
 
 === Response Fields
-include::{snippets}/review/select/response-fields.adoc[]
+include::{snippets}/review-select/response-fields.adoc[]
 
 
 [[review-latest]]
@@ -43,45 +48,45 @@ include::{snippets}/review/latest/response-fields.adoc[]
 == POST 리뷰 생성
 
 === HTTP Request
-include::{snippets}/review/create/http-request.adoc[]
+include::{snippets}/review-create/http-request.adoc[]
 
 === Request Fields
-include::{snippets}/review/create/request-fields.adoc[]
+include::{snippets}/review-create/request-fields.adoc[]
 
 === HTTP Response
-include::{snippets}/review/create/http-response.adoc[]
+include::{snippets}/review-create/http-response.adoc[]
 
 === Response Fields
-include::{snippets}/review/create/response-fields.adoc[]
+include::{snippets}/review-create/response-fields.adoc[]
 
 
 [[review-update]]
 == PATCH 리뷰 수정
 
 === HTTP Request
-include::{snippets}/review/update/http-request.adoc[]
+include::{snippets}/review-update/http-request.adoc[]
 
 === Path-parameters
-include::{snippets}/review/update/path-parameters.adoc[]
+include::{snippets}/review-update/path-parameters.adoc[]
 
 === Request Fields
-include::{snippets}/review/update/request-fields.adoc[]
+include::{snippets}/review-update/request-fields.adoc[]
 
 === HTTP Response
-include::{snippets}/review/update/http-response.adoc[]
+include::{snippets}/review-update/http-response.adoc[]
 
 === Response Fields
-include::{snippets}/review/update/response-fields.adoc[]
+include::{snippets}/review-update/response-fields.adoc[]
 
 
 [[review-delete]]
 == DELETE 리뷰 삭제
 
 === HTTP Request
-include::{snippets}/review/delete/http-request.adoc[]
+include::{snippets}/review-delete/http-request.adoc[]
 
 === Path-parameters
-include::{snippets}/review/delete/path-parameters.adoc[]
+include::{snippets}/review-delete/path-parameters.adoc[]
 
 === HTTP Response
-include::{snippets}/review/delete/http-response.adoc[]
+include::{snippets}/review-delete/http-response.adoc[]

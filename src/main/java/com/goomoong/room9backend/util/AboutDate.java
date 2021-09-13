@@ -17,6 +17,10 @@ public class AboutDate {
         return returnDate;
     }
 
+    public static String getStringFromLocalDateTime(LocalDateTime date) {
+        return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+
     public static long compareDay(String date1, String date2) {
         LocalDate startDate = LocalDate.parse(date1, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         LocalDate finalDate = LocalDate.parse(date2, DateTimeFormatter.ofPattern("yyyy-MM-dd"));

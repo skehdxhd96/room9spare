@@ -453,6 +453,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_http_request">HTTP Request</a></li>
 <li><a href="#_request_fields">Request Fields</a></li>
+<li><a href="#_request_fields_2">request fields</a></li>
+<li><a href="#_request_parameters">request parameters</a></li>
 <li><a href="#_http_response">HTTP Response</a></li>
 <li><a href="#_response_fields">Response Fields</a></li>
 </ul>
@@ -467,7 +469,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#review-create">POST 리뷰 생성</a>
 <ul class="sectlevel2">
 <li><a href="#_http_request_3">HTTP Request</a></li>
-<li><a href="#_request_fields_2">Request Fields</a></li>
+<li><a href="#_request_fields_3">Request Fields</a></li>
 <li><a href="#_http_response_3">HTTP Response</a></li>
 <li><a href="#_response_fields_3">Response Fields</a></li>
 </ul>
@@ -476,7 +478,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_http_request_4">HTTP Request</a></li>
 <li><a href="#_path_parameters">Path-parameters</a></li>
-<li><a href="#_request_fields_3">Request Fields</a></li>
+<li><a href="#_request_fields_4">Request Fields</a></li>
 <li><a href="#_http_response_4">HTTP Response</a></li>
 <li><a href="#_response_fields_4">Response Fields</a></li>
 </ul>
@@ -499,20 +501,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_http_request"><a class="link" href="#_http_request">HTTP Request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/reviews HTTP/1.1
-Content-Type: application/json
-Content-Length: 34
-Host: room9.docs.com
-
-{
-  "userId" : 1,
-  "roomId" : 1
-}</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/reviews?user=1&amp;room=1 HTTP/1.1
+Host: room9.docs.com</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_request_fields"><a class="link" href="#_request_fields">Request Fields</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="_request_fields_2"><a class="link" href="#_request_fields_2">request fields</a></h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -541,6 +540,12 @@ Host: room9.docs.com
 </table>
 </div>
 <div class="sect2">
+<h3 id="_request_parameters"><a class="link" href="#_request_parameters">request parameters</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in review.adoc - include::C:\Users\user\Desktop\room9\room9-backend\build\generated-snippets/review/select/request-parameters.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_http_response"><a class="link" href="#_http_response">HTTP Response</a></h3>
 <div class="listingblock">
 <div class="content">
@@ -549,7 +554,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 146
+Content-Length: 154
 
 {
   "data" : [ {
@@ -630,7 +635,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 398
+Content-Length: 418
 
 {
   "data" : [ {
@@ -711,7 +716,7 @@ Content-Length: 398
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/reviews HTTP/1.1
 Content-Type: application/json
-Content-Length: 83
+Content-Length: 88
 Host: room9.docs.com
 
 {
@@ -724,7 +729,7 @@ Host: room9.docs.com
 </div>
 </div>
 <div class="sect2">
-<h3 id="_request_fields_2"><a class="link" href="#_request_fields_2">Request Fields</a></h3>
+<h3 id="_request_fields_3"><a class="link" href="#_request_fields_3">Request Fields</a></h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -771,7 +776,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 14
+Content-Length: 16
 
 {
   "id" : 1
@@ -814,7 +819,7 @@ Content-Length: 14
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/reviews/1 HTTP/1.1
 Content-Type: application/json
-Content-Length: 52
+Content-Length: 55
 Host: room9.docs.com
 
 {
@@ -847,7 +852,7 @@ Host: room9.docs.com
 </table>
 </div>
 <div class="sect2">
-<h3 id="_request_fields_3"><a class="link" href="#_request_fields_3">Request Fields</a></h3>
+<h3 id="_request_fields_4"><a class="link" href="#_request_fields_4">Request Fields</a></h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -884,7 +889,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 14
+Content-Length: 16
 
 {
   "id" : 1
@@ -969,7 +974,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2021-09-12 16:46:51 +0900
+Last updated 2021-09-13 20:47:57 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

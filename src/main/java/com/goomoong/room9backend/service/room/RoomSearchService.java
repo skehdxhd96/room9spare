@@ -1,15 +1,20 @@
 package com.goomoong.room9backend.service.room;
 
+import com.goomoong.room9backend.domain.review.dto.scoreDto;
 import com.goomoong.room9backend.domain.room.Room;
+import com.goomoong.room9backend.domain.room.dto.GetCommonRoom;
 import com.goomoong.room9backend.domain.room.dto.searchDto;
 import com.goomoong.room9backend.repository.room.RoomRepository;
+import com.goomoong.room9backend.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,15 +22,29 @@ import java.util.List;
 public class RoomSearchService {
 
     private final RoomRepository roomRepository;
+    private final ReviewService reviewService;
 
-    public List<Room> search(searchDto search) {
-        return roomRepository.findRoomWithFilter(search);
+    public List<GetCommonRoom> search(searchDto search) {
+
+        List<Room> filterRooms = roomRepository.findRoomWithFilter(search).stream().limit(3).collect(Collectors.toList());
+        List<GetCommonRoom> roomList = new ArrayList<>();
+        for (Room filterRoom : filterRooms) {
+            scoreDto scoredto = reviewService.getAvgScoreAndCount(filterRoom.getId());
+            roomList.add(new GetCommonRoom(filterRoom, scoredto));
+        }
+        return roomList;
     }
 
-    public List<Room> randSearch(){
+    public List<GetCommonRoom> randSearch(){
         long count = roomRepository.count()/2;
         int idx = (int)(Math.random() * count);
-        Page<Room> roomPage = roomRepository.findAll(PageRequest.of(idx, 2));
-        return roomPage.getContent();
+        Page<Room> roomPages = roomRepository.findAll(PageRequest.of(idx, 2));
+
+        List<GetCommonRoom> roomList = new ArrayList<>();
+        for (Room roomPage : roomPages.getContent()) {
+            scoreDto scoredto = reviewService.getAvgScoreAndCount(roomPage.getId());
+            roomList.add(new GetCommonRoom(roomPage, scoredto));
+        }
+        return roomList;
     }
 }

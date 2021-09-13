@@ -3,6 +3,7 @@ package com.goomoong.room9backend.repository.room;
 import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.room.dto.OrderDto;
 import com.goomoong.room9backend.domain.room.dto.searchDto;
+import com.goomoong.room9backend.domain.user.User;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -29,6 +30,16 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom{
                         limitPeopleLoe(search.getLimitPeople()),
                         limitPrice(search.getLimitPrice()))
                 .orderBy(Ordered(search.getOrderStandard()))
+                .fetch();
+    }
+
+    @Override
+    public List<Room> findMyRoom(User user) {
+        return queryFactory
+                .select(room)
+                .from(room)
+                .join(room.users).fetchJoin()
+                .where(room.users.id.eq(user.getId()))
                 .fetch();
     }
 

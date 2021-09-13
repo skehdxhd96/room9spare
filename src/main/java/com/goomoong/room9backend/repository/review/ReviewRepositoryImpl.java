@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static com.goomoong.room9backend.domain.review.QReview.review;
 
@@ -26,6 +27,15 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
                 .from(review)
                 .where(userEq(reviewSearchDto.getUser()), roomEq(reviewSearchDto.getRoom()))
                 .fetch();
+    }
+
+    @Override
+    public Optional<List<Review>> findAvgScoreAndCountByRoom(Long roomId) {
+        return Optional.ofNullable(queryFactory
+                .select(review)
+                .from(review)
+                .where(review.room.id.eq(roomId))
+                .fetch());
     }
 
     private BooleanExpression userEq(User user) {

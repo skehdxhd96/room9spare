@@ -7,8 +7,13 @@ import java.util.List;
 public interface roomReservationRepositoryCustom {
 
     /**
-     * Reserve_Status와 roomId를 이용한 예약 테이블 조회
+     * 선택한 방의 전체 예약내역을 가져온다.
+     * 예약이 불가능한 날짜 리스트
      */
-    List<roomReservation> findByRoomId(Long roomId);
+    List<roomReservation> getAllList(Long roomId);
 
+    /**
+     * 자신이 예약한 숙소 리스트 조회
+     */
+    List<roomReservation> getMyBookList(Long userId);
 }

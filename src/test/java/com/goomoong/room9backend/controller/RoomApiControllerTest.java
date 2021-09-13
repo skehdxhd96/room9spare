@@ -11,6 +11,7 @@ import com.goomoong.room9backend.domain.file.RoomImg;
 import com.goomoong.room9backend.domain.file.dto.GetRoomfileDto;
 import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.review.dto.CreateReviewRequestDto;
+import com.goomoong.room9backend.domain.review.dto.scoreDto;
 import com.goomoong.room9backend.domain.room.Amenity;
 import com.goomoong.room9backend.domain.room.Room;
 import com.goomoong.room9backend.domain.room.RoomConfiguration;
@@ -20,6 +21,7 @@ import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.repository.user.UserRepository;
 import com.goomoong.room9backend.security.userdetails.CustomUserDetails;
 import com.goomoong.room9backend.security.userdetails.CustomUserDetailsService;
+import com.goomoong.room9backend.service.ReviewService;
 import com.goomoong.room9backend.service.UserService;
 import com.goomoong.room9backend.service.file.FileService;
 import com.goomoong.room9backend.service.file.S3Uploader;
@@ -96,11 +98,16 @@ public class RoomApiControllerTest {
     private RoomSearchService roomSearchService;
     @MockBean
     private UserService userService;
+    @MockBean
+    private ReviewService reviewService;
 
     private User user;
     private Room room1;
     private List<Room> rooms = new ArrayList<>();
     private List<Room> filterRooms = new ArrayList<>();
+    private List<Room> myRoom = new ArrayList<>();
+    private List<GetCommonRoom> glist = new ArrayList<>();
+    private GetDetailRoom getDetailRoom;
 
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentation) {
@@ -187,6 +194,18 @@ public class RoomApiControllerTest {
         rooms.add(room2);
         filterRooms.add(room3);
         filterRooms.add(room1);
+        myRoom.add(room1);
+        myRoom.add(room2);
+        myRoom.add(room3);
+
+        scoreDto scoredto = scoreDto.builder()
+                .avgScore(2.5)
+                .reviewCount(147)
+                .build();
+        scoreDto scoreDto2 = new scoreDto();
+        GetCommonRoom getCommonRoom = new GetCommonRoom(room1, scoreDto2);
+        glist.add(getCommonRoom);
+        getDetailRoom = new GetDetailRoom(room1, scoreDto2);
     }
 
     @Test
@@ -252,7 +271,7 @@ public class RoomApiControllerTest {
     public void getAllRoomTest() throws Exception{
 
         //given
-        given(roomService.findAll()).willReturn(rooms);
+        given(roomService.findAll()).willReturn(glist);
 
         //when
         ResultActions results = mvc.perform(get("/room"));
@@ -272,10 +291,12 @@ public class RoomApiControllerTest {
                                 fieldWithPath("room.[].limitPeople").type(JsonFieldType.NUMBER).description("제한 인원"),
                                 fieldWithPath("room.[].price").type(JsonFieldType.NUMBER).description("숙소 가격"),
                                 fieldWithPath("room.[].like").type(JsonFieldType.NUMBER).description("숙소에 찍힌 좋아요 수"),
-                                fieldWithPath("room.[].images[].url").type(JsonFieldType.STRING).description("숙소 이미지")
+                                fieldWithPath("room.[].images[].url").type(JsonFieldType.STRING).description("숙소 이미지"),
+                                fieldWithPath("room.[].avgScore").type(JsonFieldType.NUMBER).description("숙소 댓글 평점 평균"),
+                                fieldWithPath("room.[].reviewCount").type(JsonFieldType.NUMBER).description("숙소 댓글 수")
                         )
                 ))
-                .andExpect(jsonPath("$.count").value(2))
+                .andExpect(jsonPath("$.count").value(1))
                 .andExpect(jsonPath("$.room[0].roomId").value(1L))
                 .andExpect(jsonPath("$.room[0].username").value("mockusername"))
                 .andExpect(jsonPath("$.room[0].title").value("아메리카노"))
@@ -283,17 +304,10 @@ public class RoomApiControllerTest {
                 .andExpect(jsonPath("$.room[0].limitPeople").value(10))
                 .andExpect(jsonPath("$.room[0].price").value(10000))
                 .andExpect(jsonPath("$.room[0].like").value(3))
+                .andExpect(jsonPath("$.room[0].avgScore").value(0.0))
+                .andExpect(jsonPath("$.room[0].reviewCount").value(0))
                 .andExpect(jsonPath("$.room[0].images[0].url").value("https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"))
-                .andExpect(jsonPath("$.room[0].images[1].url").value("https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"))
-                .andExpect(jsonPath("$.room[1].roomId").value(2L))
-                .andExpect(jsonPath("$.room[1].username").value("mockusername"))
-                .andExpect(jsonPath("$.room[1].title").value("카페라떼"))
-                .andExpect(jsonPath("$.room[1].location").value("인천"))
-                .andExpect(jsonPath("$.room[1].limitPeople").value(4))
-                .andExpect(jsonPath("$.room[1].price").value(20000))
-                .andExpect(jsonPath("$.room[1].like").value(7))
-                .andExpect(jsonPath("$.room[1].images[0].url").value("https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"))
-                .andExpect(jsonPath("$.room[1].images[1].url").value("https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"));
+                .andExpect(jsonPath("$.room[0].images[1].url").value("https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"));
     }
 
     @Test
@@ -301,15 +315,15 @@ public class RoomApiControllerTest {
     public void filterTest() throws Exception{
 
         //given
-        given(roomSearchService.search(any())).willReturn(filterRooms);
+        given(roomSearchService.search(any())).willReturn(glist);
 
         //when
         ResultActions results = mvc.perform(
                 get("/room/search")
-                        .param("title", "아")
-                        .param("limitPrice", "20000")
+                        .param("title", "아메리카노")
+                        .param("limitPrice", "10")
                         .param("detailLocation", "서울")
-                        .param("limitPeople", "10")
+                        .param("limitPeople", "10000")
                         .param("orderStandard", "LIKEDDESC"));
 
         //then
@@ -333,36 +347,78 @@ public class RoomApiControllerTest {
                                 fieldWithPath("room.[].limitPeople").type(JsonFieldType.NUMBER).description("제한 인원"),
                                 fieldWithPath("room.[].price").type(JsonFieldType.NUMBER).description("숙소 가격"),
                                 fieldWithPath("room.[].like").type(JsonFieldType.NUMBER).description("숙소에 찍힌 좋아요 수"),
-                                fieldWithPath("room.[].images[].url").type(JsonFieldType.STRING).description("숙소 이미지")
+                                fieldWithPath("room.[].images[].url").type(JsonFieldType.STRING).description("숙소 이미지"),
+                                fieldWithPath("room.[].avgScore").type(JsonFieldType.NUMBER).description("숙소 댓글 평점 평균"),
+                                fieldWithPath("room.[].reviewCount").type(JsonFieldType.NUMBER).description("숙소 댓글 수")
                         )
                 ))
-                .andExpect(jsonPath("$.count").value(2))
-                .andExpect(jsonPath("$.room[0].roomId").value(3L))
+                .andExpect(jsonPath("$.count").value(1))
+                .andExpect(jsonPath("$.room[0].roomId").value(1L))
                 .andExpect(jsonPath("$.room[0].username").value("mockusername"))
-                .andExpect(jsonPath("$.room[0].title").value("아아"))
-                .andExpect(jsonPath("$.room[0].location").value("서울시 중랑구"))
-                .andExpect(jsonPath("$.room[0].limitPeople").value(8))
-                .andExpect(jsonPath("$.room[0].price").value(12000))
-                .andExpect(jsonPath("$.room[0].like").value(5))
+                .andExpect(jsonPath("$.room[0].title").value("아메리카노"))
+                .andExpect(jsonPath("$.room[0].location").value("서울"))
+                .andExpect(jsonPath("$.room[0].limitPeople").value(10))
+                .andExpect(jsonPath("$.room[0].price").value(10000))
+                .andExpect(jsonPath("$.room[0].like").value(3))
+                .andExpect(jsonPath("$.room[0].avgScore").value(0.0))
+                .andExpect(jsonPath("$.room[0].reviewCount").value(0))
                 .andExpect(jsonPath("$.room[0].images[0].url").value("https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"))
-                .andExpect(jsonPath("$.room[0].images[1].url").value("https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"))
-                .andExpect(jsonPath("$.room[1].roomId").value(1L))
-                .andExpect(jsonPath("$.room[1].username").value("mockusername"))
-                .andExpect(jsonPath("$.room[1].title").value("아메리카노"))
-                .andExpect(jsonPath("$.room[1].location").value("서울"))
-                .andExpect(jsonPath("$.room[1].limitPeople").value(10))
-                .andExpect(jsonPath("$.room[1].price").value(10000))
-                .andExpect(jsonPath("$.room[1].like").value(3))
-                .andExpect(jsonPath("$.room[1].images[0].url").value("https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"))
-                .andExpect(jsonPath("$.room[1].images[1].url").value("https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"));
+                .andExpect(jsonPath("$.room[0].images[1].url").value("https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"));
+    }
 
+    @Test
+    @DisplayName(value = "내가만든 숙소 리스트 조회 api")
+    public void getMyRoomListTest() throws Exception {
+        //given
+        given(roomService.getMyRoom(any())).willReturn(glist);
+
+        //when
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/room/myRoom")
+                .principal(new UsernamePasswordAuthenticationToken(CustomUserDetails.create(user), null))
+                .header("Authorization", "Bearer accessToken"));
+
+        //then
+        results
+                .andDo(print())
+                .andDo(document("room-myRoomList",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("카카오 사용자 Bearer Token")
+                        ),
+                        responseFields(
+                                fieldWithPath("count").type(JsonFieldType.NUMBER).description("총 숙소 개수"),
+                                fieldWithPath("room.[].roomId").type(JsonFieldType.NUMBER).description("숙소 아이디"),
+                                fieldWithPath("room.[].username").type(JsonFieldType.STRING).description("숙소 만든 사람 닉네임"),
+                                fieldWithPath("room.[].title").type(JsonFieldType.STRING).description("숙소 제목"),
+                                fieldWithPath("room.[].location").type(JsonFieldType.STRING).description("숙소 위치"),
+                                fieldWithPath("room.[].limitPeople").type(JsonFieldType.NUMBER).description("제한 인원"),
+                                fieldWithPath("room.[].price").type(JsonFieldType.NUMBER).description("숙소 가격"),
+                                fieldWithPath("room.[].like").type(JsonFieldType.NUMBER).description("숙소에 찍힌 좋아요 수"),
+                                fieldWithPath("room.[].images[].url").type(JsonFieldType.STRING).description("숙소 이미지"),
+                                fieldWithPath("room.[].avgScore").type(JsonFieldType.NUMBER).description("숙소 댓글 평점 평균"),
+                                fieldWithPath("room.[].reviewCount").type(JsonFieldType.NUMBER).description("숙소 댓글 수")
+                        )
+                ))
+                .andExpect(jsonPath("$.count").value(1))
+                .andExpect(jsonPath("$.room[0].roomId").value(1L))
+                .andExpect(jsonPath("$.room[0].username").value("mockusername"))
+                .andExpect(jsonPath("$.room[0].title").value("아메리카노"))
+                .andExpect(jsonPath("$.room[0].location").value("서울"))
+                .andExpect(jsonPath("$.room[0].limitPeople").value(10))
+                .andExpect(jsonPath("$.room[0].price").value(10000))
+                .andExpect(jsonPath("$.room[0].like").value(3))
+                .andExpect(jsonPath("$.room[0].avgScore").value(0.0))
+                .andExpect(jsonPath("$.room[0].reviewCount").value(0))
+                .andExpect(jsonPath("$.room[0].images[0].url").value("https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호pngFIle.png"))
+                .andExpect(jsonPath("$.room[0].images[1].url").value("https://roomimg.s3.ap-northeast-2.amazonaws.com/도메인이름/랜덤으로생성된느번호jpgFIle.jpg"));
     }
 
     @Test
     @DisplayName(value = "방 상세보기")
     public void getRoomDetailTest() throws Exception{
         //given
-        given(roomService.getRoomDetail(any())).willReturn(room1);
+        given(roomService.getRoomDetail(any())).willReturn(getDetailRoom);
 
         //when
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/room/{roomId}", 1L));
@@ -379,6 +435,9 @@ public class RoomApiControllerTest {
                         responseFields(
                                 fieldWithPath("roomId").type(JsonFieldType.NUMBER).description("숙소 아이디"),
                                 fieldWithPath("username").type(JsonFieldType.STRING).description("숙소 만든 사람 닉네임"),
+                                fieldWithPath("userImg").type(JsonFieldType.STRING).description("숙소 만든 사람 썸네일이미지"),
+                                fieldWithPath("userIntro").type(JsonFieldType.STRING).description("숙소 만든 사람 인트로"),
+                                fieldWithPath("userGender").type(JsonFieldType.STRING).description("숙소 만든 사람 성별"),
                                 fieldWithPath("title").type(JsonFieldType.STRING).description("숙소 제목"),
                                 fieldWithPath("location").type(JsonFieldType.STRING).description("숙소 위치"),
                                 fieldWithPath("limitPeople").type(JsonFieldType.NUMBER).description("제한 인원"),
@@ -388,6 +447,8 @@ public class RoomApiControllerTest {
                                 fieldWithPath("content").type(JsonFieldType.STRING).description("숙소 소개글 본문"),
                                 fieldWithPath("rule").type(JsonFieldType.STRING).description("숙소 규칙"),
                                 fieldWithPath("charge").type(JsonFieldType.NUMBER).description("제한 인원 초과시 추가요금"),
+                                fieldWithPath("avgScore").type(JsonFieldType.NUMBER).description("숙소 댓글 평점 평균"),
+                                fieldWithPath("reviewCount").type(JsonFieldType.NUMBER).description("숙소 댓글 수"),
                                 fieldWithPath("room_configuration[].confType").type(JsonFieldType.STRING).description("숙소 구성요소 타입(ex 화장실, 침실...)"),
                                 fieldWithPath("room_configuration[].count").type(JsonFieldType.NUMBER).description("숙소 구성요소 개수"),
                                 fieldWithPath("room_amenity[].facility").type(JsonFieldType.STRING).description("숙소 부대시설 이름(ex 전자레인지, 도어락 ..)")
@@ -395,6 +456,9 @@ public class RoomApiControllerTest {
                 ))
                 .andExpect(jsonPath("$.roomId").value(1L))
                 .andExpect(jsonPath("$.username").value("mockusername"))
+                .andExpect(jsonPath("$.userImg").value("mock.jpg"))
+                .andExpect(jsonPath("$.userIntro").value("test"))
+                .andExpect(jsonPath("$.userGender").value("male"))
                 .andExpect(jsonPath("$.title").value("아메리카노"))
                 .andExpect(jsonPath("$.location").value("서울"))
                 .andExpect(jsonPath("$.limitPeople").value(10))
@@ -405,6 +469,8 @@ public class RoomApiControllerTest {
                 .andExpect(jsonPath("$.content").value("내용1입니다."))
                 .andExpect(jsonPath("$.rule").value("상세페이지 들어가기 전 간단한 정보만 표기합니다."))
                 .andExpect(jsonPath("$.charge").value(1000))
+                .andExpect(jsonPath("$.avgScore").value(0.0))
+                .andExpect(jsonPath("$.reviewCount").value(0))
                 .andExpect(jsonPath("$.room_configuration[0].confType").value("화장실"))
                 .andExpect(jsonPath("$.room_configuration[1].confType").value("방"))
                 .andExpect(jsonPath("$.room_configuration[0].count").value(3))
@@ -419,7 +485,6 @@ public class RoomApiControllerTest {
 
         //given
         given(roomService.getTotalPrice(anyLong(), any())).willReturn(42000L);
-        given(roomService.getRoomDetail(any())).willReturn(room1);
 
         //when
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/room/price/{roomId}", 1L)
@@ -430,7 +495,7 @@ public class RoomApiControllerTest {
         //then
         results
                 .andDo(print())
-                .andDo(document("room-reserve-price",
+                .andDo(document("room-reservePrice",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
@@ -452,7 +517,7 @@ public class RoomApiControllerTest {
     @DisplayName(value = "랜덤 방 조회")
     public void getRoomRandom() throws Exception{
         //given
-        given(roomSearchService.randSearch()).willReturn(rooms);
+        given(roomSearchService.randSearch()).willReturn(glist);
 
         //when
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/room/random"));
@@ -472,7 +537,9 @@ public class RoomApiControllerTest {
                                 fieldWithPath("room.[].limitPeople").type(JsonFieldType.NUMBER).description("제한 인원"),
                                 fieldWithPath("room.[].price").type(JsonFieldType.NUMBER).description("숙소 가격"),
                                 fieldWithPath("room.[].like").type(JsonFieldType.NUMBER).description("숙소에 찍힌 좋아요 수"),
-                                fieldWithPath("room.[].images[].url").type(JsonFieldType.STRING).description("숙소 이미지")
+                                fieldWithPath("room.[].images[].url").type(JsonFieldType.STRING).description("숙소 이미지"),
+                                fieldWithPath("room.[].avgScore").type(JsonFieldType.NUMBER).description("숙소 댓글 평점 평균"),
+                                fieldWithPath("room.[].reviewCount").type(JsonFieldType.NUMBER).description("숙소 댓글 수")
                         )
                 ));
     }
@@ -481,7 +548,7 @@ public class RoomApiControllerTest {
     @DisplayName(value = "인기순 방 조회")
     public void getRoomPopular() throws Exception{
         //given
-        given(roomSearchService.search(any(searchDto.class))).willReturn(rooms);
+        given(roomSearchService.search(any(searchDto.class))).willReturn(glist);
 
         //when
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/room/popular"));
@@ -501,7 +568,9 @@ public class RoomApiControllerTest {
                                 fieldWithPath("room.[].limitPeople").type(JsonFieldType.NUMBER).description("제한 인원"),
                                 fieldWithPath("room.[].price").type(JsonFieldType.NUMBER).description("숙소 가격"),
                                 fieldWithPath("room.[].like").type(JsonFieldType.NUMBER).description("숙소에 찍힌 좋아요 수"),
-                                fieldWithPath("room.[].images[].url").type(JsonFieldType.STRING).description("숙소 이미지")
+                                fieldWithPath("room.[].images[].url").type(JsonFieldType.STRING).description("숙소 이미지"),
+                                fieldWithPath("room.[].avgScore").type(JsonFieldType.NUMBER).description("숙소 댓글 평점 평균"),
+                                fieldWithPath("room.[].reviewCount").type(JsonFieldType.NUMBER).description("숙소 댓글 수")
                         )
                 ));
     }

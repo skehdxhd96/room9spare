@@ -87,7 +87,7 @@ public class UserApiControllerTest {
         //then
         result
                 .andDo(print())
-                .andDo(document("user/getAll",
+                .andDo(document("user-getAll",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         responseFields(
@@ -161,7 +161,7 @@ public class UserApiControllerTest {
         //then
         result
                 .andDo(print())
-                .andDo(document("user/getById",
+                .andDo(document("user-getById",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
@@ -201,7 +201,7 @@ public class UserApiControllerTest {
         //then
         result
                 .andDo(print())
-                .andDo(document("user/changeRole",
+                .andDo(document("user-changeRole",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
@@ -238,7 +238,7 @@ public class UserApiControllerTest {
         //then
         result
                 .andDo(print())
-                .andDo(document("user/update",
+                .andDo(document("user-update",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(

@@ -36,9 +36,7 @@ public class roomReservation extends BaseEntity {
     @Column(name = "reserveStatus")
     private ReserveStatus reserveStatus;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "refundStatus")
-    private RefundStatus refundStatus;
     private LocalDateTime startDate; // DatePicker
     private LocalDateTime finalDate;
+    private Integer personnel;
 }
