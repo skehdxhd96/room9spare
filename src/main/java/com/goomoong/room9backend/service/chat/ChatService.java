@@ -93,7 +93,6 @@ public class ChatService {
         ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId)
                 .orElseThrow(() -> new NoSuchChatRoomException("해당 id의 채팅방이 존재하지 않습니다."));
         ChatMessage chatMessage = ChatMessage.createChatMessage(chatRoom, user, chatMessageRequestDto.getContent());
-        chatRoom.addChatMessages(chatMessage);
         ChatMessage saved = chatMessageRepository.save(chatMessage);
 
         return IdResponseDto.builder().id(saved.getId()).build();

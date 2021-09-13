@@ -30,11 +30,14 @@ public class ChatMessage extends BaseEntity {
     private String content;
 
     public static ChatMessage createChatMessage(ChatRoom chatRoom, User user, String content) {
-        return ChatMessage.builder()
+        ChatMessage chatMessage = ChatMessage.builder()
                 .chatRoom(chatRoom)
                 .user(user)
                 .content(content)
                 .build();
+        chatRoom.addChatMessages(chatMessage);
+
+        return chatMessage;
     }
 
     public void editChatMessage(String content) {

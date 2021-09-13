@@ -49,10 +49,10 @@ public class ChatRoom extends BaseEntity {
     }
 
     public User getGuestFromChatMembers() {
-        if (chatMembers.get(0).getRole() == Role.HOST) {
-            return chatMembers.get(1);
-        } else {
+        if (chatMembers.get(0).getRole() == Role.GUEST) {
             return chatMembers.get(0);
+        } else {
+            return chatMembers.get(1);
         }
     }
 }
