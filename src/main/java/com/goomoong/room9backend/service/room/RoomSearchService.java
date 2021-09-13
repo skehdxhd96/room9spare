@@ -23,7 +23,7 @@ public class RoomSearchService {
     }
 
     public List<Room> randSearch(){
-        long count = roomRepository.count();
+        long count = roomRepository.count()/2;
         int idx = (int)(Math.random() * count);
         Page<Room> roomPage = roomRepository.findAll(PageRequest.of(idx, 2));
         return roomPage.getContent();
