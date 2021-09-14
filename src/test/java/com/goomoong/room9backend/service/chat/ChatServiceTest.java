@@ -55,8 +55,8 @@ class ChatServiceTest {
         host = User.builder().id(2L).name("host").role(Role.HOST).build();
         room = Room.builder().id(1L).users(host).title("happy house").build();
         reservation = roomReservation.builder().Id(1L).room(room).users(guest)
-                .checkinDate(LocalDateTime.of(2021, 9, 13, 12, 0, 0))
-                .checkoutDate(LocalDateTime.of(2021, 9, 14, 12, 0, 0))
+                .startDate(LocalDateTime.of(2021, 9, 13, 12, 0, 0))
+                .finalDate(LocalDateTime.of(2021, 9, 14, 12, 0, 0))
                 .build();
     }
 

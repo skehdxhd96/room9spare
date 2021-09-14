@@ -32,7 +32,6 @@ import java.util.List;
 
 import static com.goomoong.room9backend.ApiDocumentUtils.getDocumentRequest;
 import static com.goomoong.room9backend.ApiDocumentUtils.getDocumentResponse;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -88,7 +87,18 @@ class ChatApiControllerTest {
         rooms.add(roomDto);
         ChatRoomsDto roomsDto = ChatRoomsDto.builder().rooms(rooms).build();
         given(chatService.getChatRooms(user)).willReturn(roomsDto);
-
+        List<Integer> startDate = new ArrayList<>();
+        List<Integer> finalDate = new ArrayList<>();
+        startDate.add(2021);
+        startDate.add(9);
+        startDate.add(13);
+        startDate.add(12);
+        startDate.add(0);
+        finalDate.add(2021);
+        finalDate.add(9);
+        finalDate.add(14);
+        finalDate.add(12);
+        finalDate.add(0);
 
         //when
         ResultActions result = mvc.perform(RestDocumentationRequestBuilders.get("/api/v1/chat/chatroom")
@@ -117,8 +127,8 @@ class ChatApiControllerTest {
                 .andExpect(jsonPath("$.rooms[0].chatRoomId").value(1L))
                 .andExpect(jsonPath("$.rooms[0].isHost").value(false))
                 .andExpect(jsonPath("$.rooms[0].roomTitle").value("love house"))
-                .andExpect(jsonPath("$.rooms[0].checkinDate").value("2021-09-13T12:00:00"))
-                .andExpect(jsonPath("$.rooms[0].checkoutDate").value("2021-09-14T12:00:00"));
+                .andExpect(jsonPath("$.rooms[0].checkinDate").value(startDate))
+                .andExpect(jsonPath("$.rooms[0].checkoutDate").value(finalDate));
     }
 
     @Test
@@ -229,6 +239,12 @@ class ChatApiControllerTest {
         messages.add(messageDto);
         ChatMessagesDto messagesDto = ChatMessagesDto.builder().messages(messages).build();
         given(chatService.getChatMessages(1L)).willReturn(messagesDto);
+        List<Integer> resultDate = new ArrayList<>();
+        resultDate.add(2021);
+        resultDate.add(9);
+        resultDate.add(14);
+        resultDate.add(12);
+        resultDate.add(0);
 
         //when
         ResultActions result = mvc.perform(RestDocumentationRequestBuilders.get("/api/v1/chat/chatroom/{id}/message", 1L));
@@ -254,8 +270,8 @@ class ChatApiControllerTest {
                 .andExpect(jsonPath("$.messages[0].messageId").value(1L))
                 .andExpect(jsonPath("$.messages[0].userId").value(1L))
                 .andExpect(jsonPath("$.messages[0].content").value("test"))
-                .andExpect(jsonPath("$.messages[0].createdDate").value("2021-09-14T12:00:00"))
-                .andExpect(jsonPath("$.messages[0].updatedDate").value("2021-09-14T12:00:00"));
+                .andExpect(jsonPath("$.messages[0].createdDate").value(resultDate))
+                .andExpect(jsonPath("$.messages[0].updatedDate").value(resultDate));
     }
 
     @Test
