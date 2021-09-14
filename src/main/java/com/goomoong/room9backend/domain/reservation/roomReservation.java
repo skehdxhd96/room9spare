@@ -32,15 +32,11 @@ public class roomReservation extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User users;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "reserveStatus")
     private ReserveStatus reserveStatus;
-    private RefundStatus refundStatus;
-    private LocalDateTime checkinDate; // default : startDate
-    private LocalDateTime checkoutDate; // default : finalDate
+
     private LocalDateTime startDate; // DatePicker
     private LocalDateTime finalDate;
-
-//    public static roomReservation create(ReservationDto.request request) {
-//        return roomReservation.builder()
-//
-//    }
+    private Integer personnel;
 }

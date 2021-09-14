@@ -17,8 +17,4 @@ public interface RoomRepository extends JpaRepository<Room, Long>, RoomRepositor
     @Override
     @EntityGraph(attributePaths = {"users"})
     Optional<Room> findById(Long id);
-
-    List<Room> findTop5ByOrderByLikedDesc();
-
-    List<Room> findTop5ByOrderByCreatedDateDesc();
 }

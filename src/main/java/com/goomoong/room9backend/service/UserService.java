@@ -36,8 +36,10 @@ public class UserService {
     }
 
     @Transactional
-    public void changeRole(Long id) {
-        User findUser = userRepository.findById(id).orElseThrow(() -> new NoSuchUserException("존재하지 않는 회원입니다."));
-        findUser.changeRole();
+    public User changeRole(Long id) {
+        User foundUser = userRepository.findById(id).orElseThrow(() -> new NoSuchUserException("존재하지 않는 회원입니다."));
+        foundUser.changeRole();
+
+        return foundUser;
     }
 }

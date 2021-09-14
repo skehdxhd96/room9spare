@@ -55,8 +55,8 @@ public class ChatService {
                         .chatRoomId(chatRoom.getId())
                         .isHost(foundUser.isHost())
                         .roomTitle(chatRoom.getRoom().getTitle())
-                        .checkinDate(reservation.getCheckinDate())
-                        .checkoutDate(reservation.getCheckoutDate())
+                        .checkinDate(reservation.getStartDate())
+                        .checkoutDate(reservation.getFinalDate())
                         .build();
                 chatRoomDtos.add(chatRoomDto);
             }

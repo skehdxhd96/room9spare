@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Service
 public class S3Uploader {
 
-    //        private final AmazonS3Client amazonS3Client;
+//        private final AmazonS3Client amazonS3Client;
     private final S3Client s3Client;
 
     @Value("${cloud.aws.s3.bucket}")

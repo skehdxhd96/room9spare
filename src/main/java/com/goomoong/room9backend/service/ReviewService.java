@@ -2,13 +2,16 @@ package com.goomoong.room9backend.service;
 
 import com.goomoong.room9backend.domain.review.Review;
 import com.goomoong.room9backend.domain.review.dto.ReviewSearchDto;
+import com.goomoong.room9backend.domain.review.dto.scoreDto;
 import com.goomoong.room9backend.exception.NoSuchReviewException;
 import com.goomoong.room9backend.repository.review.ReviewRepository;
+import com.goomoong.room9backend.util.AboutScore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -39,8 +42,24 @@ public class ReviewService {
         return reviewRepository.findById(id).orElseThrow(() -> new NoSuchReviewException("존재하지 않는 리뷰입니다."));
     }
 
+    public List<Review> findLatestReview(){
+        return reviewRepository.findTop3ByOrderByIdDesc();
+    }
+
     public List<Review> findByUserAndRoom(ReviewSearchDto reviewSearchDto){
         return reviewRepository.findByUserAndRoom(reviewSearchDto);
+    }
+
+    public scoreDto getAvgScoreAndCount(Long roomId) {
+        List<Review> reviewDatas = reviewRepository.findAvgScoreAndCountByRoom(roomId).orElse(null);
+        if(reviewDatas.equals(null)) {
+            return new scoreDto();
+        }
+
+        return scoreDto.builder()
+                .avgScore(AboutScore.getAvgScore(reviewDatas))
+                .reviewCount(reviewDatas.size())
+                .build();
     }
 
 }

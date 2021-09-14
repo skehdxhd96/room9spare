@@ -51,6 +51,7 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
+
         Claims claims = jwtParser.parseClaimsJws(token).getBody();
         UserDetails userDetails = customUserDetailsService.loadUserById(Long.parseLong(claims.getSubject()));
 

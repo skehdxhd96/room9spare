@@ -1,12 +1,15 @@
 package com.goomoong.room9backend.repository.room;
 
 import com.goomoong.room9backend.domain.room.Room;
+import com.goomoong.room9backend.domain.room.dto.OrderDto;
 import com.goomoong.room9backend.domain.room.dto.searchDto;
+import com.goomoong.room9backend.domain.user.User;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.goomoong.room9backend.domain.room.QRoom.room;
@@ -26,6 +29,17 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom{
                         titleContains(search.getTitle()),
                         limitPeopleLoe(search.getLimitPeople()),
                         limitPrice(search.getLimitPrice()))
+                .orderBy(Ordered(search.getOrderStandard()))
+                .fetch();
+    }
+
+    @Override
+    public List<Room> findMyRoom(User user) {
+        return queryFactory
+                .select(room)
+                .from(room)
+                .join(room.users).fetchJoin()
+                .where(room.users.id.eq(user.getId()))
                 .fetch();
     }
 
@@ -55,5 +69,21 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom{
             return null;
         }
         return room.price.loe(limitPrice);
+    }
+
+    private OrderSpecifier Ordered(OrderDto standard) {
+        if(standard == OrderDto.CREATEDASC) {
+            return room.createdDate.asc();
+        } else if(standard == OrderDto.LIKEDASC) {
+            return room.liked.asc();
+        } else if(standard == OrderDto.LIKEDDESC) {
+            return room.liked.desc();
+        }
+
+        /**
+         * if standard is null
+         * default Value
+         */
+        return room.createdDate.desc();
     }
 }
