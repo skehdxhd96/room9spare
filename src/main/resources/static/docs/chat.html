@@ -463,7 +463,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_request_headers_2">Request Headers</a></li>
 <li><a href="#_request_fields">Request Fields</a></li>
 <li><a href="#_http_response_2">HTTP Response</a></li>
-<li><a href="#_response_fields_2">Response Fields</a></li>
 </ul>
 </li>
 <li><a href="#chat-deleteChatRoom">DELETE 채팅방 삭제</a>
@@ -471,7 +470,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_http_request_3">HTTP Request</a></li>
 <li><a href="#_path_parameters">Path Parameters</a></li>
 <li><a href="#_http_response_3">HTTP Response</a></li>
-<li><a href="#_response_fields_3">Response Fields</a></li>
+<li><a href="#_response_fields_2">Response Fields</a></li>
 </ul>
 </li>
 <li><a href="#chat-createChatMessage">POST 메시지 생성</a>
@@ -481,7 +480,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_path_parameters_2">Path Parameters</a></li>
 <li><a href="#_request_fields_2">Request Fields</a></li>
 <li><a href="#_http_response_4">HTTP Response</a></li>
-<li><a href="#_response_fields_4">Response Fields</a></li>
 </ul>
 </li>
 <li><a href="#chat-getChatMessages">GET 메시지 조회</a>
@@ -489,7 +487,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_http_request_5">HTTP Request</a></li>
 <li><a href="#_path_parameters_3">Path Parameters</a></li>
 <li><a href="#_http_response_5">HTTP Response</a></li>
-<li><a href="#_response_fields_5">Response Fields</a></li>
+<li><a href="#_response_fields_3">Response Fields</a></li>
 </ul>
 </li>
 <li><a href="#chat-editChatMessage">PUT 메시지 수정</a>
@@ -498,7 +496,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_path_parameters_4">Path Parameters</a></li>
 <li><a href="#_request_fields_3">Request Fields</a></li>
 <li><a href="#_http_response_6">HTTP Response</a></li>
-<li><a href="#_response_fields_6">Response Fields</a></li>
 </ul>
 </li>
 <li><a href="#chat-deleteChatMessage">DELETE 메시지 삭제</a>
@@ -506,7 +503,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_http_request_7">HTTP Request</a></li>
 <li><a href="#_path_parameters_5">Path Parameters</a></li>
 <li><a href="#_http_response_7">HTTP Response</a></li>
-<li><a href="#_response_fields_7">Response Fields</a></li>
+<li><a href="#_response_fields_4">Response Fields</a></li>
 </ul>
 </li>
 </ul>
@@ -518,27 +515,101 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request"><a class="link" href="#_http_request">HTTP Request</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatRooms/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/chat/chatroom HTTP/1.1
+Authorization: Bearer accessToken
+Host: room9.docs.com</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_request_headers"><a class="link" href="#_request_headers">Request Headers</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatRooms/request-headers.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 토큰</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_http_response"><a class="link" href="#_http_response">HTTP Response</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatRooms/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 189
+
+{
+  "rooms" : [ {
+    "chatRoomId" : 1,
+    "isHost" : false,
+    "roomTitle" : "love house",
+    "checkinDate" : [ 2021, 9, 13, 12, 0 ],
+    "checkoutDate" : [ 2021, 9, 14, 12, 0 ]
+  } ]
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_response_fields"><a class="link" href="#_response_fields">Response Fields</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatRooms/response-fields.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rooms.[].chatRoomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rooms.[].isHost</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 사용자의 게스트/호스트 구분</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rooms.[].roomTitle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">호스트의 방 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rooms.[].checkinDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">체크인 날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rooms.[].checkoutDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">체크아웃 날짜</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -547,32 +618,75 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request_2"><a class="link" href="#_http_request_2">HTTP Request</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatRoom/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/chat/chatroom HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer accessToken
+Accept: application/json
+Content-Length: 18
+Host: room9.docs.com
+
+{
+  "roomId" : 1
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_request_headers_2"><a class="link" href="#_request_headers_2">Request Headers</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatRoom/request-headers.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 토큰</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_request_fields"><a class="link" href="#_request_fields">Request Fields</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatRoom/request-fields.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>roomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">호스트의 방 id</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_http_response_2"><a class="link" href="#_http_response_2">HTTP Response</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatRoom/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_response_fields_2"><a class="link" href="#_response_fields_2">Response Fields</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatRoom/response-fields.adoc[]</p>
 </div>
 </div>
 </div>
@@ -582,27 +696,75 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request_3"><a class="link" href="#_http_request_3">HTTP Request</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatRoom/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/v1/chat/chatroom/1 HTTP/1.1
+Host: room9.docs.com</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_path_parameters"><a class="link" href="#_path_parameters">Path Parameters</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatRoom/path-parameters.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/v1/chat/chatroom/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">삭제할 채팅방 id</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_http_response_3"><a class="link" href="#_http_response_3">HTTP Response</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatRoom/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 14
+
+{
+  "id" : 1
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_fields_3"><a class="link" href="#_response_fields_3">Response Fields</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatRoom/response-fields.adoc[]</p>
-</div>
+<h3 id="_response_fields_2"><a class="link" href="#_response_fields_2">Response Fields</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">삭제한 채팅방 id</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -611,38 +773,97 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request_4"><a class="link" href="#_http_request_4">HTTP Request</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatMessage/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/chat/chatroom/1/message HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer accessToken
+Accept: application/json
+Content-Length: 24
+Host: room9.docs.com
+
+{
+  "content" : "test"
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_request_headers_3"><a class="link" href="#_request_headers_3">Request Headers</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatMessage/request-headers.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 토큰</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_path_parameters_2"><a class="link" href="#_path_parameters_2">Path Parameters</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatMessage/path-parameters.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. /api/v1/chat/chatroom/{id}/message</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 id</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_request_fields_2"><a class="link" href="#_request_fields_2">Request Fields</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatMessage/request-fields.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 내용</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_http_response_4"><a class="link" href="#_http_response_4">HTTP Response</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatMessage/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_response_fields_4"><a class="link" href="#_response_fields_4">Response Fields</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/createChatMessage/response-fields.adoc[]</p>
 </div>
 </div>
 </div>
@@ -652,27 +873,101 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request_5"><a class="link" href="#_http_request_5">HTTP Request</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatMessages/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/chat/chatroom/1/message HTTP/1.1
+Host: room9.docs.com</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_path_parameters_3"><a class="link" href="#_path_parameters_3">Path Parameters</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatMessages/path-parameters.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. /api/v1/chat/chatroom/{id}/message</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 id</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_http_response_5"><a class="link" href="#_http_response_5">HTTP Response</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatMessages/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 178
+
+{
+  "messages" : [ {
+    "messageId" : 1,
+    "userId" : 1,
+    "content" : "test",
+    "createdDate" : [ 2021, 9, 14, 12, 0 ],
+    "updatedDate" : [ 2021, 9, 14, 12, 0 ]
+  } ]
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_fields_5"><a class="link" href="#_response_fields_5">Response Fields</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/getChatMessages/response-fields.adoc[]</p>
-</div>
+<h3 id="_response_fields_3"><a class="link" href="#_response_fields_3">Response Fields</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>messages.[].messageId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>messages.[].userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성자 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>messages.[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>messages.[].createdDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 생성 날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>messages.[].updatedDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 수정 날짜</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -681,32 +976,79 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request_6"><a class="link" href="#_http_request_6">HTTP Request</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/editChatMessage/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/v1/chat/chatroom/1/message/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 24
+Host: room9.docs.com
+
+{
+  "content" : "test"
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_path_parameters_4"><a class="link" href="#_path_parameters_4">Path Parameters</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/editChatMessage/path-parameters.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. /api/v1/chat/chatroom/{roomid}/message/{messageid}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>roomid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>messageid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">삭제할 메시지 id</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_request_fields_3"><a class="link" href="#_request_fields_3">Request Fields</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/editChatMessage/request-fields.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정할 메시지 내용</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_http_response_6"><a class="link" href="#_http_response_6">HTTP Response</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/editChatMessage/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_response_fields_6"><a class="link" href="#_response_fields_6">Response Fields</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/editChatMessage/response-fields.adoc[]</p>
 </div>
 </div>
 </div>
@@ -716,27 +1058,79 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request_7"><a class="link" href="#_http_request_7">HTTP Request</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatMessage/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/v1/chat/chatroom/1/message/1 HTTP/1.1
+Host: room9.docs.com</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_path_parameters_5"><a class="link" href="#_path_parameters_5">Path Parameters</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatMessage/path-parameters.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. /api/v1/chat/chatroom/{roomid}/message/{messageid}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>roomid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>messageid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">삭제할 메시지 id</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_http_response_7"><a class="link" href="#_http_response_7">HTTP Response</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatMessage/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 14
+
+{
+  "id" : 1
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_response_fields_7"><a class="link" href="#_response_fields_7">Response Fields</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in chat.adoc - include::{snippets}/chat/deleteChatMessage/response-fields.adoc[]</p>
-</div>
+<h3 id="_response_fields_4"><a class="link" href="#_response_fields_4">Response Fields</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">삭제한 메시지 id</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -744,7 +1138,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2021-09-14 02:12:08 +0900
+Last updated 2021-09-15 02:22:21 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
