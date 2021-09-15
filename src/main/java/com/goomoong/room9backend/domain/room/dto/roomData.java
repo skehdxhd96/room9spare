@@ -21,4 +21,11 @@ public class roomData {
     public static class price {
         private Long totalPrice;
     }
+
+    @Data
+    @AllArgsConstructor
+    @Builder
+    public static class liked {
+        private Integer currentLiked;
+    }
 }
