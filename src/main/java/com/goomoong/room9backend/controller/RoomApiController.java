@@ -89,8 +89,7 @@ public class RoomApiController {
 
     @PostMapping("/room/good/{roomId}")
     public roomData.liked addRoomGood(@PathVariable("roomId") Long id, @AuthenticationPrincipal CustomUserDetails currentUser) {
-        Integer liked = roomService.AboutGoodToRoom(id, currentUser.getUser());
-        return new roomData.liked(liked);
+        return roomService.AboutGoodToRoom(id, currentUser.getUser());
     }
 
     @GetMapping("/room/MyWish")
