@@ -4,9 +4,7 @@ import com.goomoong.room9backend.domain.review.dto.scoreDto;
 import com.goomoong.room9backend.domain.room.Amenity;
 import com.goomoong.room9backend.domain.room.RoomConfiguration;
 import com.goomoong.room9backend.domain.room.RoomLike;
-import com.goomoong.room9backend.domain.room.dto.GetCommonRoom;
-import com.goomoong.room9backend.domain.room.dto.GetDetailRoom;
-import com.goomoong.room9backend.domain.room.dto.priceDto;
+import com.goomoong.room9backend.domain.room.dto.*;
 import com.goomoong.room9backend.domain.user.Role;
 import com.goomoong.room9backend.exception.RoomNotAddException;
 import com.goomoong.room9backend.repository.room.RoomLikeRepository;
@@ -19,7 +17,6 @@ import com.goomoong.room9backend.repository.room.RoomRepository;
 import com.goomoong.room9backend.domain.file.File;
 import com.goomoong.room9backend.domain.file.RoomImg;
 import com.goomoong.room9backend.domain.room.Room;
-import com.goomoong.room9backend.domain.room.dto.CreatedRequestRoomDto;
 import com.goomoong.room9backend.domain.user.User;
 import com.goomoong.room9backend.exception.NoSuchRoomException;
 import com.goomoong.room9backend.util.AboutScore;
@@ -119,21 +116,22 @@ public class RoomService {
     }
 
     @Transactional
-    public Integer AboutGoodToRoom(Long id, User user) {
+    public roomData.liked AboutGoodToRoom(Long id, User user) {
+        RoomLike currentRoomLike;
         Room room = roomRepository.findById(id).orElseThrow(() -> new NoSuchRoomException("존재하지 않는 방입니다."));
         Optional<RoomLike> prevGood = Optional.ofNullable(roomLikeRepository.findByRoomIdAndUserId(id, user.getId()));
 
         if(prevGood.isEmpty()) {
-            RoomLike currentRoomLike = RoomLike.builder().room(room).user(user).likeStatus(true).build();
+            currentRoomLike = RoomLike.builder().room(room).user(user).likeStatus(true).build();
             room.withGood(currentRoomLike.getLikeStatus());
             roomLikeRepository.save(currentRoomLike);
         } else {
-            RoomLike currentRoomLike = prevGood.get();
+            currentRoomLike = prevGood.get();
             currentRoomLike.setLikeStatus(currentRoomLike.getLikeStatus());
             room.withGood(currentRoomLike.getLikeStatus());
         }
 
-        return room.getLiked();
+        return new roomData.liked(room.getLiked(), currentRoomLike.getLikeStatus());
     }
 
     public List<GetCommonRoom> getRoomWithGood(User user) {

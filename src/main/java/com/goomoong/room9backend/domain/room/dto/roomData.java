@@ -27,5 +27,6 @@ public class roomData {
     @Builder
     public static class liked {
         private Integer currentLiked;
+        private Boolean currentStatus;
     }
 }
