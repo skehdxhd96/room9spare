@@ -7,7 +7,9 @@ import com.goomoong.room9backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,9 +66,9 @@ public class UserApiController {
         return IdResponseDto.builder().id(user.getId()).build();
     }
 
-    @PostMapping("/api/v1/users/{id}")
-    public IdResponseDto update(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto) {
-        User updateUser = userService.update(id, requestDto.getNickname(), requestDto.getThumbnailImgUrl(), requestDto.getEmail(),
+    @PutMapping("/api/v1/users/{id}")
+    public IdResponseDto update(@PathVariable Long id, UpdateRequestDto requestDto) {
+        User updateUser = userService.update(id, requestDto.getNickname(), requestDto.getFile(), requestDto.getEmail(),
                 requestDto.getBirthday(), requestDto.getGender(), requestDto.getIntro());
 
         return IdResponseDto.builder().id(updateUser.getId()).build();
