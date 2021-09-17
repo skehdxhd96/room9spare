@@ -66,7 +66,7 @@ public class UserApiController {
         return IdResponseDto.builder().id(user.getId()).build();
     }
 
-    @PutMapping("/api/v1/users/{id}")
+    @PostMapping("/api/v1/users/{id}")
     public IdResponseDto update(@PathVariable Long id, UpdateRequestDto requestDto) {
         User updateUser = userService.update(id, requestDto.getNickname(), requestDto.getFile(), requestDto.getEmail(),
                 requestDto.getBirthday(), requestDto.getGender(), requestDto.getIntro());
