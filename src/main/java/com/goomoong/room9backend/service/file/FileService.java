@@ -33,4 +33,14 @@ public class FileService {
 
         return fileRepository.saveAll(savedFiles.stream().map(File::create).collect(Collectors.toList()));
     }
+
+    public String uploadThumbnailImage(String dirName, MultipartFile file) {
+        if (file != null) {
+            fileDto uploadFile = s3Uploader.upload(dirName, file);
+            fileRepository.save(File.create(uploadFile));
+            return uploadFile.getUrl();
+        } else {
+            throw new RuntimeException("프로필 이미지 업로드 오류");
+        }
+    }
 }

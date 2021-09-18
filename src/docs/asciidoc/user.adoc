@@ -73,8 +73,11 @@ include::{snippets}/user-update/http-request.adoc[]
 === Path-parameters
 include::{snippets}/user-update/path-parameters.adoc[]
 
-=== Request Fields
-include::{snippets}/user-update/request-fields.adoc[]
+=== Request Parts
+include::{snippets}/user-update/request-parts.adoc[]
+
+=== Request Parameters
+include::{snippets}/user-update/request-parameters.adoc[]
 
 === HTTP Response
 include::{snippets}/user-update/http-response.adoc[]
