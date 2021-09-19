@@ -18,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
@@ -36,10 +37,10 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -218,21 +219,25 @@ public class UserApiControllerTest {
     @DisplayName("사용자 정보 수정 테스트")
     public void updateApiTest() throws Exception {
         //given
+        MockMultipartFile file = new MockMultipartFile("file", "update.jpg", MediaType.IMAGE_JPEG_VALUE, "update.jpg".getBytes());
         UpdateRequestDto updateRequestDto = UpdateRequestDto.builder()
-                .nickname("update").thumbnailImgUrl("update.jpg").email("update@abc").birthday("1231").gender("female").intro("update")
+                .nickname("update").file(file).email("update@abc").birthday("1231").gender("female").intro("update")
                 .build();
         User response = User.builder()
                 .id(1L).nickname("update").thumbnailImgUrl("update.jpg").email("update@abc").birthday("1231").gender("female").intro("update")
                 .build();
 
-        given(userService.update(1L, updateRequestDto.getNickname(), updateRequestDto.getThumbnailImgUrl(), updateRequestDto.getEmail(), updateRequestDto.getBirthday(), updateRequestDto.getGender(), updateRequestDto.getIntro())).willReturn(response);
+        given(userService.update(1L, updateRequestDto.getNickname(), updateRequestDto.getFile(), updateRequestDto.getEmail(), updateRequestDto.getBirthday(), updateRequestDto.getGender(), updateRequestDto.getIntro())).willReturn(response);
 
         //when
-        ResultActions result = mvc.perform(RestDocumentationRequestBuilders.post("/api/v1/users/{id}", 1L)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-                .content(objectMapper.writeValueAsString(updateRequestDto))
+        ResultActions result = mvc.perform(RestDocumentationRequestBuilders.fileUpload("/api/v1/users/{id}", 1L)
+                .file(file)
+                .param("nickname", updateRequestDto.getNickname())
+                .param("email", updateRequestDto.getEmail())
+                .param("birthday", updateRequestDto.getBirthday())
+                .param("gender", updateRequestDto.getGender())
+                .param("intro", updateRequestDto.getIntro())
+                .contentType(MediaType.MULTIPART_FORM_DATA)
         );
 
         //then
@@ -244,13 +249,15 @@ public class UserApiControllerTest {
                         pathParameters(
                                 parameterWithName("id").description("user id")
                         ),
-                        requestFields(
-                                fieldWithPath("nickname").description("user nickname"),
-                                fieldWithPath("thumbnailImgUrl").description("user thumbnail image url"),
-                                fieldWithPath("email").description("user email"),
-                                fieldWithPath("birthday").description("user birthday"),
-                                fieldWithPath("gender").description("user gender"),
-                                fieldWithPath("intro").description("user introduction")
+                        requestParts(
+                                partWithName("file").description("image file")
+                        ),
+                        requestParameters(
+                                parameterWithName("nickname").description("user nickname"),
+                                parameterWithName("email").description("user email"),
+                                parameterWithName("birthday").description("user birthday"),
+                                parameterWithName("gender").description("user gender"),
+                                parameterWithName("intro").description("user introduction")
                         ),
                         responseFields(
                                 fieldWithPath("id").description("user id").type(Long.class)

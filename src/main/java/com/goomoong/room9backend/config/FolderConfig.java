@@ -12,4 +12,5 @@ import org.springframework.stereotype.Component;
 public class FolderConfig {
 
     private String room;
+    private String user = "user";
 }

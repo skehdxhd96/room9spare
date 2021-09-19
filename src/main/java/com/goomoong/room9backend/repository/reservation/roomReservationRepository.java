@@ -1,11 +1,10 @@
 package com.goomoong.room9backend.repository.reservation;
 
 import com.goomoong.room9backend.domain.reservation.roomReservation;
+import com.goomoong.room9backend.domain.room.Room;
+import com.goomoong.room9backend.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
-import java.util.Optional;
 
 public interface roomReservationRepository extends JpaRepository<roomReservation, Long> ,roomReservationRepositoryCustom{
+    roomReservation findByRoomAndUsers(Room room, User user);
 }
