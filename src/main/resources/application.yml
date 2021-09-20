@@ -27,7 +27,7 @@ logging:
 cloud:
   aws:
     s3:
-      bucket: roomimg
+      bucket: room9
     region:
       static: ap-northeast-2
     stack:

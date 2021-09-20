@@ -38,7 +38,8 @@ public class ReservationApiController {
      * Guest 자신의 예약 내역 확인하기.
      */
     @GetMapping("/room/mybook")
-    public List<ReservationDto.MyList> myBookList(@AuthenticationPrincipal CustomUserDetails currentUser) {
-        return reservationService.getMyAllBook(currentUser.getId());
+    public ReservationDto.bookData<List<ReservationDto.MyList>> myBookList(@AuthenticationPrincipal CustomUserDetails currentUser) {
+        List<ReservationDto.MyList> myAllBook = reservationService.getMyAllBook(currentUser.getId());
+        return new ReservationDto.bookData<>(myAllBook.size(), myAllBook);
     }
 }
