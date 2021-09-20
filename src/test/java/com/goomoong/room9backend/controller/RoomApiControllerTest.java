@@ -82,7 +82,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureRestDocs
 @ExtendWith({SpringExtension.class, RestDocumentationExtension.class})
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, properties = "spring.config.location="
+        + "classpath:application.properties,"
+        + "classpath:aws.yml")
 @AutoConfigureMockMvc
 public class RoomApiControllerTest {
 
